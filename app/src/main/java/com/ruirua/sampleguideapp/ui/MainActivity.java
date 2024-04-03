@@ -2,49 +2,65 @@ package com.ruirua.sampleguideapp.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 
 import com.ruirua.sampleguideapp.R;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.fragment.app.Fragment;
+
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        //deleteDatabase("BraGuide");
 
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        // as soon as the application opens the first
+        // fragment should be shown to the user
+        // in this case it is algorithm fragment
+        //getSupportFragmentManager().beginTransaction().replace(R.id.navbar_fragment_container, new MainActivity()).commit();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
+        switch (item.getItemId()) {
+            case R.id.SOS:
+                Toast.makeText(this, "Emergency Contacts", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.Home:
+                Toast.makeText(this, "Homepage", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.Trails:
+                Toast.makeText(this, "Trails List", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.Profile:
+                Toast.makeText(this, "User's profile", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.Logout:
+                Toast.makeText(this, "Logging out...", Toast.LENGTH_SHORT).show();
+                return true;
         }
+        return false;
+    };
 
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onPause() {

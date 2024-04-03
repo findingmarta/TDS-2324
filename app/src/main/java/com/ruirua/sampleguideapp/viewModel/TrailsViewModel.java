@@ -11,14 +11,14 @@ import java.util.List;
 
 public class TrailsViewModel extends AndroidViewModel {
 
-    private TrailRepository repository;
+    private TrailRepository trailRepository;
 
     public LiveData<List<Trail>> trails;
 
     public TrailsViewModel(@NonNull Application application) {
         super(application);
-        repository= new TrailRepository(application);
-        trails = repository.getAllTrails();
+        trailRepository= new TrailRepository(application);
+        trails = trailRepository.getAllTrails();
     }
 
     public LiveData<List<Trail>> getAllTrails() {

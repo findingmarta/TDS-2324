@@ -2,13 +2,10 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/FirstFragment"
-    >
-
+    app:startDestination="@id/trailListFragment2">
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/trailListFragment2"
         android:name="com.ruirua.sampleguideapp.ui.TrailListFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_item_list">
-    </fragment>
+        android:label="fragment_item_list"
+        tools:layout="@layout/fragment_item_list" />
 </navigation>

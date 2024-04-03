@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/Profile"
+        android:icon="@drawable/profile_logo"
+        android:title="@string/menu_profile"/>
+
+    <item
+        android:id="@+id/Trails"
+        android:icon="@drawable/trail_logo"
+        android:title="@string/menu_trails"/>
+
+    <item android:id="@+id/Home"
+        android:icon="@drawable/home_logo"
+        android:title="@string/menu_home"/>
+
+    <item
+        android:id="@+id/SOS"
+        android:icon="@drawable/sos_logo"
+        android:title="@string/menu_sos"/>
+
+    <item
+        android:id="@+id/Logout"
+        android:icon="@drawable/logout_logo"
+        android:title="@string/menu_logout"/>
+
+</menu>
