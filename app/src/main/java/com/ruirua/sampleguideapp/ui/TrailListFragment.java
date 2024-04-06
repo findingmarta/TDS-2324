@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * A fragment representing a list of Items.
  */
-public class TrailListFragment extends Fragment {
+/*public class TrailListFragment extends Fragment {
 
 
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -36,10 +36,10 @@ public class TrailListFragment extends Fragment {
 
 
 
-    /**
+
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
-     */
+
     public TrailListFragment() {
     }
 
@@ -71,7 +71,7 @@ public class TrailListFragment extends Fragment {
         return view;
     }
 
-    private void loadRecyclerView(View view, List<Trail> trails){
+    private void loadRecyclerView(View view, ArrayList<Trail> trails){
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
@@ -89,4 +89,4 @@ public class TrailListFragment extends Fragment {
         super.onPause();
     }
 
-}
+}*/

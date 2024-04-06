@@ -28,6 +28,16 @@
     <string name="history_button">Trail\'s History</string>
     <string name="settings_button">Settings</string>
     <string name="first_last_name">First Last Name</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- TRAIL's LIST -->
+    <string name="trail_duration">Duration: </string>
+    <string name="trail_difficulty">Difficulty: </string>
+
+    <!-- TRAIL -->
+    <string name="trail_start">START</string>
+    <string name="trail_stop">STOP</string>
+    <string name="trail_desc_tag">DESCRIPTION</string>
+    <string name="trail_itinerary_tag">ITINERARY</string>
+
+
 </resources>

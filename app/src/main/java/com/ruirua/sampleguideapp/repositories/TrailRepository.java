@@ -5,13 +5,12 @@ import android.os.AsyncTask;
 import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.room.RoomDatabase;
 
 import com.ruirua.sampleguideapp.BuildConfig;
-import com.ruirua.sampleguideapp.model.GuideDatabase;
+import com.ruirua.sampleguideapp.database.GuideDatabase;
 import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.model.TrailAPI;
-import com.ruirua.sampleguideapp.model.TrailDAO;
+import com.ruirua.sampleguideapp.DAOs.TrailDAO;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -30,7 +29,7 @@ public class TrailRepository {
         allTrails.addSource(
                 trailDAO.getTrails(), localTrails -> {
                     // TODO: ADD cache validation logic
-                    if (localTrails != null && localTrails.size() > 0) {
+                    if (localTrails != null && !localTrails.isEmpty()) {
                         allTrails.setValue(localTrails);
                     } else {
                         makeRequest();

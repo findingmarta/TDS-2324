@@ -1,4 +1,4 @@
-package com.ruirua.sampleguideapp.model;
+package com.ruirua.sampleguideapp.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -9,10 +9,12 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.ruirua.sampleguideapp.model.Trail;
-import com.ruirua.sampleguideapp.model.TrailDAO;
+import com.ruirua.sampleguideapp.DAOs.TrailDAO;
 import com.ruirua.sampleguideapp.model.User;
 
-@Database(entities = {Trail.class, User.class}, version = 961)
+@Database(entities = {Trail.class,
+                      User.class}, version = 963, exportSchema = false)
+
 public abstract class GuideDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "BraGuide";
 
@@ -24,7 +26,7 @@ public abstract class GuideDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (GuideDatabase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context, GuideDatabase.class, DATABASE_NAME)
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), GuideDatabase.class, DATABASE_NAME)
                             .fallbackToDestructiveMigration()
                             .build();
                 }
@@ -42,7 +44,6 @@ public abstract class GuideDatabase extends RoomDatabase {
     };
 
     static class  PopulateDbAsyn extends AsyncTask<Void,Void,Void>{
-
         private TrailDAO traildao;
 
         public PopulateDbAsyn(GuideDatabase catDatabase) {
