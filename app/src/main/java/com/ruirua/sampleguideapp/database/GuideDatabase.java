@@ -17,7 +17,7 @@ import com.ruirua.sampleguideapp.DAOs.TrailDAO;
 
 @Database(entities = {Trail.class,
                       User.class,
-                      Point.class}, version = 963, exportSchema = false)
+                      Point.class}, version = 964, exportSchema = false)
 
 public abstract class GuideDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "BraGuide";
