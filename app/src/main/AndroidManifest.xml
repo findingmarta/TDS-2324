@@ -24,5 +24,9 @@
             android:exported="false" />
         <activity
             android:name=".TrailsActivity"
-            android:exported="false" />    </application>
+            android:exported="false" />
+        <activity
+            android:name=".PremiumTrailActivity"
+            android:exported="false" />
+    </application>
 </manifest>

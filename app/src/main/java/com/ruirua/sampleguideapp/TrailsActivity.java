@@ -38,7 +38,7 @@ public class TrailsActivity extends GeneralActivity {
         LiveData<List<Trail>> trailsData = tvm.getAllTrails();
         trailsData.observe(this, trailslist -> {
             ArrayList<Trail> trails = new ArrayList<>(trailslist);
-            adapter = new TrailsRecyclerViewAdapter(trails);
+            adapter = new TrailsRecyclerViewAdapter(trails,this);
             recyclerView.setAdapter(adapter);
         });
 

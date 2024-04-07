@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
 @Entity(tableName = "trails",indices = @Index(value = {"id"},unique = true))            // TODO Tirar o public das variáveis e torná-las private
-public class Trail {
+public class Trail {                                                                    // TODO Faltam alguns campos
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "id")

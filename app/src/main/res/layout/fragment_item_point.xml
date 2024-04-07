@@ -9,7 +9,7 @@
     android:id="@+id/pointItem">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/point_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -19,37 +19,24 @@
         card_view:cardUseCompatPadding="true">
 
         <TextView
-            android:id="@+id/trail_name"
+            android:id="@+id/point_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:textColor="@color/logo_yellow"
-            android:textSize="23sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/point_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="55dp"
             android:layout_marginBottom="15dp"
-            android:text="@string/trail_difficulty"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/trail_difficulty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="85dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginBottom="15dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"/>
-
-
-
+            android:textSize="12sp"
+            android:textColor="@color/white"/>
 
     </androidx.cardview.widget.CardView>
 

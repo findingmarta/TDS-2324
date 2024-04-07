@@ -3,6 +3,8 @@ package com.ruirua.sampleguideapp.adapters;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-//import com.ruirua.sampleguideapp.PremiumTrailActivity;
+import com.ruirua.sampleguideapp.PremiumTrailActivity;
 import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.model.Trail;
 import com.squareup.picasso.Picasso;
@@ -22,11 +24,13 @@ import java.util.ArrayList;
 public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Trail> trails;
+    private Activity activity;
 
 
     // Class Constructor
-    public TrailsRecyclerViewAdapter(ArrayList<Trail> new_trails) {
+    public TrailsRecyclerViewAdapter(ArrayList<Trail> new_trails, Activity new_activity) {
         this.trails = new_trails;
+        this.activity = new_activity;
     }
 
     @NonNull
@@ -68,13 +72,14 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
                 // Check if the user is premium or standard
 
                 // Start the trail's activity if premium
-                //intent = new Intent(this, PremiumTrailActivity.class);
+                intent = new Intent(activity, PremiumTrailActivity.class);
 
                 // Start the trail's activity if standard
-                //intent = new Intent(, StandardTrailActivity.class);
+                //intent = new Intent(activity, StandardTrailActivity.class);      // TODO Fazer a activity StandardTrailActivity
 
-
-                //startActivity(intent);
+                // Send the trail's ID to the activity
+                intent.putExtra("trail_id", trail.getTrailId());
+                activity.startActivity(intent);
             }
         });
     }

@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/include_trails"
+        app:layout_constraintBottom_toTopOf="@+id/include_premium_points"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,7 +23,7 @@
             tools:context=".PremiumTrailActivity">
 
             <RelativeLayout
-                android:id="@+id/title_layout"
+                android:id="@+id/premium_title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
@@ -67,7 +67,7 @@
                 android:layout_marginTop="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_layout"
+                app:layout_constraintTop_toBottomOf="@+id/premium_title_layout"
                 app:srcCompat="@drawable/ic_launcher_background" />
 
             <RelativeLayout
@@ -135,7 +135,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/premium_trail_desc" />
 
             <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView"
+                android:id="@+id/premium_mapView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
@@ -144,14 +144,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/premium_trail_itinerary_tag"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_trails_points"
+                android:id="@+id/rv_premium_points"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mapView" />
+                app:layout_constraintTop_toBottomOf="@+id/premium_mapView" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -160,7 +160,7 @@
     </ScrollView>
 
     <include
-        android:id="@+id/include_trails"
+        android:id="@+id/include_premium_points"
         layout="@layout/fragment_nav"
         android:layout_width="match_parent"
         android:layout_height="58dp"

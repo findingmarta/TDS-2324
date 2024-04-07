@@ -8,17 +8,22 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.ruirua.sampleguideapp.DAOs.PointDAO;
 import com.ruirua.sampleguideapp.model.Trail;
-import com.ruirua.sampleguideapp.DAOs.TrailDAO;
 import com.ruirua.sampleguideapp.model.User;
+import com.ruirua.sampleguideapp.model.Point;
+
+import com.ruirua.sampleguideapp.DAOs.TrailDAO;
 
 @Database(entities = {Trail.class,
-                      User.class}, version = 963, exportSchema = false)
+                      User.class,
+                      Point.class}, version = 963, exportSchema = false)
 
 public abstract class GuideDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "BraGuide";
 
     public abstract TrailDAO trailDAO();
+    public abstract PointDAO pointDAO();
 
     public static volatile GuideDatabase INSTANCE = null;
 
@@ -44,15 +49,19 @@ public abstract class GuideDatabase extends RoomDatabase {
     };
 
     static class  PopulateDbAsyn extends AsyncTask<Void,Void,Void>{
-        private TrailDAO traildao;
+        private TrailDAO trailDao;
+        private PointDAO pointDAO;
 
         public PopulateDbAsyn(GuideDatabase catDatabase) {
-            traildao = catDatabase.trailDAO();
+            trailDao = catDatabase.trailDAO();
+            pointDAO = catDatabase.pointDAO();
+
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            traildao.deleteAll();
+            trailDao.deleteAll();
+            pointDAO.deleteAll();
             return null;
         }
     }
