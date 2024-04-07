@@ -7,23 +7,20 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.ruirua.sampleguideapp.model.App;
 import com.ruirua.sampleguideapp.model.Point;
-import com.ruirua.sampleguideapp.model.Trail;
 
 import java.util.List;
 
 @Dao
-public interface PointDAO {
+public interface AppDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(List<Point> cats);
+    void insert(List<App> cats);
     //void insertTrail(Trail trail);
 
-    @Query("SELECT DISTINCT * FROM points")
-    LiveData<List<Point>> getPoints();
+    @Query("SELECT DISTINCT * FROM apps")
+    LiveData<List<App>> getApps();
 
-    @Query("SELECT * FROM points WHERE points.id = :id")
-    LiveData<Point> getPointById(int id);
-
-     @Query("DELETE FROM points")
+     @Query("DELETE FROM apps")
     void deleteAll();
 }

@@ -8,10 +8,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
 import com.ruirua.sampleguideapp.BuildConfig;
-import com.ruirua.sampleguideapp.DAOs.UserDAO;
+import com.ruirua.sampleguideapp.DAOs.AppDAO;
 import com.ruirua.sampleguideapp.database.GuideDatabase;
-import com.ruirua.sampleguideapp.model.User;
-import com.ruirua.sampleguideapp.model.UserAPI;
+import com.ruirua.sampleguideapp.model.App;
 
 import java.util.List;
 
@@ -20,20 +19,20 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class UserRepository {
+public class AppRepository {
 
-    public UserDAO userDAO;
-    public MediatorLiveData<List<User>> allUsers;
+    public AppDAO appDAO;
+    public MediatorLiveData<List<App>> allApps;
 
-    public UserRepository(Application application){
+    public AppRepository(Application application){
         GuideDatabase database = GuideDatabase.getInstance(application);
-        userDAO = database.userDAO();
-        allUsers = new MediatorLiveData<>();
-        allUsers.addSource(
-                userDAO.getUsers(), localUsers -> {
+        appDAO = database.appDAO();
+        allApps = new MediatorLiveData<>();
+        allApps.addSource(
+                appDAO.getApps(), localapps -> {
                     // TODO: ADD cache validation logic
-                    if (localUsers != null && !localUsers.isEmpty()) {
-                        allUsers.setValue(localUsers);
+                    if (localApps != null && !localApps.isEmpty()) {
+                        allApps.setValue(localApps);
                     } else {
                         makeRequest();
                     }
@@ -41,8 +40,8 @@ public class UserRepository {
         );
     }
 
-    public void insert(List<User> users){
-        new InsertAsyncTask(userDAO).execute(users);
+    public void insert(List<App> apps){
+        new InsertAsyncTask(appDAO).execute(apps);
     }
 
     private void makeRequest() {
@@ -50,11 +49,11 @@ public class UserRepository {
                 .baseUrl(BuildConfig.BRAGUIDE_BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        UserAPI api = retrofit.create(UserAPI.class);
-        Call<List<User>> call = api.getUsers();
-        call.enqueue(new retrofit2.Callback<List<User>>() {
+        AppAPI api = retrofit.create(AppAPI.class);
+        Call<List<App>> call = api.getApps();
+        call.enqueue(new retrofit2.Callback<List<App>>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+            public void onResponse(Call<List<App>> call, Response<List<App>> response) {
                 if(response.isSuccessful()) {
                     insert(response.body());
                 }
@@ -64,29 +63,28 @@ public class UserRepository {
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+            public void onFailure(Call<List<App>> call, Throwable t) {
                 Log.e("main", "onFailure: " + t.getMessage());
             }
         });
     }
 
-    public LiveData<List<User>> getAllUsers(){
-        return allUsers;
+    public LiveData<List<App>> getAllApps(){
+        return allApps;
     }
 
-    private static class InsertAsyncTask extends AsyncTask<List<User>,Void,Void> {
-        private UserDAO userDAO;
+    private static class InsertAsyncTask extends AsyncTask<List<App>,Void,Void> {
+        private AppDAO appDAO;
 
-        public InsertAsyncTask(UserDAO catDao) {
-            this.userDAO=catDao;
+        public InsertAsyncTask(AppDAO catDao) {
+            this.appDAO=catDao;
         }
 
         @Override
-        protected Void doInBackground(List<User>... lists) {
-            userDAO.insert(lists[0]);
+        protected Void doInBackground(List<App>... lists) {
+            appDAO.insert(lists[0]);
             return null;
         }
     }
 
 }
-

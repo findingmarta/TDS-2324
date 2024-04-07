@@ -8,10 +8,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
 import com.ruirua.sampleguideapp.BuildConfig;
-import com.ruirua.sampleguideapp.DAOs.UserDAO;
+import com.ruirua.sampleguideapp.DAOs.MediaDAO;
 import com.ruirua.sampleguideapp.database.GuideDatabase;
-import com.ruirua.sampleguideapp.model.User;
-import com.ruirua.sampleguideapp.model.UserAPI;
+import com.ruirua.sampleguideapp.model.Media;
+import com.ruirua.sampleguideapp.model.MediaAPI;
 
 import java.util.List;
 
@@ -20,20 +20,20 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class UserRepository {
+public class MediaRepository {
 
-    public UserDAO userDAO;
-    public MediatorLiveData<List<User>> allUsers;
+    public MediaDAO mediaDAO;
+    public MediatorLiveData<List<Media>> allMedias;
 
-    public UserRepository(Application application){
+    public MediaRepository(Application application){
         GuideDatabase database = GuideDatabase.getInstance(application);
-        userDAO = database.userDAO();
-        allUsers = new MediatorLiveData<>();
-        allUsers.addSource(
-                userDAO.getUsers(), localUsers -> {
+        mediaDAO = database.mediaDAO();
+        allMedias = new MediatorLiveData<>();
+        allMedias.addSource(
+                mediaDAO.getMedias(), localMedias -> {
                     // TODO: ADD cache validation logic
-                    if (localUsers != null && !localUsers.isEmpty()) {
-                        allUsers.setValue(localUsers);
+                    if (localMedias != null && !localMedias.isEmpty()) {
+                        allMedias.setValue(localMedias);
                     } else {
                         makeRequest();
                     }
@@ -41,8 +41,8 @@ public class UserRepository {
         );
     }
 
-    public void insert(List<User> users){
-        new InsertAsyncTask(userDAO).execute(users);
+    public void insert(List<Media> medias){
+        new InsertAsyncTask(mediaDAO).execute(medias);
     }
 
     private void makeRequest() {
@@ -50,11 +50,11 @@ public class UserRepository {
                 .baseUrl(BuildConfig.BRAGUIDE_BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        UserAPI api = retrofit.create(UserAPI.class);
-        Call<List<User>> call = api.getUsers();
-        call.enqueue(new retrofit2.Callback<List<User>>() {
+        MediaAPI api = retrofit.create(MediaAPI.class);
+        Call<List<Media>> call = api.getMedias();
+        call.enqueue(new retrofit2.Callback<List<Media>>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+            public void onResponse(Call<List<Media>> call, Response<List<Media>> response) {
                 if(response.isSuccessful()) {
                     insert(response.body());
                 }
@@ -64,29 +64,28 @@ public class UserRepository {
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+            public void onFailure(Call<List<Media>> call, Throwable t) {
                 Log.e("main", "onFailure: " + t.getMessage());
             }
         });
     }
 
-    public LiveData<List<User>> getAllUsers(){
-        return allUsers;
+    public LiveData<List<Media>> getAllMedias(){
+        return allMedias;
     }
 
-    private static class InsertAsyncTask extends AsyncTask<List<User>,Void,Void> {
-        private UserDAO userDAO;
+    private static class InsertAsyncTask extends AsyncTask<List<Media>,Void,Void> {
+        private MediaDAO mediaDAO;
 
-        public InsertAsyncTask(UserDAO catDao) {
-            this.userDAO=catDao;
+        public InsertAsyncTask(MediaDAO catDao) {
+            this.mediaDAO=catDao;
         }
 
         @Override
-        protected Void doInBackground(List<User>... lists) {
-            userDAO.insert(lists[0]);
+        protected Void doInBackground(List<Media>... lists) {
+            mediaDAO.insert(lists[0]);
             return null;
         }
     }
 
 }
-

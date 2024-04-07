@@ -81,19 +81,19 @@ public class Point {                                                            
         this.pin_desc = pin_desc;
     }
 
-    public void setPin_lat(Boolean pin_lat) {
+    public void setPin_lat(float pin_lat) {
         this.pin_lat = pin_lat;
     }
 
-    public void setPin_lng(Boolean pin_lng) {
+    public void setPin_lng(float pin_lng) {
         this.pin_lng = pin_lng;
     }
 
-    public void setPin_alt(Boolean pin_alt) {
+    public void setPin_alt(float pin_alt) {
         this.pin_alt = pin_alt;
     }
 
     public Point clone(){
-        return Point(this);
+        return new Point(this);
     }
 }

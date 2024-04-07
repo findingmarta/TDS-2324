@@ -9,21 +9,22 @@ import androidx.room.Query;
 
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.Trail;
+import com.ruirua.sampleguideapp.model.User;
 
 import java.util.List;
 
 @Dao
-public interface PointDAO {
+public interface UserDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(List<Point> cats);
+    void insert(List<User> cats);
     //void insertTrail(Trail trail);
 
-    @Query("SELECT DISTINCT * FROM points")
-    LiveData<List<Point>> getPoints();
+    @Query("SELECT DISTINCT * FROM users")
+    LiveData<List<User>> getUsers();
 
-    @Query("SELECT * FROM points WHERE points.id = :id")
-    LiveData<Point> getPointById(int id);
+    @Query("SELECT * FROM users WHERE users.id = :id")
+    LiveData<User> getUserById(int id);
 
-     @Query("DELETE FROM points")
+    @Query("DELETE FROM users")
     void deleteAll();
 }

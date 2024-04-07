@@ -7,7 +7,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "app",indices = @Index(value = {"id"},unique = true))
+@Entity(tableName = "apps",indices = @Index(value = {"id"},unique = true))
 public class App {
     @PrimaryKey
     @NonNull
@@ -68,6 +68,6 @@ public class App {
     }
 
     public App clone(){
-        return App(this);
+        return new App(this);
     }
 }

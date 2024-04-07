@@ -7,7 +7,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "user",indices = @Index(value = {"id"},unique = true))
+@Entity(tableName = "users",indices = @Index(value = {"id"},unique = true))
 public class User {
 
     @PrimaryKey
@@ -37,7 +37,7 @@ public class User {
     @ColumnInfo(name = "data_joined")
     String date_joined;
 
-    public void User(Integer id, String username, String user_type, String last_login, Boolean is_superuser, String first_name, String last_name, String email, Boolean is_staff, Boolean is_active, String date_joined){
+    public User(Integer id, String username, String user_type, String last_login, Boolean is_superuser, String first_name, String last_name, String email, Boolean is_staff, Boolean is_active, String date_joined){
         this.id = id;
         this.username = username;
         this.user_type = user_type;
@@ -51,7 +51,7 @@ public class User {
         this.date_joined = date_joined;
     }
 
-    public void User(User user){
+    public User(User user){
         this.id = user.id;
         this.username = user.username;
         this.user_type = user.user_type;
@@ -152,7 +152,6 @@ public class User {
         return date_joined;
     }
 
-    public User clone(){
-        return User(this);
+    public User clone(){ return new User(this);
     }
 }

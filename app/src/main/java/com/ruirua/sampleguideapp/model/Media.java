@@ -7,7 +7,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "media",indices = @Index(value = {"id"},unique = true))
+@Entity(tableName = "medias",indices = @Index(value = {"id"},unique = true))
 public class Media {
     @PrimaryKey
     @NonNull
@@ -68,7 +68,7 @@ public class Media {
     }
 
     public Media clone(){
-        return Media(this);
+        return new Media(this);
     }
 }
 
