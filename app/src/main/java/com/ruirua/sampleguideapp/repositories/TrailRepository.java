@@ -8,6 +8,7 @@ import androidx.lifecycle.MediatorLiveData;
 
 import com.ruirua.sampleguideapp.BuildConfig;
 import com.ruirua.sampleguideapp.database.GuideDatabase;
+import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.model.TrailAPI;
 import com.ruirua.sampleguideapp.DAOs.TrailDAO;
@@ -73,6 +74,10 @@ public class TrailRepository {
 
     public LiveData<Trail> getTrailById(int id){
         return trailDAO.getTrailById(id);
+    }
+
+    public LiveData<List<Point>> getTrailPoints(int id){
+        return trailDAO.getTrailPoints(id);
     }
 
     private static class InsertAsyncTask extends AsyncTask<List<Trail>,Void,Void> {

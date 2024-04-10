@@ -1,96 +1,95 @@
 package com.ruirua.sampleguideapp.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "points",indices = @Index(value = {"id"},unique = true))            // TODO Tirar o public das variáveis e torná-las private
-public class Point {                                                                    // TODO Acabar esta classe
+@Entity(tableName = "point",indices = @Index(value = {"id"},unique = true))
+public class Point {                                                                         // TODO Faltam alguns campos
     @PrimaryKey
-    @NonNull
     @ColumnInfo(name = "id")
-    public String id;
+    private int id;
     @ColumnInfo(name = "pin_name")
-    public String pin_name;
+    private String point_name;
     @ColumnInfo(name = "pin_desc")
-    public String pin_desc;
+    private String point_desc;
     @ColumnInfo(name = "pin_lat")
-    public float pin_lat;
+    private float point_lat;
     @ColumnInfo(name = "pin_lng")
-    public float pin_lng;
+    private float point_lng;
     @ColumnInfo(name = "pin_alt")
-    public float pin_alt;
+    private float point_alt;
 
-    public Point(String id, String pin_name, String pin_desc, float pin_lat, float pin_lng, float pin_alt) {
+    public Point(int id, String point_name, String point_desc, float point_lat, float point_lng, float point_alt) {
         this.id = id;
-        this.pin_name = pin_name;
-        this.pin_desc = pin_desc;
-        this.pin_lat = pin_lat;
-        this.pin_lng = pin_lng;
-        this.pin_alt = pin_alt;
+        this.point_name = point_name;
+        this.point_desc = point_desc;
+        this.point_lat = point_lat;
+        this.point_lng = point_lng;
+        this.point_alt = point_alt;
     }
 
     public Point(Point p) {
         this.id = p.id;
-        this.pin_name = p.pin_name;
-        this.pin_desc = p.pin_desc;
-        this.pin_lat = p.pin_lat;
-        this.pin_lng = p.pin_lng;
-        this.pin_alt = p.pin_alt;
+        this.point_name = p.point_name;
+        this.point_desc = p.point_desc;
+        this.point_lat = p.point_lat;
+        this.point_lng = p.point_lng;
+        this.point_alt = p.point_alt;
     }
 
     public Point getPoint() {
         return this;
     }
 
-    public String getPointId() {
+
+    public int getId() {
         return id;
     }
 
-    public String getPin_name() {
-        return pin_name;
-    }
-
-    public String getPin_desc() {
-        return pin_desc;
-    }
-
-    public float getPin_lat() {
-        return pin_lat;
-    }
-
-    public float getPin_lng() {
-        return pin_lng;
-    }
-
-    public float getPin_alt() {
-        return pin_alt;
-    }
-
-    public void setPointId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public void setPin_name(String pin_name) {
-        this.pin_name = pin_name;
+    public String getPoint_name() {
+        return point_name;
     }
 
-    public void setPin_desc(String pin_desc) {
-        this.pin_desc = pin_desc;
+    public void setPoint_name(String point_name) {
+        this.point_name = point_name;
     }
 
-    public void setPin_lat(float pin_lat) {
-        this.pin_lat = pin_lat;
+    public String getPoint_desc() {
+        return point_desc;
     }
 
-    public void setPin_lng(float pin_lng) {
-        this.pin_lng = pin_lng;
+    public void setPoint_desc(String point_desc) {
+        this.point_desc = point_desc;
     }
 
-    public void setPin_alt(float pin_alt) {
-        this.pin_alt = pin_alt;
+    public float getPoint_lat() {
+        return point_lat;
+    }
+
+    public void setPoint_lat(float point_lat) {
+        this.point_lat = point_lat;
+    }
+
+    public float getPoint_lng() {
+        return point_lng;
+    }
+
+    public void setPoint_lng(float point_lng) {
+        this.point_lng = point_lng;
+    }
+
+    public float getPoint_alt() {
+        return point_alt;
+    }
+
+    public void setPoint_alt(float point_alt) {
+        this.point_alt = point_alt;
     }
 
     public Point clone(){

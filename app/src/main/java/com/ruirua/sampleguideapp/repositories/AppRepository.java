@@ -11,6 +11,7 @@ import com.ruirua.sampleguideapp.BuildConfig;
 import com.ruirua.sampleguideapp.DAOs.AppDAO;
 import com.ruirua.sampleguideapp.database.GuideDatabase;
 import com.ruirua.sampleguideapp.model.App;
+import com.ruirua.sampleguideapp.model.AppAPI;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class AppRepository {
+public class AppRepository {                 // TODO Single App
 
     public AppDAO appDAO;
     public MediatorLiveData<List<App>> allApps;
@@ -29,7 +30,7 @@ public class AppRepository {
         appDAO = database.appDAO();
         allApps = new MediatorLiveData<>();
         allApps.addSource(
-                appDAO.getApps(), localapps -> {
+                appDAO.getApps(), localApps -> {
                     // TODO: ADD cache validation logic
                     if (localApps != null && !localApps.isEmpty()) {
                         allApps.setValue(localApps);

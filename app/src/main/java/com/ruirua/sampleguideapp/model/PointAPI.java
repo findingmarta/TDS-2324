@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 
 public interface PointAPI {
 
-    @GET("points")
+    @GET("pins")
     Call<List<Point>> getPoints();
 
 }

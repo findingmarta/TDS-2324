@@ -13,6 +13,6 @@ public class ProfileActivity extends GeneralActivity {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);                      // TODO Meter os butões a funcionar e ir buscar a info à BD
     }
 }

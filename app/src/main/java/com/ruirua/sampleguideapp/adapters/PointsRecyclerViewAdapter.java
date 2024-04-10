@@ -49,11 +49,8 @@ public class PointsRecyclerViewAdapter extends RecyclerView.Adapter<PointsRecycl
         Point point = points.get(position).getPoint();
 
         // Set the trail's info on the view
-        //holder.pointName.setText(point.getPointName().toUpperCase());
-        //holder.pointDesc.setText(point.getPointDesc().toUpperCase());
-        holder.pointName.setText("AAAAAAAAAAA POINT");
-        holder.pointDesc.setText("AAAAAAAAAAAAAAAAAAAAAAAAAAAA DESC");
-
+        holder.pointName.setText(point.getPoint_name().toUpperCase());
+        holder.pointDesc.setText(point.getPoint_desc().toUpperCase());
 
         // Set a Listener
         holder.item.setOnClickListener(new View.OnClickListener() {

@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 
 public interface TrailAPI {
 
-    @GET("trails")
+    @GET("trails") // Route
     Call<List<Trail>> getTrails();
 
 }

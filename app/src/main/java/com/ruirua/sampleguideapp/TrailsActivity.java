@@ -41,6 +41,5 @@ public class TrailsActivity extends GeneralActivity {
             adapter = new TrailsRecyclerViewAdapter(trails,this);
             recyclerView.setAdapter(adapter);
         });
-
     }
 }

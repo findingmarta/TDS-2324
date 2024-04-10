@@ -16,11 +16,10 @@ import java.util.List;
 public interface AppDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<App> cats);
-    //void insertTrail(Trail trail);
 
-    @Query("SELECT DISTINCT * FROM apps")
+    @Query("SELECT DISTINCT * FROM app LIMIT 1")
     LiveData<List<App>> getApps();
 
-     @Query("DELETE FROM apps")
+     @Query("DELETE FROM app")
     void deleteAll();
 }

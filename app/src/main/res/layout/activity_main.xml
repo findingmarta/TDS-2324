@@ -31,14 +31,23 @@
                 app:srcCompat="@drawable/logo" />
 
             <TextView
-                android:id="@+id/home_appDescription"
+                android:id="@+id/home_appDesc"
                 android:layout_width="250dp"
                 android:layout_height="54dp"
-                android:text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 android:textAlignment="center"
+                android:textColor="@color/logo_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_logo" />
+
+            <TextView
+                android:id="@+id/home_appLandingPage"
+                android:layout_width="250dp"
+                android:layout_height="54dp"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_appDesc" />
 
             <ImageView
                 android:id="@+id/home_mapsIcon"
@@ -48,7 +57,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.233"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_appDescription"
+                app:layout_constraintTop_toBottomOf="@+id/home_appLandingPage"
                 app:srcCompat="@drawable/maps_logo" />
 
             <TextView
@@ -61,7 +70,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/home_mapsIcon"
-                app:layout_constraintTop_toBottomOf="@+id/home_appDescription" />
+                app:layout_constraintTop_toBottomOf="@+id/home_appLandingPage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

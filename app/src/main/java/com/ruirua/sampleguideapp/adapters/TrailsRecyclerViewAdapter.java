@@ -26,7 +26,6 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
     private ArrayList<Trail> trails;
     private Activity activity;
 
-
     // Class Constructor
     public TrailsRecyclerViewAdapter(ArrayList<Trail> new_trails, Activity new_activity) {
         this.trails = new_trails;
@@ -55,12 +54,12 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
         Trail trail = trails.get(position).getTrail();
 
         // Set the trail's info on the view
-        String durationString = trail.getTrailDuration() + " minutes";
-        holder.trailName.setText(trail.getTrailName().toUpperCase());
+        String durationString = trail.getTrail_duration() + " minutes";
+        holder.trailName.setText(trail.getTrail_name().toUpperCase());
         holder.trailDuration.setText(durationString);
-        holder.trailDifficulty.setText(trail.getTrailDifficulty());
+        holder.trailDifficulty.setText(trail.getTrail_difficulty());
         Picasso.get()
-                .load(trails.get(position).getTrailImage().replace("http:", "https:"))
+                .load(trails.get(position).getTrail_image().replace("http:", "https:"))
                 .into(holder.trailImage);
 
         // Set a Listener
@@ -73,12 +72,11 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
 
                 // Start the trail's activity if premium
                 intent = new Intent(activity, PremiumTrailActivity.class);
-
                 // Start the trail's activity if standard
                 //intent = new Intent(activity, StandardTrailActivity.class);      // TODO Fazer a activity StandardTrailActivity
 
                 // Send the trail's ID to the activity
-                intent.putExtra("trail_id", trail.getTrailId());
+                intent.putExtra("trail_id", trail.getId());
                 activity.startActivity(intent);
             }
         });

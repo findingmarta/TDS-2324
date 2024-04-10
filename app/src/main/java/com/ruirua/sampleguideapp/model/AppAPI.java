@@ -6,6 +6,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface AppAPI {
-    @GET("apps")
+    @GET("app")
     Call<List<App>> getApps();
 }

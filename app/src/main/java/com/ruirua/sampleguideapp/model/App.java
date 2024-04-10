@@ -1,27 +1,24 @@
 package com.ruirua.sampleguideapp.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "apps",indices = @Index(value = {"id"},unique = true))
+@Entity(tableName = "app",indices = @Index(value = {"id"},unique = true))   // TODO Faltam alguns campos
 public class App {
-    @PrimaryKey
-    @NonNull
-    //@SerializedName("id")
+    @PrimaryKey                 //(autoGenerate = true)
     @ColumnInfo(name = "id")
-    public Integer id;
+    private int id;
     @ColumnInfo(name = "app_name")
-    public String app_name;
+    private String app_name;
     @ColumnInfo(name = "app_desc")
-    public String app_desc;
+    private String app_desc;
     @ColumnInfo(name = "app_landing_page_text")
-    public String app_landing_page_text;
+    private String app_landing_page_text;
 
-    public App(Integer id, String app_name, String app_desc, String app_landing_page_text) {
+    public App(int id, String app_name, String app_desc, String app_landing_page_text) {
         this.id = id;
         this.app_name = app_name;
         this.app_desc = app_desc;
@@ -35,11 +32,12 @@ public class App {
         this.app_landing_page_text = a.app_landing_page_text;
     }
 
-    public Integer getId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

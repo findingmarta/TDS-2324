@@ -1,27 +1,24 @@
 package com.ruirua.sampleguideapp.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "medias",indices = @Index(value = {"id"},unique = true))
+@Entity(tableName = "media",indices = @Index(value = {"id"},unique = true))
 public class Media {
-    @PrimaryKey
-    @NonNull
-    //@SerializedName("id")
+    @PrimaryKey//(autoGenerate = true)
     @ColumnInfo(name = "id")
-    public Integer id;
+    private int id;
     @ColumnInfo(name = "media_file")
-    public String media_file;
+    private String media_file;
     @ColumnInfo(name = "media_type")
-    public String media_type;
-    @ColumnInfo(name = "media_type")
-    public Integer media_pin;
+    private String media_type;
+    @ColumnInfo(name = "media_pin")
+    private int media_pin;
 
-    public Media(Integer id, String media_file, String media_type, Integer media_pin) {
+    public Media(int id, String media_file, String media_type, int media_pin) {
         this.id = id;
         this.media_file = media_file;
         this.media_type = media_type;
@@ -35,11 +32,12 @@ public class Media {
         this.media_pin = m.media_pin;
     }
 
-    public Integer getId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -59,11 +57,11 @@ public class Media {
         this.media_type = media_type;
     }
 
-    public Integer getMedia_pin() {
+    public int getMedia_pin() {
         return media_pin;
     }
 
-    public void setMedia_pin(Integer media_pin) {
+    public void setMedia_pin(int media_pin) {
         this.media_pin = media_pin;
     }
 

@@ -16,14 +16,13 @@ import java.util.List;
 public interface PointDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<Point> cats);
-    //void insertTrail(Trail trail);
 
-    @Query("SELECT DISTINCT * FROM points")
+    @Query("SELECT DISTINCT * FROM point")
     LiveData<List<Point>> getPoints();
 
-    @Query("SELECT * FROM points WHERE points.id = :id")
+    @Query("SELECT * FROM point WHERE point.id = :id")
     LiveData<Point> getPointById(int id);
 
-     @Query("DELETE FROM points")
+     @Query("DELETE FROM point")
     void deleteAll();
 }

@@ -17,14 +17,13 @@ import java.util.List;
 public interface UserDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<User> cats);
-    //void insertTrail(Trail trail);
 
-    @Query("SELECT DISTINCT * FROM users")
+    @Query("SELECT DISTINCT * FROM user")
     LiveData<List<User>> getUsers();
 
-    @Query("SELECT * FROM users WHERE users.id = :id")
+    @Query("SELECT * FROM user WHERE user.id = :id")
     LiveData<User> getUserById(int id);
 
-    @Query("DELETE FROM users")
+    @Query("DELETE FROM user")
     void deleteAll();
 }

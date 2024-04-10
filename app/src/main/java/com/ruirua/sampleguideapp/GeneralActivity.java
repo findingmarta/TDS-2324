@@ -2,6 +2,7 @@ package com.ruirua.sampleguideapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -22,55 +23,41 @@ public abstract class GeneralActivity extends AppCompatActivity implements Botto
 
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(this);
+        bottomNav.setSelectedItemId(getNavBarItemSelected());
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case (R.id.Profile):
-                Intent profileIntent = new Intent(this, ProfileActivity.class);
-                startActivity(profileIntent);
-                return true;
+                if (getContentViewId() != R.layout.activity_profile){
+                    Intent profileIntent = new Intent(this, ProfileActivity.class);
+                    startActivity(profileIntent);
+                }
+                break;
 
             case (R.id.Home):
-                Intent homeIntent = new Intent(this, MainActivity.class);
-                startActivity(homeIntent);
-                return true;
+                if (getContentViewId() != R.layout.activity_main) {
+                    Intent homeIntent = new Intent(this, MainActivity.class);
+                    startActivity(homeIntent);
+                }
+                break;
 
             case (R.id.Trails):
-                Intent trailsIntent = new Intent(this, TrailsActivity.class);
-                startActivity(trailsIntent);
-                return true;
+                if (getContentViewId() != R.layout.activity_trails) {
+                    Intent trailsIntent = new Intent(this, TrailsActivity.class);
+                    startActivity(trailsIntent);
+                }
+                break;
+
             case (R.id.SOS):
-                return true;
+                break;                        // TODO Acabar este Menu
 
             case (R.id.Logout):
-                return true;
+                break;
+            default:
+                return false;
         }
-        return false;
+        return true;
     }
-
-    private void updateNavigationBarState(){
-        int actionId = getNavBarItemSelected();
-        selectBottomNavigationBarItem(actionId);
-    }
-
-    void selectBottomNavigationBarItem(int itemId) {
-        MenuItem item = bottomNav.getMenu().findItem(itemId);
-        item.setChecked(true);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        updateNavigationBarState();
-    }
-
-    // Remove inter-activity transition to avoid screen tossing on tapping bottom navigation items
-    @Override
-    public void onPause() {
-        super.onPause();
-        overridePendingTransition(0, 0);
-    }
-
 }

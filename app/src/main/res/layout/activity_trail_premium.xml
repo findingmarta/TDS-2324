@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/include_premium_points"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -43,20 +43,20 @@
                     android:id="@+id/premium_trail_duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="280dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/premium_trail_difficulty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="280dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="35dp"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -102,10 +102,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
+                android:text="@string/trail_desc_tag"
                 android:textColor="@color/white"
                 android:textSize="40sp"
                 android:textStyle="bold"
-                android:text="@string/trail_desc_tag"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttons_layout" />
@@ -126,10 +126,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
+                android:text="@string/trail_itinerary_tag"
                 android:textColor="@color/white"
                 android:textSize="40sp"
                 android:textStyle="bold"
-                android:text="@string/trail_itinerary_tag"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/premium_trail_desc" />
@@ -137,11 +137,11 @@
             <com.google.android.gms.maps.MapView
                 android:id="@+id/premium_mapView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="550dp"
                 android:layout_margin="15dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/premium_trail_itinerary_tag"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/premium_trail_itinerary_tag" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_premium_points"
@@ -159,15 +159,5 @@
 
     </ScrollView>
 
-    <include
-        android:id="@+id/include_premium_points"
-        layout="@layout/fragment_nav"
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
