@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.ruirua.sampleguideapp.model.App;
 import com.ruirua.sampleguideapp.model.Trail;
+import com.ruirua.sampleguideapp.model.User;
 import com.ruirua.sampleguideapp.repositories.AppRepository;
 import com.ruirua.sampleguideapp.repositories.TrailRepository;
 
@@ -28,5 +29,4 @@ public class AppViewModel extends AndroidViewModel {
     public LiveData<List<App>> getApps() {
         return apps;
     }
-
 }

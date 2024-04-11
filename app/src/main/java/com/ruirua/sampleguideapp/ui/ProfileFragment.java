@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.ruirua.sampleguideapp.databinding.ActivityProfileBinding;
-import com.ruirua.sampleguideapp.viewModel.ProfileViewModel;
+import com.ruirua.sampleguideapp.viewModel.UserViewModel;
 
 public class ProfileFragment extends Fragment {
 
@@ -19,8 +19,8 @@ public class ProfileFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ProfileViewModel profileViewModel =
-                new ViewModelProvider(this).get(ProfileViewModel.class);
+        UserViewModel profileViewModel =
+                new ViewModelProvider(this).get(UserViewModel.class);
 
         binding = ActivityProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
