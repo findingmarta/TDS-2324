@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.ruirua.sampleguideapp.databinding.ActivityProfileBinding;
 import com.ruirua.sampleguideapp.viewModel.UserViewModel;
-
+/*
 public class ProfileFragment extends Fragment {
 
     private ActivityProfileBinding binding;
@@ -35,4 +35,4 @@ public class ProfileFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-}
+}*/

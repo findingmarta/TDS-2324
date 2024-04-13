@@ -1,25 +1,14 @@
 package com.ruirua.sampleguideapp.repositories;
 
 import android.app.Application;
-import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 
-import com.ruirua.sampleguideapp.BuildConfig;
 import com.ruirua.sampleguideapp.DAOs.MediaDAO;
 import com.ruirua.sampleguideapp.database.GuideDatabase;
 import com.ruirua.sampleguideapp.model.Media;
-import com.ruirua.sampleguideapp.model.MediaAPI;
-import com.ruirua.sampleguideapp.model.Point;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MediaRepository {
 

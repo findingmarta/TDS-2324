@@ -22,9 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.ruirua.sampleguideapp.adapters.PointsRecyclerViewAdapter;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.Trail;
-import com.ruirua.sampleguideapp.viewModel.PointsViewModel;
 import com.ruirua.sampleguideapp.viewModel.TrailViewModel;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -118,6 +116,8 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         googleMap.addMarker(new MarkerOptions()
                 .position(sydney)
                 .title("Marker in Sydney"));
+
+
         // Move the map's camera to the same location.
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }

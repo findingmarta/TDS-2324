@@ -28,7 +28,7 @@ import java.util.concurrent.Executors;
                       User.class,
                       Trail.class,
                       Point.class,
-                      Media.class}, version = 969, exportSchema = false)
+                      Media.class}, version = 970, exportSchema = false)
 
 public abstract class GuideDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "BraGuide";
@@ -68,26 +68,26 @@ public abstract class GuideDatabase extends RoomDatabase {
     };
 
     static class  PopulateDbAsyn extends AsyncTask<Void,Void,Void>{
-        private AppDAO appDao;
-        private UserDAO userDao;
-        private TrailDAO trailDao;
+        private AppDAO appDAO;
+        private UserDAO userDAO;
+        private TrailDAO trailDAO;
         private PointDAO pointDAO;
-        private MediaDAO mediaDao;
+        private MediaDAO mediaDAO;
         public PopulateDbAsyn(GuideDatabase catDatabase) {
-            appDao = catDatabase.appDAO();
-            userDao = catDatabase.userDAO();
-            trailDao = catDatabase.trailDAO();
+            appDAO = catDatabase.appDAO();
+            userDAO = catDatabase.userDAO();
+            trailDAO = catDatabase.trailDAO();
             pointDAO = catDatabase.pointDAO();
-            mediaDao = catDatabase.mediaDAO();
+            mediaDAO = catDatabase.mediaDAO();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            appDao.deleteAll();
-            userDao.deleteAll();
-            trailDao.deleteAll();
+            appDAO.deleteAll();
+            userDAO.deleteAll();
+            trailDAO.deleteAll();
             pointDAO.deleteAll();
-            mediaDao.deleteAll();
+            mediaDAO.deleteAll();
             return null;
         }
     }

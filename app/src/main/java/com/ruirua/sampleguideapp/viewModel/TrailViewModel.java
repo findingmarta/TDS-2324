@@ -16,7 +16,7 @@ public class TrailViewModel extends AndroidViewModel {
 
     private TrailRepository trailRepository;
 
-    public LiveData<Trail> trail;
+    private LiveData<Trail> trail;
 
     public TrailViewModel(@NonNull Application application) {
         super(application);

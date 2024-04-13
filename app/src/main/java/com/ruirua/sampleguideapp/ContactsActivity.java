@@ -1,23 +1,18 @@
 package com.ruirua.sampleguideapp;
 
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.ruirua.sampleguideapp.model.App;
-import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.viewModel.AppViewModel;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class MainActivity extends GeneralActivity{
-    private TextView appLandingPage;
-    private TextView appDesc;
-    //private TextView mapsWarning;                // TODO Ver como fazer este warning
+public class ContactsActivity extends GeneralActivity{
+
 
     @Override
     protected int getContentViewId() {
@@ -32,8 +27,7 @@ public class MainActivity extends GeneralActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        appLandingPage = findViewById(R.id.home_appLandingPage);
-        appDesc = findViewById(R.id.home_appDesc);
+
 
         setInfo();
     }
@@ -44,8 +38,6 @@ public class MainActivity extends GeneralActivity{
         appsData.observe(this, appslist -> {
             if (!appslist.isEmpty()){
                 App app = appslist.get(0);
-                appLandingPage.setText(app.getApp_landing_page_text());
-                appDesc.setText(app.getApp_desc());
             }
         });
     }

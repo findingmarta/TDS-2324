@@ -11,7 +11,7 @@ import com.ruirua.sampleguideapp.BuildConfig;
 import com.ruirua.sampleguideapp.DAOs.UserDAO;
 import com.ruirua.sampleguideapp.database.GuideDatabase;
 import com.ruirua.sampleguideapp.model.User;
-import com.ruirua.sampleguideapp.model.UserAPI;
+import com.ruirua.sampleguideapp.APIs.UserAPI;
 
 import java.util.List;
 
@@ -52,6 +52,7 @@ public class UserRepository {
                 .build();
         UserAPI api = retrofit.create(UserAPI.class);
         Call<List<User>> call = api.getUsers();
+
         call.enqueue(new retrofit2.Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {

@@ -10,7 +10,7 @@ import com.ruirua.sampleguideapp.BuildConfig;
 import com.ruirua.sampleguideapp.database.GuideDatabase;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.Trail;
-import com.ruirua.sampleguideapp.model.TrailAPI;
+import com.ruirua.sampleguideapp.APIs.TrailAPI;
 import com.ruirua.sampleguideapp.DAOs.TrailDAO;
 import java.util.List;
 import retrofit2.Call;

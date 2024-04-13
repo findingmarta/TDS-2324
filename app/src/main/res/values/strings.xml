@@ -10,6 +10,12 @@
     <string name="previous">Previous</string>
 
 
+    <!-- HOMEPAGE -->
+    <string name="maps_warning_title">WARNING</string>
+    <string name="maps_warning_text">In order to use this application you need to have Google Maps installed.</string>
+    <string name="home_partners_tag">PARTNERS</string>
+    <string name="home_socials_tag">SOCIALS</string>
+
     <!-- MENU -->
     <string name="menu_sos">SOS</string>
     <string name="menu_home">HOME</string>
@@ -39,5 +45,9 @@
     <string name="trail_desc_tag">DESCRIPTION</string>
     <string name="trail_itinerary_tag">ITINERARY</string>
 
-
+    <!-- POINT OF INTEREST -->
+    <string name="point_location">LOCATION</string>
+    <string name="point_desc_tag">DESCRIPTION</string>
+    <string name="point_prop_tag">PROPERTIES</string>
+    <string name="point_visited">VISITED</string>
 </resources>

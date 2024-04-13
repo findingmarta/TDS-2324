@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue">
+
+ <ScrollView
+     android:id="@+id/point_scroll"
+     android:layout_width="0dp"
+     android:layout_height="0dp"
+     android:scrollbars="none"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      tools:context=".PointActivity">
+
+   <RelativeLayout
+       android:id="@+id/point_title_layout"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_margin="15dp"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent">
+
+    <TextView
+        android:id="@+id/point_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/logo_yellow"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/point_media_button"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:background="#00FFFFFF"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/media_logo" />
+
+
+   </RelativeLayout>
+
+   <ImageView
+       android:id="@+id/point_image"
+       android:layout_width="381dp"
+       android:layout_height="258dp"
+       android:layout_marginTop="15dp"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/point_title_layout"
+       app:srcCompat="@drawable/ic_launcher_background" />
+
+    <Button
+        android:id="@+id/point_location_button"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_margin="15dp"
+        android:backgroundTint="@color/logo_yellow"
+        android:text="@string/point_location"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/point_image"/>
+
+   <TextView
+       android:id="@+id/point_desc_tag"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_margin="15dp"
+       android:text="@string/point_desc_tag"
+       android:textColor="@color/white"
+       android:textSize="40sp"
+       android:textStyle="bold"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/point_location_button" />
+
+   <TextView
+       android:id="@+id/point_desc"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_margin="15dp"
+       android:textColor="@color/white"
+       android:textSize="15sp"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/point_desc_tag" />
+
+   <TextView
+       android:id="@+id/point_prop_tag"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_margin="15dp"
+       android:text="@string/point_prop_tag"
+       android:textColor="@color/white"
+       android:textSize="40sp"
+       android:textStyle="bold"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/point_desc" />
+
+   <TextView
+       android:id="@+id/point_prop"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_margin="15dp"
+       android:textColor="@color/white"
+       android:textSize="15sp"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/point_prop_tag" />
+
+   <Button
+       android:id="@+id/point_visited_button"
+       android:layout_width="match_parent"
+       android:layout_height="55dp"
+       android:layout_margin="15dp"
+       android:backgroundTint="@color/logo_yellow"
+       android:text="@string/point_visited"
+       android:textSize="20sp"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/point_prop"/>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+ </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

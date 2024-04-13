@@ -11,7 +11,7 @@ import com.ruirua.sampleguideapp.BuildConfig;
 import com.ruirua.sampleguideapp.DAOs.AppDAO;
 import com.ruirua.sampleguideapp.database.GuideDatabase;
 import com.ruirua.sampleguideapp.model.App;
-import com.ruirua.sampleguideapp.model.AppAPI;
+import com.ruirua.sampleguideapp.APIs.AppAPI;
 
 import java.util.List;
 

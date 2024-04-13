@@ -1,4 +1,6 @@
-package com.ruirua.sampleguideapp.model;
+package com.ruirua.sampleguideapp.APIs;
+
+import com.ruirua.sampleguideapp.model.Media;
 
 import java.util.List;
 

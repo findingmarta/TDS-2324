@@ -18,7 +18,7 @@ public interface UserDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<User> cats);
 
-    @Query("SELECT DISTINCT * FROM user")
+    @Query("SELECT DISTINCT * FROM user LIMIT 1")
     LiveData<List<User>> getUsers();
 
     @Query("SELECT * FROM user WHERE user.id = :id")

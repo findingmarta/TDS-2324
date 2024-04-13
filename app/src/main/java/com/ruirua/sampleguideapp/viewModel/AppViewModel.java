@@ -15,10 +15,8 @@ import com.ruirua.sampleguideapp.repositories.TrailRepository;
 import java.util.List;
 
 public class AppViewModel extends AndroidViewModel {
-
     private AppRepository appRepository;
-
-    public LiveData<List<App>> apps;
+    private LiveData<List<App>> apps;
 
     public AppViewModel(@NonNull Application application) {
         super(application);

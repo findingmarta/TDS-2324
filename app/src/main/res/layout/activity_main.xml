@@ -21,22 +21,70 @@
             android:layout_height="wrap_content"
             tools:context=".MainActivity">
 
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/home_mapsIcon"
+                    android:layout_width="64dp"
+                    android:layout_height="74dp"
+                    android:layout_centerVertical="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/maps_logo" />
+
+                <TextView
+                    android:id="@+id/home_mapsWarningTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/home_mapsIcon"
+                    android:text="@string/maps_warning_title"
+                    android:textSize="30sp"/>
+
+
+                <TextView
+                    android:id="@+id/home_mapsWarningText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/home_mapsIcon"
+                    android:layout_below="@+id/home_mapsWarningTitle"
+                    android:text="@string/maps_warning_text"
+                    android:textSize="20sp"/>
+            </RelativeLayout>
+
+
             <ImageView
                 android:id="@+id/home_logo"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
                 app:srcCompat="@drawable/logo" />
 
             <TextView
                 android:id="@+id/home_appDesc"
                 android:layout_width="250dp"
                 android:layout_height="54dp"
+                android:layout_marginTop="4dp"
                 android:textAlignment="center"
                 android:textColor="@color/logo_blue"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_logo" />
 
@@ -44,33 +92,56 @@
                 android:id="@+id/home_appLandingPage"
                 android:layout_width="250dp"
                 android:layout_height="54dp"
+                android:layout_marginTop="8dp"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_appDesc" />
 
-            <ImageView
-                android:id="@+id/home_mapsIcon"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginTop="200dp"
+            <TextView
+                android:id="@+id/home_partners_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@string/home_partners_tag"
+                android:textSize="40sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.233"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_appLandingPage"
-                app:srcCompat="@drawable/maps_logo" />
+                app:layout_constraintTop_toBottomOf="@+id/home_appLandingPage" />
 
             <TextView
-                android:id="@+id/home_mapsWarning"
-                android:layout_width="186dp"
-                android:layout_height="64dp"
-                android:layout_marginTop="200dp"
-                android:text="WARNING"
-                android:textAlignment="center"
+                android:id="@+id/home_partners"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/home_mapsIcon"
-                app:layout_constraintTop_toBottomOf="@+id/home_appLandingPage" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_partners_tag"/>
+
+            <TextView
+                android:id="@+id/home_socials_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@string/home_socials_tag"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_partners" />
+
+            <TextView
+                android:id="@+id/home_socials"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_socials_tag"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

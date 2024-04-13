@@ -11,19 +11,22 @@ import com.ruirua.sampleguideapp.repositories.PointRepository;
 
 import java.util.List;
 
-public class PointsViewModel extends AndroidViewModel {
+public class PointViewModel extends AndroidViewModel {
 
     private PointRepository pointRepository;
 
-    public LiveData<List<Point>> points;
+    private LiveData<Point> point;
 
-    public PointsViewModel(@NonNull Application application) {
+    public PointViewModel(@NonNull Application application) {
         super(application);
         pointRepository = new PointRepository(application);
-        points = pointRepository.getAllPoints();
     }
 
-    public LiveData<List<Point>> getAllPoints() {
-        return points;
+    public LiveData<Point> getPoint() {
+        return point;
+    }
+
+    public void setPointViewModel(int id){
+        point = pointRepository.getPointById(id);
     }
 }
