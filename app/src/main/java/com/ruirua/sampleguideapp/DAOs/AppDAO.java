@@ -6,8 +6,10 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.ruirua.sampleguideapp.model.App;
+import com.ruirua.sampleguideapp.model.AppWith;
 import com.ruirua.sampleguideapp.model.Point;
 
 import java.util.List;
@@ -22,4 +24,8 @@ public interface AppDAO {
 
      @Query("DELETE FROM app")
     void deleteAll();
+
+    @Transaction
+    @Query("SELECT * FROM app")
+    LiveData<List<AppWith>> getAppWith();
 }
