@@ -10,11 +10,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
 
-@Entity(tableName = "trail",indices = @Index(value = {"id"},unique = true))
-public class Trail {                                                                    // TODO Faltam alguns campos
+@Entity(tableName = "trail",indices = @Index(value = {"trailId"},unique = true))
+public class Trail {
     @PrimaryKey
-    @ColumnInfo(name = "id")
-    private int id;
+    @ColumnInfo(name = "trailId")
+    private int trailId;
 
     @SerializedName("trail_img")
     @ColumnInfo(name = "trail_img")
@@ -32,8 +32,8 @@ public class Trail {                                                            
     @ColumnInfo(name = "trail_difficulty")
     private String trail_difficulty;
 
-    public Trail(int id, String trail_image, String trail_name, String trail_desc, int trail_duration, String trail_difficulty) {
-        this.id = id;
+    public Trail(int trailId, String trail_image, String trail_name, String trail_desc, int trail_duration, String trail_difficulty) {
+        this.trailId = trailId;
         this.trail_image = trail_image;
         this.trail_name = trail_name;
         this.trail_desc = trail_desc;
@@ -41,16 +41,12 @@ public class Trail {                                                            
         this.trail_difficulty = trail_difficulty;
     }
 
-    public Trail getTrail() {
-        return this;
+    public int getTrailId() {
+        return trailId;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setTrailId(int trailId) {
+        this.trailId = trailId;
     }
 
     public String getTrail_image() {
@@ -98,12 +94,24 @@ public class Trail {                                                            
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Trail trail = (Trail) o;
-        return id == trail.id &&
+        return trailId == trail.trailId &&
                 Objects.equals(trail_image, trail.trail_image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, trail_image);
+        return Objects.hash(trailId, trail_image);
+    }
+
+    @Override
+    public String toString() {
+        return "Trail{" +
+                "trailId=" + trailId +
+                ", trail_image='" + trail_image + '\'' +
+                ", trail_name='" + trail_name + '\'' +
+                ", trail_desc='" + trail_desc + '\'' +
+                ", trail_duration=" + trail_duration +
+                ", trail_difficulty='" + trail_difficulty + '\'' +
+                '}';
     }
 }

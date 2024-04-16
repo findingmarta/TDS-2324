@@ -1,38 +1,46 @@
 package com.ruirua.sampleguideapp.model;
 
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
-@Entity(tableName = "edge",indices = @Index(value = {"id"},unique = true))   // TODO Faltam alguns campos
+import com.google.gson.annotations.SerializedName;
+import com.ruirua.sampleguideapp.model.Converters.PointTypeConverter;
+
+@Entity(tableName = "edge",indices = @Index(value = {"id"},unique = true))
+@TypeConverters({PointTypeConverter.class})
 public class Edge {
-    @PrimaryKey                 //(autoGenerate = true)
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int id;
+
     @ColumnInfo(name = "edge_transport")
     private String edge_transport;
     @ColumnInfo(name = "edge_duration")
-    private Integer edge_duration;
+    private int edge_duration;
     @ColumnInfo(name = "edge_desc")
     private String edge_desc;
-    @ColumnInfo(name = "edge_trail")
-    private String edge_trail;
 
-    @Embedded
-    public Point edge_start;
+    @ColumnInfo(name = "trail_id") // edge_trail
+    private int trail_id;
 
-    @Embedded
-    public Point edge_end;
+    //@SerializedName("edge_start")
+    @ColumnInfo(name = "edge_start")
+    public int edge_start;
+
+    //@SerializedName("edge_end")
+    @ColumnInfo(name = "edge_end")
+    public int edge_end;
 
 
-    public Edge(Integer id, String edge_transport, Integer edge_duration, String edge_desc, String edge_trail, Point edge_start, Point edge_end) {
+    public Edge(int id, String edge_transport, int edge_duration, String edge_desc, int trail_id, int edge_start, int edge_end) {
         this.id = id;
         this.edge_transport = edge_transport;
         this.edge_duration = edge_duration;
         this.edge_desc = edge_desc;
-        this.edge_trail = edge_trail;
+        this.trail_id = trail_id;
         this.edge_start = edge_start;
         this.edge_end = edge_end;
     }
@@ -45,6 +53,14 @@ public class Edge {
         this.id = id;
     }
 
+    public int getTrail_id() {
+        return trail_id;
+    }
+
+    public void setTrail_id(int trail_id) {
+        this.trail_id = trail_id;
+    }
+
     public String getEdge_transport() {
         return edge_transport;
     }
@@ -53,11 +69,11 @@ public class Edge {
         this.edge_transport = edge_transport;
     }
 
-    public Integer getEdge_duration() {
+    public int getEdge_duration() {
         return edge_duration;
     }
 
-    public void setEdge_duration(Integer edge_duration) {
+    public void setEdge_duration(int edge_duration) {
         this.edge_duration = edge_duration;
     }
 
@@ -69,27 +85,30 @@ public class Edge {
         this.edge_desc = edge_desc;
     }
 
-    public String getEdge_trail() {
-        return edge_trail;
-    }
-
-    public void setEdge_trail(String edge_trail) {
-        this.edge_trail = edge_trail;
-    }
-
-    public Point getEdge_start() {
+    public int getEdge_start() {
         return edge_start;
     }
 
-    public void setEdge_start(Point edge_start) {
+    public void setEdge_start(int edge_start) {
         this.edge_start = edge_start;
     }
 
-    public Point getEdge_end() {
+    public int getEdge_end() {
         return edge_end;
     }
 
-    public void setEdge_end(Point edge_end) {
+    public void setEdge_end(int edge_end) {
         this.edge_end = edge_end;
+    }
+
+    @Override
+    public String toString() {
+        return "Edge{" +
+                "id=" + id +
+                ", edge_transport='" + edge_transport + '\'' +
+                ", edge_duration=" + edge_duration +
+                ", edge_desc='" + edge_desc + '\'' +
+                ", edge_trail='" + trail_id + '\'' +
+                '}';
     }
 }

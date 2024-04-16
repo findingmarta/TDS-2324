@@ -5,11 +5,13 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "contacts",indices = @Index(value = {"id"},unique = true))
+@Entity(tableName = "contact",indices = @Index(value = {"id"},unique = true))
 public class Contact {
-    @PrimaryKey//(autoGenerate = true)
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private String id;
+    private int id;
+    @ColumnInfo(name = "app_id")
+    private int app_id;
     @ColumnInfo(name = "contact_name")
     private String contact_name;
     @ColumnInfo(name = "contact_phone")
@@ -23,8 +25,7 @@ public class Contact {
     @ColumnInfo(name = "contact_app")
     private String contact_app;
 
-    public Contact(String id, String contact_name, String contact_phone, String contact_url, String contact_mail, String contact_desc, String contact_app) {
-        this.id = id;
+    public Contact(String contact_name, String contact_phone, String contact_url, String contact_mail, String contact_desc, String contact_app) {
         this.contact_name = contact_name;
         this.contact_phone = contact_phone;
         this.contact_url = contact_url;
@@ -33,12 +34,20 @@ public class Contact {
         this.contact_app = contact_app;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public int getApp_id() {
+        return app_id;
+    }
+
+    public void setApp_id(int app_id) {
+        this.app_id = app_id;
     }
 
     public String getContact_name() {
@@ -87,5 +96,19 @@ public class Contact {
 
     public void setContact_app(String contact_app) {
         this.contact_app = contact_app;
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "id=" + id +
+                ", app_id=" + app_id +
+                ", contact_name='" + contact_name + '\'' +
+                ", contact_phone='" + contact_phone + '\'' +
+                ", contact_url='" + contact_url + '\'' +
+                ", contact_mail='" + contact_mail + '\'' +
+                ", contact_desc='" + contact_desc + '\'' +
+                ", contact_app='" + contact_app + '\'' +
+                '}';
     }
 }

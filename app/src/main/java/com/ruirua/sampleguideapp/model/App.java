@@ -6,7 +6,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "app",indices = @Index(value = {"id"},unique = true))   // TODO Faltam alguns campos
+@Entity(tableName = "app",indices = @Index(value = {"id"},unique = true))
 public class App {
     @PrimaryKey                 //(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -18,8 +18,7 @@ public class App {
     @ColumnInfo(name = "app_landing_page_text")
     private String app_landing_page_text;
 
-    public App(int id, String app_name, String app_desc, String app_landing_page_text) {
-        this.id = id;
+    public App(String app_name, String app_desc, String app_landing_page_text) {
         this.app_name = app_name;
         this.app_desc = app_desc;
         this.app_landing_page_text = app_landing_page_text;
@@ -67,5 +66,15 @@ public class App {
 
     public App clone(){
         return new App(this);
+    }
+
+    @Override
+    public String toString() {
+        return "App{" +
+                "id=" + id +
+                ", app_name='" + app_name + '\'' +
+                ", app_desc='" + app_desc + '\'' +
+                ", app_landing_page_text='" + app_landing_page_text + '\'' +
+                '}';
     }
 }

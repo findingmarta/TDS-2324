@@ -5,37 +5,37 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "real_pin",indices = @Index(value = {"id"},unique = true))
+@Entity(tableName = "prop_point",indices = @Index(value = {"id"},unique = true))
 public class Prop_Point {
-    @PrimaryKey//(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = "id")
-    private Integer id;
+    private int id;
     @ColumnInfo(name = "value")
     private String value;
     @ColumnInfo(name = "attrib")
     private String attrib;
-    @ColumnInfo(name = "pin")
-    private Integer pin;
+    @ColumnInfo(name = "point_id")
+    private int point_id;
 
-    public Prop_Point(Integer id, String value, String attrib, Integer pin) {
+    public Prop_Point(int id, String value, String attrib, int point_id) {
         this.id = id;
         this.value = value;
         this.attrib = attrib;
-        this.pin = pin;
+        this.point_id = point_id;
     }
 
     public Prop_Point(Prop_Point p) {
         this.id = p.id;
         this.value = p.value;
         this.attrib = p.attrib;
-        this.pin = p.pin;
+        this.point_id = p.point_id;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -55,11 +55,11 @@ public class Prop_Point {
         this.attrib = attrib;
     }
 
-    public Integer getPin() {
-        return pin;
+    public int getPoint_id() {
+        return point_id;
     }
 
-    public void setPin(Integer pin) {
-        this.pin = pin;
+    public void setPoint_id(int point_id) {
+        this.point_id = point_id;
     }
 }

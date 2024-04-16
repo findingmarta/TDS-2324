@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.Trail;
+import com.ruirua.sampleguideapp.model.TrailWith;
 import com.ruirua.sampleguideapp.repositories.TrailRepository;
 
 import java.util.List;
@@ -16,14 +17,14 @@ public class TrailViewModel extends AndroidViewModel {
 
     private TrailRepository trailRepository;
 
-    private LiveData<Trail> trail;
+    private LiveData<TrailWith> trail;
 
     public TrailViewModel(@NonNull Application application) {
         super(application);
         trailRepository= new TrailRepository(application);
     }
 
-    public LiveData<Trail> getTrail() {
+    public LiveData<TrailWith> getTrail() {
         return trail;
     }
 
@@ -32,6 +33,6 @@ public class TrailViewModel extends AndroidViewModel {
     }
 
     public void setTrailViewModel(int id){
-        trail = trailRepository.getTrailById(id);
+        trail = trailRepository.getTrailWithById(id);
     }
 }

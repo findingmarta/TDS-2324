@@ -6,24 +6,24 @@ import androidx.room.Relation;
 import java.util.List;
 
 public class AppWith {
-
     @Embedded
     public App app;
+
     @Relation(
             parentColumn = "id",
-            entityColumn = "appId"
+            entityColumn = "app_id"
     )
     public List<Partner> partners;
 
     @Relation(
             parentColumn = "id",
-            entityColumn = "appId"
+            entityColumn = "app_id"
     )
     public List<Contact> contacts;
 
     @Relation(
             parentColumn = "id",
-            entityColumn = "appId"
+            entityColumn = "app_id"
     )
     public List<Social> socials;
 
@@ -64,5 +64,15 @@ public class AppWith {
 
     public void setSocials(List<Social> socials) {
         this.socials = socials;
+    }
+
+    @Override
+    public String toString() {
+        return "AppWith{" +
+                "app=" + app +
+                ", partners=" + partners +
+                ", contacts=" + contacts +
+                ", socials=" + socials +
+                '}';
     }
 }

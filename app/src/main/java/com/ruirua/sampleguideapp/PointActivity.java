@@ -84,7 +84,7 @@ public class PointActivity extends AppCompatActivity {
         point_media_button.setVisibility(View.VISIBLE);
         point_media_button.setOnClickListener(view -> {
             Intent intent = new Intent(PointActivity.this, MediaActivity.class);
-            intent.putExtra("pointID", point.getPoint().getId());
+            intent.putExtra("pointID", point.getPointId());
             startActivity(intent);
         });
     }

@@ -9,14 +9,14 @@ public class PointWith {
     @Embedded
     public Point point;
     @Relation(
-            parentColumn = "id",
-            entityColumn = "pointId"
+            parentColumn = "pointId",
+            entityColumn = "point_id"
     )
     public List<Media> medias;
 
     @Relation(
-            parentColumn = "id",
-            entityColumn = "pointId"
+            parentColumn = "pointId",
+            entityColumn = "point_id"
     )
     public List<Prop_Point> prop_point;
 

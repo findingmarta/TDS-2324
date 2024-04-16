@@ -8,31 +8,22 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "media",indices = @Index(value = {"id"},unique = true))
 public class Media {
-    @PrimaryKey//(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = "id")
     private int id;
     @ColumnInfo(name = "media_file")
     private String media_file;
     @ColumnInfo(name = "media_type")
     private String media_type;
-    @ColumnInfo(name = "media_pin")
-    private int media_pin;
+    @ColumnInfo(name = "point_id")
+    private int point_id;
 
-    public Media(int id, String media_file, String media_type, int media_pin) {
+    public Media(int id, String media_file, String media_type, int point_id) {
         this.id = id;
         this.media_file = media_file;
         this.media_type = media_type;
-        this.media_pin = media_pin;
+        this.point_id = point_id;
     }
-
-    public Media(Media m) {
-        this.id = m.id;
-        this.media_file = m.media_file;
-        this.media_type = m.media_type;
-        this.media_pin = m.media_pin;
-    }
-
-
     public int getId() {
         return id;
     }
@@ -57,16 +48,12 @@ public class Media {
         this.media_type = media_type;
     }
 
-    public int getMedia_pin() {
-        return media_pin;
+    public int getPoint_id() {
+        return point_id;
     }
 
-    public void setMedia_pin(int media_pin) {
-        this.media_pin = media_pin;
-    }
-
-    public Media clone(){
-        return new Media(this);
+    public void setPoint_id(int point_id) {
+        this.point_id = point_id;
     }
 }
 

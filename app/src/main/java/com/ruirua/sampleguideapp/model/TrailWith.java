@@ -9,18 +9,18 @@ public class TrailWith {
     @Embedded
     public Trail trail;
     @Relation(
-            parentColumn = "id",
-            entityColumn = "trailId"
+            parentColumn = "trailId",
+            entityColumn = "trail_id"
     )
     public List<Edge> edges;
 
     @Relation(
-            parentColumn = "id",
-            entityColumn = "trailId"
+            parentColumn = "trailId",
+            entityColumn = "trail_id"
     )
-    public List<Trail> prop_trails;
+    public List<Prop_Trail> prop_trails;
 
-    public TrailWith(Trail trail, List<Edge> edges, List<Trail> prop_trails) {
+    public TrailWith(Trail trail, List<Edge> edges, List<Prop_Trail> prop_trails) {
         this.trail = trail;
         this.edges = edges;
         this.prop_trails = prop_trails;
@@ -42,11 +42,20 @@ public class TrailWith {
         this.edges = edges;
     }
 
-    public List<Trail> getProp_trails() {
+    public List<Prop_Trail> getProp_trails() {
         return prop_trails;
     }
 
-    public void setProp_trails(List<Trail> prop_trails) {
+    public void setProp_trails(List<Prop_Trail> prop_trails) {
         this.prop_trails = prop_trails;
+    }
+
+    @Override
+    public String toString() {
+        return "TrailWith{" +
+                "trail=" + trail +
+                ", edges=" + edges +
+                ", prop_trails=" + prop_trails +
+                '}';
     }
 }

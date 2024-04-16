@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.adapters.TrailsRecyclerViewAdapter;
+import com.ruirua.sampleguideapp.model.TrailWith;
 import com.ruirua.sampleguideapp.viewModel.TrailsViewModel;
 
 import java.util.ArrayList;
@@ -35,9 +36,9 @@ public class TrailsActivity extends GeneralActivity {
         // Get the info from de database
         TrailsViewModel tvm = new ViewModelProvider(this).get(TrailsViewModel.class);
 
-        LiveData<List<Trail>> trailsData = tvm.getAllTrails();
+        LiveData<List<TrailWith>> trailsData = tvm.getAllTrails();
         trailsData.observe(this, trailslist -> {
-            ArrayList<Trail> trails = new ArrayList<>(trailslist);
+            ArrayList<TrailWith> trails = new ArrayList<>(trailslist);
             adapter = new TrailsRecyclerViewAdapter(trails,this);
             recyclerView.setAdapter(adapter);
         });

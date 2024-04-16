@@ -2,6 +2,7 @@ package com.ruirua.sampleguideapp;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     private Button login_button;
 
+    SharedPreferences sp = getSharedPreferences("Braguia Shared Preferences", MODE_PRIVATE);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,21 +39,22 @@ public class LoginActivity extends AppCompatActivity {
         login_button = findViewById(R.id.login_button);
 
         // Check if the user is logged in
-
-        // If NOT logged in Post the login
-        login();
-
-        // If logged in start the homepage's activity
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        if (sp.getString("cookies", null) == null){
+            // If NOT logged in send a POST request to the API
+            login();
+        } else{
+            // If logged in start the homepage's activity
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void login(){
-        LoginViewModel lvm = new ViewModelProvider(this).get(LoginViewModel.class);
-        login_button.setOnClickListener(view ->
-                lvm.postLogin(username.getText().toString(),
-                        password.getText().toString())
-                        //findViewById(R.id.textView))
+        UserViewModel uvm = new ViewModelProvider(this).get(UserViewModel.class);
+        login_button.setOnClickListener(view -> uvm.postLogin(
+                                                    username.getText().toString(),
+                                                    password.getText().toString())
+                                                    //findViewById(R.id.textView))  // TODO Controlo de erros no login
         );
     }
 
@@ -58,10 +62,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // If loggen in
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-
+        // User already logged in
+        if (sp.getString("cookies", null) != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override

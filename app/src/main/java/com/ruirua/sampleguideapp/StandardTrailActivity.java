@@ -29,7 +29,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PremiumTrailActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class StandardTrailActivity extends AppCompatActivity{
     private PointsRecyclerViewAdapter adapter;
     private int trail_id;
     private TextView trail_name;
@@ -37,10 +37,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     private TextView trail_difficulty;
     private TextView trail_desc;
     private ImageView trail_image;
-
-    private MapView trail_map;
-    private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
-
+                                                                                            // TODO FAZER ESTA ACTIVITY
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trail_premium);
@@ -84,17 +81,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
             recyclerView.setAdapter(adapter);
         });
 
-
-
-        // Set up the Map
-        // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK objects or sub-Bundles.
-        Bundle mapViewBundle = null;
-        if (savedInstanceState != null) {
-            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
-        }
-        trail_map = findViewById(R.id.premium_mapView);
-        trail_map.onCreate(mapViewBundle);
-        trail_map.getMapAsync(this);
     }
 
 
@@ -109,69 +95,4 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
                 .load(trail.getTrail_image().replace("http:", "https:"))
                 .into(trail_image);
     }
-
-
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        // Add a marker in Sydney, Australia,
-        LatLng sydney = new LatLng(-33.852, 151.211);
-        googleMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"));
-
-
-        // Move the map's camera to the same location.
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
-        if (mapViewBundle == null) {
-            mapViewBundle = new Bundle();
-            outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
-        }
-        trail_map.onSaveInstanceState(mapViewBundle);
-    }
-
-
-
-    @Override
-    public void onResume() {
-        trail_map.onResume();
-        super.onResume();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        trail_map.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        trail_map.onStop();
-    }
-
-    @Override
-    protected void onPause() {
-        trail_map.onPause();
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        trail_map.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        trail_map.onLowMemory();
-    }
-
 }

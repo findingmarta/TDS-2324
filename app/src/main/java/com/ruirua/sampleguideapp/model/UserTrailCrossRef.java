@@ -1,8 +1,9 @@
 package com.ruirua.sampleguideapp.model;
 
 import androidx.room.Entity;
+import androidx.room.Index;
 
-@Entity(primaryKeys = {"id", "id"})
+@Entity(primaryKeys = {"userId", "trailId"},indices = @Index(value = {"userId", "trailId"},unique = true))
 public class UserTrailCrossRef {
     public int userId;
     public int trailId;

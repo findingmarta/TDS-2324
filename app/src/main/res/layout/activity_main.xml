@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:backgroundTint="#00FFFFFF">
+
 
     <ScrollView
         android:id="@+id/home_scroll"
@@ -12,8 +14,10 @@
         android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/include_main"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,38 +53,45 @@
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@+id/home_mapsIcon"
                     android:text="@string/maps_warning_title"
-                    android:textSize="30sp"/>
+                    android:textSize="30sp" />
 
 
                 <TextView
                     android:id="@+id/home_mapsWarningText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/home_mapsWarningTitle"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@+id/home_mapsIcon"
-                    android:layout_below="@+id/home_mapsWarningTitle"
                     android:text="@string/maps_warning_text"
-                    android:textSize="20sp"/>
+                    android:textSize="15sp" />
             </RelativeLayout>
 
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="15dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
             <ImageView
                 android:id="@+id/home_logo"
                 android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:layout_marginTop="12dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+                app:layout_constraintTop_toBottomOf="@+id/divider"
                 app:srcCompat="@drawable/logo" />
 
             <TextView
                 android:id="@+id/home_appDesc"
                 android:layout_width="250dp"
                 android:layout_height="54dp"
-                android:layout_marginTop="4dp"
                 android:textAlignment="center"
                 android:textColor="@color/logo_blue"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -92,18 +103,20 @@
                 android:id="@+id/home_appLandingPage"
                 android:layout_width="250dp"
                 android:layout_height="54dp"
-                android:layout_marginTop="8dp"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_appDesc" />
+
 
             <TextView
                 android:id="@+id/home_partners_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
                 android:text="@string/home_partners_tag"
                 android:textSize="40sp"
                 android:textStyle="bold"
@@ -112,39 +125,70 @@
                 app:layout_constraintTop_toBottomOf="@+id/home_appLandingPage" />
 
             <TextView
-                android:id="@+id/home_partners"
+                android:id="@+id/partner_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_partners_tag"/>
+                app:layout_constraintTop_toBottomOf="@+id/home_partners_tag" />
 
             <TextView
-                android:id="@+id/home_socials_tag"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text="@string/home_socials_tag"
-                android:textSize="40sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_partners" />
-
-            <TextView
-                android:id="@+id/home_socials"
+                android:id="@+id/partner_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_socials_tag"/>
+                app:layout_constraintTop_toBottomOf="@+id/partner_name" />
+
+            <TextView
+                android:id="@+id/partner_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/partner_phone" />
+
+            <TextView
+                android:id="@+id/partner_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/partner_url" />
+
+            <TextView
+                android:id="@+id/partner_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/partner_email" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/home_socials_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="75dp"
+        android:backgroundTint="@color/logo_blue"
+        android:src="@drawable/socials"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <include
         android:id="@+id/include_main"

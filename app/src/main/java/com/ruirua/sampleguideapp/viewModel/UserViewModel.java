@@ -24,6 +24,10 @@ public class UserViewModel extends AndroidViewModel {
         users = userRepository.getAllUsers();
     }
 
+    public void postLogin(String username, String password){
+        userRepository.login(username,password);
+    }
+
     public LiveData<List<User>> getUsers() {
         return users;
     }

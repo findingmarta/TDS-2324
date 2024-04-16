@@ -3,28 +3,33 @@ package com.ruirua.sampleguideapp.model;
 import androidx.room.Embedded;
 import androidx.room.Junction;
 import androidx.room.Relation;
+import androidx.room.TypeConverters;
+
+import com.ruirua.sampleguideapp.model.Converters.DateTypeConverter;
+import com.ruirua.sampleguideapp.model.Converters.TrailsTypeConverter;
 
 import java.util.Date;
 import java.util.List;
 
+@TypeConverters({DateTypeConverter.class, TrailsTypeConverter.class})
 public class History_Trail {
     @Embedded
     public User user;
+    //public int duration;
+    //public Date date;
+
     @Relation(
-            parentColumn = "id",
-            entityColumn = "id",
-            associateBy = @Junction(UserPointCrossRef.class)
+            parentColumn = "userId",
+            entityColumn = "trailId",
+            associateBy = @Junction(UserTrailCrossRef.class)
     )
     public List<Trail> trails;
 
-    public int duration;
-    public Date date;
-
-    public History_Trail(User user, List<Trail> trails, int duration, Date date) {
+    public History_Trail(User user, List<Trail> trails) {
         this.user = user;
         this.trails = trails;
-        this.duration = duration;
-        this.date = date;
+        //this.duration = duration;
+        //this.date = date;
     }
 
     public User getUser() {
@@ -41,21 +46,5 @@ public class History_Trail {
 
     public void setTrails(List<Trail> trails) {
         this.trails = trails;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 }

@@ -15,20 +15,39 @@ import com.ruirua.sampleguideapp.DAOs.TrailDAO;
 import com.ruirua.sampleguideapp.DAOs.MediaDAO;
 
 import com.ruirua.sampleguideapp.model.App;
+import com.ruirua.sampleguideapp.model.Contact;
+import com.ruirua.sampleguideapp.model.Edge;
+import com.ruirua.sampleguideapp.model.History_Point;
+import com.ruirua.sampleguideapp.model.History_Trail;
+import com.ruirua.sampleguideapp.model.Partner;
+import com.ruirua.sampleguideapp.model.Prop_Point;
+import com.ruirua.sampleguideapp.model.Prop_Trail;
+import com.ruirua.sampleguideapp.model.Social;
 import com.ruirua.sampleguideapp.model.User;
 import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.Media;
+import com.ruirua.sampleguideapp.model.UserPointCrossRef;
+import com.ruirua.sampleguideapp.model.UserTrailCrossRef;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-@Database(entities = {App.class,
-                      User.class,
-                      Trail.class,
-                      Point.class,
-                      Media.class}, version = 970, exportSchema = false)
+@Database(entities = {
+        App.class,
+        User.class,
+        Trail.class,
+        Point.class,
+        Edge.class,
+        Prop_Trail.class,
+        Prop_Point.class,
+        UserTrailCrossRef.class,
+        UserPointCrossRef.class,
+        Media.class,
+        Partner.class,
+        Social.class,
+        Contact.class}, version = 972, exportSchema = false)
 
 public abstract class GuideDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "BraGuide";
@@ -73,12 +92,13 @@ public abstract class GuideDatabase extends RoomDatabase {
         private TrailDAO trailDAO;
         private PointDAO pointDAO;
         private MediaDAO mediaDAO;
-        public PopulateDbAsyn(GuideDatabase catDatabase) {
-            appDAO = catDatabase.appDAO();
-            userDAO = catDatabase.userDAO();
-            trailDAO = catDatabase.trailDAO();
-            pointDAO = catDatabase.pointDAO();
-            mediaDAO = catDatabase.mediaDAO();
+
+        public PopulateDbAsyn(GuideDatabase database) {
+            appDAO = database.appDAO();
+            userDAO = database.userDAO();
+            trailDAO = database.trailDAO();
+            pointDAO = database.pointDAO();
+            mediaDAO = database.mediaDAO();
         }
 
         @Override

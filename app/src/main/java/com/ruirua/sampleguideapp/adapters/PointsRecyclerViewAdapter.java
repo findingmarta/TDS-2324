@@ -46,7 +46,7 @@ public class PointsRecyclerViewAdapter extends RecyclerView.Adapter<PointsRecycl
     */
     public void onBindViewHolder(final ViewHolder holder, int position) {
         // Given a list's position, get a Point from the list of points
-        Point point = points.get(position).getPoint();
+        Point point = points.get(position);
 
         // Set the trail's info on the view
         holder.pointName.setText(point.getPoint_name().toUpperCase());

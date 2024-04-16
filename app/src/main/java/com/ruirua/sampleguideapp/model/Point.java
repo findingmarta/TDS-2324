@@ -5,11 +5,11 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "point",indices = @Index(value = {"id"},unique = true))
-public class Point {                                                                         // TODO Faltam alguns campos
+@Entity(tableName = "point",indices = @Index(value = {"pointId"},unique = true))
+public class Point {
     @PrimaryKey
-    @ColumnInfo(name = "id")
-    private int id;
+    @ColumnInfo(name = "pointId")
+    private int pointId;
     @ColumnInfo(name = "pin_name")
     private String point_name;
     @ColumnInfo(name = "pin_desc")
@@ -21,8 +21,8 @@ public class Point {                                                            
     @ColumnInfo(name = "pin_alt")
     private float point_alt;
 
-    public Point(int id, String point_name, String point_desc, float point_lat, float point_lng, float point_alt) {
-        this.id = id;
+    public Point(int pointId, String point_name, String point_desc, float point_lat, float point_lng, float point_alt) {
+        this.pointId = pointId;
         this.point_name = point_name;
         this.point_desc = point_desc;
         this.point_lat = point_lat;
@@ -31,7 +31,7 @@ public class Point {                                                            
     }
 
     public Point(Point p) {
-        this.id = p.id;
+        this.pointId = p.pointId;
         this.point_name = p.point_name;
         this.point_desc = p.point_desc;
         this.point_lat = p.point_lat;
@@ -39,17 +39,12 @@ public class Point {                                                            
         this.point_alt = p.point_alt;
     }
 
-    public Point getPoint() {
-        return this;
+    public int getPointId() {
+        return pointId;
     }
 
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setPointId(int pointId) {
+        this.pointId = pointId;
     }
 
     public String getPoint_name() {

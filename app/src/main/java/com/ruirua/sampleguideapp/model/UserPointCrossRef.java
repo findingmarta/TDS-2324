@@ -2,7 +2,7 @@ package com.ruirua.sampleguideapp.model;
 
 import androidx.room.Entity;
 
-@Entity(primaryKeys = {"id", "id"})
+@Entity(primaryKeys = {"userId", "pointId"})
 public class UserPointCrossRef {
     public int userId;
     public int pointId;

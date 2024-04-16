@@ -24,7 +24,7 @@ public interface PointDAO {
     @Query("SELECT DISTINCT * FROM point")
     LiveData<List<Point>> getPoints();
 
-    @Query("SELECT * FROM point WHERE point.id = :id")
+    @Query("SELECT * FROM point WHERE point.pointId = :id")
     LiveData<Point> getPointById(int id);
 
      @Query("DELETE FROM point")
