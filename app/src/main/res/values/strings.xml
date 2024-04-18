@@ -50,4 +50,9 @@
     <string name="point_desc_tag">DESCRIPTION</string>
     <string name="point_prop_tag">PROPERTIES</string>
     <string name="point_visited">VISITED</string>
+
+    <!-- CONTACTS's LIST -->
+    <string name="contact_phone">Number: </string>
+    <string name="contact_url">Website: </string>
+    <string name="contact_email">Email: </string>
 </resources>

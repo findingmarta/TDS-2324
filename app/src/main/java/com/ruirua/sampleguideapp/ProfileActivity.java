@@ -5,6 +5,7 @@ import static android.text.TextUtils.concat;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.lifecycle.LiveData;
@@ -18,6 +19,9 @@ import java.util.List;
 public class ProfileActivity extends GeneralActivity {
     private TextView first_last_name;
     private TextView username;
+
+    private Button profile_history_button;
+    private Button profile_settings_button;
 
     @Override
     protected int getContentViewId() {
@@ -35,6 +39,8 @@ public class ProfileActivity extends GeneralActivity {
 
         first_last_name = findViewById(R.id.profile_name);
         username = findViewById(R.id.profile_username);
+        profile_history_button = findViewById(R.id.profile_history_button);
+        profile_settings_button = findViewById(R.id.profile_settings_button);
 
         setInfo();
     }
