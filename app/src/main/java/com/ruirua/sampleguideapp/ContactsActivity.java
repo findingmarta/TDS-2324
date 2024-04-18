@@ -25,8 +25,7 @@ public class ContactsActivity extends GeneralActivity{
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onGeneralActivityCreate() {
 
 
 
@@ -38,6 +37,7 @@ public class ContactsActivity extends GeneralActivity{
         LiveData<AppWith> appsData = avm.getApp();
         appsData.observe(this, appslist -> {
             if (appslist != null){
+
                 AppWith app = appslist;
             }
         });

@@ -20,7 +20,7 @@ import java.util.List;
 public interface UserDAO {
     // INSERT
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertUsers(List<User> users);
+    void insertUser(User user);
 
     /*@Insert(onConflict = OnConflictStrategy.REPLACE)          // must be an entity
     void insertHistory_Point(History_Point historyPoint);

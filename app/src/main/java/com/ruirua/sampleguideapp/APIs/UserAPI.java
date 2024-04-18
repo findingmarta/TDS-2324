@@ -10,13 +10,14 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface UserAPI {
     @GET("user")
-    Call<List<JsonElement>> getUsers();
+    Call<User> getUser(@Header("Cookie") String cookiesString);  // The header's name (Cookie) and the string format can be inspected on the API's page
 
     @FormUrlEncoded
-    @POST("user")
-    Call<ResponseBody> login(@Field("username") String user, @Field("password") String password);
+    @POST("login")
+    Call<ResponseBody> login(@Field("username") String user, @Field("email") String email, @Field("password") String password);
 }

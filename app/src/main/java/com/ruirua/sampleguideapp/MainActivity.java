@@ -11,9 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.ruirua.sampleguideapp.adapters.PartnersRecyclerViewAdapter;
+import com.ruirua.sampleguideapp.adapters.TrailsRecyclerViewAdapter;
 import com.ruirua.sampleguideapp.model.App;
 import com.ruirua.sampleguideapp.model.AppWith;
 import com.ruirua.sampleguideapp.model.Partner;
@@ -28,12 +32,11 @@ public class MainActivity extends GeneralActivity{
     //private TextView mapsWarning;                // TODO Ver como fazer este warning
     private TextView appDesc;
     private TextView appLandingPage;
-    private TextView partnerName;
-    private TextView partnerPhone;
-    private TextView partnerUrl;
-    private TextView partnerEmail;
-    private TextView partnerDesc;
     private FloatingActionButton socials_button;
+    private PartnersRecyclerViewAdapter adapter;
+    private RecyclerView recyclerView;
+
+
 
     @Override
     protected int getContentViewId() {
@@ -45,16 +48,13 @@ public class MainActivity extends GeneralActivity{
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onGeneralActivityCreate() {
+        // set up the RecyclerView
+        recyclerView = findViewById(R.id.rv_partners);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
         appLandingPage = findViewById(R.id.home_appLandingPage);
         appDesc = findViewById(R.id.home_appDesc);
-        partnerName = findViewById(R.id.partner_name);
-        partnerPhone = findViewById(R.id.partner_phone);
-        partnerUrl = findViewById(R.id.partner_url);
-        partnerEmail = findViewById(R.id.partner_email);
-        partnerDesc = findViewById(R.id.partner_desc);
         socials_button = findViewById(R.id.home_socials_button);
 
         setAppInfo();
@@ -100,13 +100,8 @@ public class MainActivity extends GeneralActivity{
         // Get Partners from App
         List<Partner> partners = appWith.getPartners();
         if (!partners.isEmpty()){
-            Partner partner = partners.get(0);
-
-            partnerName.setText(partner.getPartner_name());
-            partnerPhone.setText(partner.getPartner_phone());
-            partnerEmail.setText(partner.getPartner_mail());
-            partnerUrl.setText(partner.getPartner_url());
-            partnerDesc.setText(partner.getPartner_desc());
+            adapter = new PartnersRecyclerViewAdapter(partners);
+            recyclerView.setAdapter(adapter);
         }
     }
 }

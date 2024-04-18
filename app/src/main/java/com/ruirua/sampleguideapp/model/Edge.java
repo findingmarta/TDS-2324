@@ -4,13 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-
-import com.google.gson.annotations.SerializedName;
-import com.ruirua.sampleguideapp.model.Converters.PointTypeConverter;
 
 @Entity(tableName = "edge",indices = @Index(value = {"id"},unique = true))
-@TypeConverters({PointTypeConverter.class})
 public class Edge {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")

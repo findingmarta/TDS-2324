@@ -29,8 +29,7 @@ public class ProfileActivity extends GeneralActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onGeneralActivityCreate() {
         // TODO Meter os butões a funcionar e ir buscar a info à BD
 
         first_last_name = findViewById(R.id.profile_name);

@@ -25,10 +25,9 @@ public class TrailsActivity extends GeneralActivity {
     protected int getNavBarItemSelected () {
         return R.id.Trails;
     }
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+    @Override
+    protected void onGeneralActivityCreate() {
         // set up the RecyclerView
         RecyclerView recyclerView = findViewById(R.id.rv_trails);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
