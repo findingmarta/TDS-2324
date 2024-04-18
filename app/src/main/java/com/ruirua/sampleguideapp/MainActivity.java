@@ -87,11 +87,14 @@ public class MainActivity extends GeneralActivity{
         socials_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(@NonNull View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                //        .setAction("Action", null).show();
+                Social social = socials.get(0);
+                String url = social.getSocial_url();
 
-                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                //startActivity(intent);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
             }
         });
     }

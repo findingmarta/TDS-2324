@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -75,7 +74,7 @@ public abstract class GeneralActivity extends AppCompatActivity implements Botto
                 break;
 
             case (R.id.SOS):
-                if (getContentViewId() != R.layout.activity_contacts) {
+                if (getContentViewId() != R.layout.fragment_item_contact) {
                     Intent contactsIntent = new Intent(this, ContactsActivity.class);
                     startActivity(contactsIntent);
                 }
