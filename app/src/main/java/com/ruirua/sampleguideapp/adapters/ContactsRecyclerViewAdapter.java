@@ -3,6 +3,7 @@ import static androidx.core.content.ContextCompat.startActivity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,9 +54,9 @@ public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRe
 
         // Set the trail's info on the view
         holder.contactName.setText(contact.getContact_name().toUpperCase());
-        holder.contactNumber.setText(contact.getContact_phone().toUpperCase());
-        holder.contactURL.setText(contact.getContact_url().toUpperCase());
-        holder.contactEmail.setText(contact.getContact_mail().toUpperCase());
+        holder.contactNumber.setText(contact.getContact_phone());
+        holder.contactURL.setText(contact.getContact_url());
+        holder.contactEmail.setText(contact.getContact_mail());
 
     }
 
@@ -91,14 +92,13 @@ public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRe
             contactName = view.findViewById(R.id.contact_name);
             item = view.findViewById(R.id.pointItem);
 
-            //TODO Falta o button
             call = view.findViewById(R.id.callbutton);
             call.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String phone = contactNumber.getText().toString();
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse(phone));
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                    callIntent.setData(Uri.parse("tel:" + phone));
                     view.getContext().startActivity(callIntent);
                 }
             });

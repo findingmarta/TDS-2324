@@ -44,6 +44,7 @@ public interface TrailDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertMedia(List<Media> medias);
 
+
     // GET
     @Query("SELECT DISTINCT * FROM trail")
     LiveData<List<Trail>> getTrails();
@@ -59,14 +60,14 @@ public interface TrailDAO {
     @Query("SELECT * FROM trail WHERE trail.trailId = :id")
     LiveData<TrailWith> getTrailWithById(int id);
 
-    @Query("SELECT DISTINCT * FROM point WHERE point.pointId = :id")    // TODO Corrigir!!!!
-    LiveData<List<Point>> getTrailPoints(int id);
 
+
+    //@Transaction
+    @Query("SELECT DISTINCT point.* FROM point JOIN edge ON (point.pointId = edge.edge_start OR point.pointId = edge.edge_end) WHERE edge.trail_id = :id")
+    LiveData<List<Point>> getTrailPoints(int id);
 
     // DELETE
     @Query("DELETE FROM trail")
     void deleteAll();
-
-
 
 }

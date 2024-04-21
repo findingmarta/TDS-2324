@@ -8,35 +8,29 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.ruirua.sampleguideapp.model.AppWith;
 import com.ruirua.sampleguideapp.model.History_Point;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.PointWith;
-import com.ruirua.sampleguideapp.model.Trail;
 
 import java.util.List;
 
 @Dao
-public interface PointDAO {
+public interface HistoryPointDAO {
     // INSERT
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(List<Point> cats);
+    void insert(History_Point point);
 
 
     // GET
-    @Query("SELECT * FROM point")
-    LiveData<List<Point>> getPoints();
+    @Query("SELECT * FROM history_point")
+    LiveData<List<History_Point>> getPoints();
 
-    @Query("SELECT * FROM point WHERE point.pointId = :id")
-    LiveData<Point> getPointById(int id);
-
-    @Transaction
-    @Query("SELECT * FROM point WHERE point.pointId = :id")
-    LiveData<PointWith> getPointWithById(int id);
+    @Query("SELECT * FROM history_point WHERE history_point.id = :id")
+    LiveData<History_Point> getHistoryPointById(int id);
 
 
     // DELETE
-    @Query("DELETE FROM point")
+    @Query("DELETE FROM history_point")
     void deleteAll();
 
 }

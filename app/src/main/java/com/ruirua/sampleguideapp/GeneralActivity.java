@@ -8,8 +8,10 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ruirua.sampleguideapp.viewModel.UserViewModel;
 
 
 public abstract class GeneralActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -17,25 +19,32 @@ public abstract class GeneralActivity extends AppCompatActivity implements Botto
     protected abstract int getContentViewId();
     protected abstract int getNavBarItemSelected();
 
+    // Method used to extend the method onCreate
+    protected abstract void onGeneralActivityCreate();
+
+
     SharedPreferences sp;
-    public static final String name = "Braguia Shared Preferences";
+    public static final String name = "BraGuia Shared Preferences";
     public static final String key = "cookies";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getContentViewId());
 
-        sp = getSharedPreferences(name, Context.MODE_PRIVATE);
+        // Get preferences
+        sp = getSharedPreferences(name, MODE_PRIVATE);
 
         // User is logged in
-        if (sp.getString(key, null) != null) {
+        if (sp.getString(key,null) != null) {
+            setContentView(getContentViewId());
 
             bottomNav = findViewById(R.id.bottom_navigation);
             bottomNav.setOnNavigationItemSelectedListener(this);
             bottomNav.setSelectedItemId(getNavBarItemSelected());
-        } else {
+
+            onGeneralActivityCreate();
+        } else{
             startLoginActivity();
         }
     }
@@ -65,13 +74,20 @@ public abstract class GeneralActivity extends AppCompatActivity implements Botto
                 break;
 
             case (R.id.SOS):
-                if (getContentViewId() != R.layout.fragment_item_contact) {
+                if (getContentViewId() != R.layout.activity_contacts) {
                     Intent contactsIntent = new Intent(this, ContactsActivity.class);
                     startActivity(contactsIntent);
                 }
                 break;
 
-            case (R.id.Logout):         // TODO Acabar este Menu
+            case (R.id.Logout):
+                UserViewModel uvm = new ViewModelProvider(this).get(UserViewModel.class);
+                uvm.logout();
+
+                // Start Login Activity
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             default:
                 return false;
@@ -84,14 +100,13 @@ public abstract class GeneralActivity extends AppCompatActivity implements Botto
     protected void onResume() {
         super.onResume();
 
-        /*// Verifica se o user está logged in ou não
-        sp = getSharedPreferences("Braguia Shared Preferences",MODE_PRIVATE);
-        if (sp.getString("cookies", null) != null) {
+        // Verifica se o user está logged in ou não
+        sp = getSharedPreferences(name,MODE_PRIVATE);
+        if (sp.getString(key, null) != null) {
             bottomNav.setSelectedItemId(getNavBarItemSelected());
         } else{
-            // Start login Activity
             startLoginActivity();
-        }*/
+        }
     }
 
     public void startLoginActivity() {

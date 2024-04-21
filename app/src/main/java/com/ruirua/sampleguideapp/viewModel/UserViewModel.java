@@ -1,14 +1,13 @@
 package com.ruirua.sampleguideapp.viewModel;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
-import com.ruirua.sampleguideapp.model.App;
 import com.ruirua.sampleguideapp.model.User;
 import com.ruirua.sampleguideapp.repositories.UserRepository;
 
@@ -17,15 +16,31 @@ import java.util.List;
 public class UserViewModel extends AndroidViewModel {
     private UserRepository userRepository;
     private LiveData<List<User>> users;
+    private Application app;
 
     public UserViewModel(@NonNull Application application) {
         super(application);
         userRepository = new UserRepository(application);
         users = userRepository.getAllUsers();
+        app = application;
     }
 
-    public void postLogin(String username, String password){
+    public LiveData<Boolean> postLogin(String username, String password){
         userRepository.login(username,password);
+        return userRepository.getIsLoggedIn();
+    }
+
+    public void logout(){
+        SharedPreferences sp = app.getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+
+        //editor.remove("cookies");
+        //editor.remove("user_type");
+        editor.clear();
+        editor.apply();
+
+        // Delete user's database
+        userRepository.delete();
     }
 
     public LiveData<List<User>> getUsers() {

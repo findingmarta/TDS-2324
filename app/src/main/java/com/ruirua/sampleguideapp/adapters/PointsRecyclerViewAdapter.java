@@ -1,5 +1,8 @@
 package com.ruirua.sampleguideapp.adapters;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ruirua.sampleguideapp.PointActivity;
 import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.model.Point;
 import com.squareup.picasso.Picasso;
@@ -20,11 +24,13 @@ import java.util.ArrayList;
 public class PointsRecyclerViewAdapter extends RecyclerView.Adapter<PointsRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Point> points;
+    private Activity activity;
 
 
     // Class Constructor
-    public PointsRecyclerViewAdapter(ArrayList<Point> new_points) {
+    public PointsRecyclerViewAdapter(ArrayList<Point> new_points, Activity new_activity) {
         this.points = new_points;
+        this.activity = new_activity;
     }
 
     @NonNull
@@ -50,17 +56,25 @@ public class PointsRecyclerViewAdapter extends RecyclerView.Adapter<PointsRecycl
 
         // Set the trail's info on the view
         holder.pointName.setText(point.getPoint_name().toUpperCase());
-        holder.pointDesc.setText(point.getPoint_desc().toUpperCase());
+
+        String desc = point.getPoint_desc();
+        // To limit the amount of characters on the item
+        String descritionLimit = desc;
+        if (desc.length() > 200){
+            descritionLimit = desc.substring(0, 200) + "...";
+        }
+        holder.pointDesc.setText(descritionLimit);
 
         // Set a Listener
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent;
-
                 // Start a Point Of Interest Activity
-                //intent = new Intent(, PointOfInterestActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(activity, PointActivity.class);
+
+                // Send the trail's ID to the activity
+                intent.putExtra("point_id", point.getPointId());
+                activity.startActivity(intent);
             }
         });
     }

@@ -20,7 +20,7 @@ import java.util.List;
 public interface UserDAO {
     // INSERT
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertUsers(List<User> users);
+    void insertUser(User user);
 
     /*@Insert(onConflict = OnConflictStrategy.REPLACE)          // must be an entity
     void insertHistory_Point(History_Point historyPoint);
@@ -35,13 +35,13 @@ public interface UserDAO {
     @Query("SELECT * FROM user WHERE user.userId = :id")
     LiveData<User> getUserById(int id);
 
-    @Transaction
+   /*@Transaction
     @Query("SELECT * FROM user")
     LiveData<List<History_Point>> getUser_HistoryPoints();
 
     @Transaction
     @Query("SELECT * FROM user")
-    LiveData<List<History_Trail>> getUser_HistoryTrails();
+    LiveData<List<History_Trail>> getUser_HistoryTrails();*/
 
 
     // DELETE

@@ -33,8 +33,7 @@ public class ContactsActivity extends GeneralActivity{
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onGeneralActivityCreate() {
         recyclerView = findViewById(R.id.rv_contacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 

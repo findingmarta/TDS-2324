@@ -1,92 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-   <include
+ <ScrollView
+     android:id="@+id/profile_scroll"
+     android:layout_width="0dp"
+     android:layout_height="0dp"
+     android:scrollbars="none"
+     app:layout_constraintBottom_toTopOf="@id/include_profile"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:id="@+id/profile_images"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3">
+
+            <ImageView
+                android:id="@+id/profile_picture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/profile_picture_content_desc"
+                app:srcCompat="@drawable/profile_logo_circle"
+                tools:layout_editor_absoluteX="128dp"
+                tools:layout_editor_absoluteY="97dp" />
+
+            <ImageView
+                android:id="@+id/profile_premium"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:contentDescription="@string/profile_premium_content_desc"
+                app:srcCompat="@drawable/verified_logo" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_15"
+            android:text="@string/first_last_name"
+            android:textSize="@dimen/profile_name_size"
+            app:layout_constraintEnd_toEndOf="@+id/profile_images"
+            app:layout_constraintStart_toStartOf="@+id/profile_images"
+            app:layout_constraintTop_toBottomOf="@+id/profile_images" />
+
+        <TextView
+            android:id="@+id/profile_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_username"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintEnd_toEndOf="@+id/profile_name"
+            app:layout_constraintStart_toStartOf="@+id/profile_name"
+            app:layout_constraintTop_toBottomOf="@+id/profile_name" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="150dp"
+            app:layout_constraintEnd_toEndOf="@+id/profile_username"
+            app:layout_constraintStart_toStartOf="@+id/profile_username"
+            app:layout_constraintTop_toBottomOf="@+id/profile_username">
+
+            <Button
+                android:id="@+id/profile_history_button"
+                android:layout_width="@dimen/medium_button_width"
+                android:layout_height="@dimen/button_height"
+                android:textStyle="bold"
+                android:text="@string/history_button" />
+
+            <Button
+                android:id="@+id/profile_settings_button"
+                android:layout_width="@dimen/medium_button_width"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/margin_15"
+                android:textStyle="bold"
+                android:text="@string/settings_button" />
+        </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <include
         android:id="@+id/include_profile"
         layout="@layout/fragment_nav"
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/profile_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/first_last_name"
-        android:textSize="28sp"
+        android:layout_height="@dimen/bottom_nav_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/profile_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/username"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.546" />
-
-    <ImageView
-        android:id="@+id/profile_picture"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:contentDescription="@string/profile_picture_content_desc"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.306"
-        app:srcCompat="@drawable/profile_logo_circle" />
-
-    <ImageView
-        android:id="@+id/profile_premium"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:contentDescription="@string/profile_premium_content_desc"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.637"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.261"
-        app:srcCompat="@drawable/verified_logo" />
-
-    <Button
-        android:id="@+id/profile_history_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/history_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.732" />
-
-    <Button
-        android:id="@+id/profile_settings_button"
-        android:layout_width="163dp"
-        android:layout_height="wrap_content"
-        android:text="@string/settings_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.815" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

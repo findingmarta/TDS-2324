@@ -9,6 +9,8 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.ruirua.sampleguideapp.DAOs.AppDAO;
+import com.ruirua.sampleguideapp.DAOs.HistoryPointDAO;
+import com.ruirua.sampleguideapp.DAOs.HistoryTrailDAO;
 import com.ruirua.sampleguideapp.DAOs.UserDAO;
 import com.ruirua.sampleguideapp.DAOs.PointDAO;
 import com.ruirua.sampleguideapp.DAOs.TrailDAO;
@@ -27,8 +29,6 @@ import com.ruirua.sampleguideapp.model.User;
 import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.Media;
-import com.ruirua.sampleguideapp.model.UserPointCrossRef;
-import com.ruirua.sampleguideapp.model.UserTrailCrossRef;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -42,8 +42,8 @@ import java.util.concurrent.Executors;
         Edge.class,
         Prop_Trail.class,
         Prop_Point.class,
-        UserTrailCrossRef.class,
-        UserPointCrossRef.class,
+        History_Point.class,
+        History_Trail.class,
         Media.class,
         Partner.class,
         Social.class,
@@ -57,6 +57,8 @@ public abstract class GuideDatabase extends RoomDatabase {
     public abstract TrailDAO trailDAO();
     public abstract PointDAO pointDAO();
     public abstract MediaDAO mediaDAO();
+    public abstract HistoryPointDAO historyPointDAO();
+    public abstract HistoryTrailDAO historyTrailDAO();
 
 
     public static volatile GuideDatabase INSTANCE = null;
@@ -92,6 +94,8 @@ public abstract class GuideDatabase extends RoomDatabase {
         private TrailDAO trailDAO;
         private PointDAO pointDAO;
         private MediaDAO mediaDAO;
+        private HistoryPointDAO historyPointDAO;
+        private HistoryTrailDAO historyTrailDAO;
 
         public PopulateDbAsyn(GuideDatabase database) {
             appDAO = database.appDAO();
@@ -99,6 +103,8 @@ public abstract class GuideDatabase extends RoomDatabase {
             trailDAO = database.trailDAO();
             pointDAO = database.pointDAO();
             mediaDAO = database.mediaDAO();
+            historyPointDAO = database.historyPointDAO();
+            historyTrailDAO = database.historyTrailDAO();
         }
 
         @Override
@@ -108,6 +114,8 @@ public abstract class GuideDatabase extends RoomDatabase {
             trailDAO.deleteAll();
             pointDAO.deleteAll();
             mediaDAO.deleteAll();
+            historyPointDAO.deleteAll();
+            historyTrailDAO.deleteAll();
             return null;
         }
     }

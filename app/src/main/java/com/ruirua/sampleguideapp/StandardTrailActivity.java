@@ -37,21 +37,21 @@ public class StandardTrailActivity extends AppCompatActivity{
     private TextView trail_difficulty;
     private TextView trail_desc;
     private ImageView trail_image;
-                                                                                            // TODO FAZER ESTA ACTIVITY
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trail_premium);
+        setContentView(R.layout.activity_trail_standard);
 
         // Set up the Points of Interest RecyclerView
-        RecyclerView recyclerView = findViewById(R.id.rv_premium_points);
+        RecyclerView recyclerView = findViewById(R.id.rv_standard_points);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
         // Bind trail's views
-        trail_name = findViewById(R.id.premium_trail_name);
-        trail_duration = findViewById(R.id.premium_trail_duration);
-        trail_difficulty = findViewById(R.id.premium_trail_difficulty);
-        trail_desc = findViewById(R.id.premium_trail_desc);
-        trail_image = findViewById(R.id.premium_trail_gallery);
+        trail_name = findViewById(R.id.standard_trail_name);
+        trail_duration = findViewById(R.id.standard_trail_duration);
+        trail_difficulty = findViewById(R.id.standard_trail_difficulty);
+        trail_desc = findViewById(R.id.standard_trail_desc);
+        trail_image = findViewById(R.id.standard_trail_gallery);
 
 
 
@@ -65,7 +65,7 @@ public class StandardTrailActivity extends AppCompatActivity{
 
         // Given the ID initialize the trail and set its info
         tvm.setTrailViewModel(trail_id);
-        LiveData<TrailWith> trailData = tvm.getTrail();
+        LiveData<TrailWith> trailData = tvm.getTrailWith();
         trailData.observe(this, new_trail -> {
             if (new_trail != null) {
                 setTrailInfo(new_trail);
@@ -77,7 +77,7 @@ public class StandardTrailActivity extends AppCompatActivity{
         LiveData<List<Point>> pointsData = tvm.getTrailPoints(trail_id);
         pointsData.observe(this, pointslist -> {
             ArrayList<Point> points = new ArrayList<>(pointslist);
-            adapter = new PointsRecyclerViewAdapter(points);
+            adapter = new PointsRecyclerViewAdapter(points,this);
             recyclerView.setAdapter(adapter);
         });
 
