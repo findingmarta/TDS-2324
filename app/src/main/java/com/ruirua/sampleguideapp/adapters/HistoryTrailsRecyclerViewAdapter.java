@@ -81,8 +81,21 @@ public class HistoryTrailsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
                 Picasso.get()
                         .load(trail.getTrail_image().replace("http:", "https:"))
                         .into(holder.trailImage);
-                holder.trailTravelledDistance.setText(history_trail.getTravelled_distance());
-                holder.trailTravelledTime.setText(history_trail.getTravelled_time());
+
+                // Set the travelled distance and time. If they are equal to 0 the default is "-"
+                int distance = history_trail.getTravelled_distance();
+                String distanceString = "-";
+                if (distance > 0){
+                    distanceString = String.valueOf(distance) + " meters";
+                }
+                holder.trailTravelledDistance.setText(distanceString);
+
+                int time = history_trail.getTravelled_time();
+                String timeString = "-";
+                if (time > 0){
+                    timeString = String.valueOf(time) + " minutes";
+                }
+                holder.trailTravelledTime.setText(timeString);
 
                 // Convert Date to String. If there isn't a Date the default is "-"
                 DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -93,7 +106,7 @@ public class HistoryTrailsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
 
                 // Set a Listener
                 holder.item.setOnClickListener(view -> {
-                    // Start a Point Of Interest Activity
+                    // Start a Premium Trail Activity
                     Intent intent = new Intent(activity, PremiumTrailActivity.class);
 
                     // Send the trail's ID to the activity
@@ -124,6 +137,7 @@ public class HistoryTrailsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
         public ViewHolder(@NonNull View view) {
             super(view);
             mView = view;
+
             trailName = view.findViewById(R.id.history_trail_name);
             trailDuration = view.findViewById(R.id.history_trail_duration);
             trailDifficulty = view.findViewById(R.id.history_trail_difficulty);
@@ -131,7 +145,8 @@ public class HistoryTrailsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
             trailTravelledDistance = view.findViewById(R.id.history_trail_travelled_distance);
             trailTravelledTime = view.findViewById(R.id.history_trail_travelled_time);
             trailImage = view.findViewById(R.id.history_trail_image);
-            item = view.findViewById(R.id.trailItem);
+
+            item = view.findViewById(R.id.historyTrailItem);
         }
     }
 

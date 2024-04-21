@@ -20,11 +20,12 @@ public class HistoryTrailRepository {
         historyTrailDAO = database.historyTrailDAO();
     }
 
-    public void insert(List<History_Trail> trails){
+    public void insert(History_Trail trail){
         GuideDatabase.databaseWriteExecutor.execute(() -> {
-            historyTrailDAO.insert(trails);
+            historyTrailDAO.insert(trail);
         });
     }
+
 
     public LiveData<List<History_Trail>> getAllTrails(){
         return historyTrailDAO.getTrails();

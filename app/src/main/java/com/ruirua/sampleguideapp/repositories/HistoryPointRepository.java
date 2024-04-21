@@ -32,6 +32,10 @@ public class HistoryPointRepository {
         return historyPointDAO.getPoints();
     }
 
+    public LiveData<History_Point> getHistoryPointByPointId(int point_id){
+        return historyPointDAO.getHistoryPointByPointId(point_id);
+    }
+
     public LiveData<History_Point> getHistoryPointById(int id){
         return historyPointDAO.getHistoryPointById(id);
     }

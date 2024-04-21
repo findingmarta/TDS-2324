@@ -16,7 +16,7 @@ import java.util.List;
 public interface HistoryTrailDAO {
     // INSERT
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(List<History_Trail> trails);
+    void insert(History_Trail trail);
 
 
     // GET

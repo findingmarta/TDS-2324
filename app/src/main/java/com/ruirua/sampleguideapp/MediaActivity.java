@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.ruirua.sampleguideapp.model.Media;
 import com.ruirua.sampleguideapp.model.Point;
+import com.ruirua.sampleguideapp.model.PointWith;
 import com.ruirua.sampleguideapp.viewModel.PointViewModel;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public class MediaActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int point_id = intent.getIntExtra("point_id",0);
         pvm.setPointViewModel(point_id);
-        LiveData<Point> point_data = pvm.getPoint();
+        LiveData<PointWith> point_data = pvm.getPointWith();
         point_data.observe(this,new_point->{
             if (new_point!=null){
                 //List<Media> medias = new_point;

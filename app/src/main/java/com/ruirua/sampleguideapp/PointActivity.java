@@ -91,8 +91,8 @@ public class PointActivity extends AppCompatActivity {
             if (new_history_point == null){
                 // Set visited if point not in the history
                 setVisited(hvm);
-            } else {
-                // If in the history block the "Mark As Visited" button
+            } else{
+                // Block the "Mark As Visited" button
                 point_visited_button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_grey)));
                 point_visited_button.setClickable(false);
             }

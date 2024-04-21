@@ -15,18 +15,18 @@ import java.util.Date;
 import java.util.List;
 
 public class HistoryViewModel extends AndroidViewModel {
-    private HistoryTrailRepository trailRepository;
-    private HistoryPointRepository pointRepository;
+    private HistoryTrailRepository historyTrailRepository;
+    private HistoryPointRepository historyPointRepository;
     private LiveData<List<History_Trail>> history_trails;
     private LiveData<List<History_Point>> history_points;
 
     public HistoryViewModel(@NonNull Application application) {
         super(application);
-        trailRepository= new HistoryTrailRepository(application);
-        pointRepository = new HistoryPointRepository(application);
+        historyTrailRepository= new HistoryTrailRepository(application);
+        historyPointRepository = new HistoryPointRepository(application);
 
-        history_trails = trailRepository.getAllTrails();
-        history_points = pointRepository.getAllPoints();
+        history_trails = historyTrailRepository.getAllTrails();
+        history_points = historyPointRepository.getAllPoints();
     }
 
     public LiveData<List<History_Trail>> getAllTrails() {
@@ -40,10 +40,17 @@ public class HistoryViewModel extends AndroidViewModel {
     public void insertHistoryPoint(int point_id){
         Date date = new Date(System.currentTimeMillis());
         History_Point history_point = new History_Point(point_id,date);
-        pointRepository.insert(history_point);
+        historyPointRepository.insert(history_point);
     }
 
     public LiveData<History_Point> checkHistoryPoint(int point_id){
-        return pointRepository.getHistoryPointById(point_id);
+        return historyPointRepository.getHistoryPointByPointId(point_id);
+    }
+
+    public void insertHistoryTrail(int trail_id){
+        Date date = new Date(System.currentTimeMillis());
+
+        History_Trail history_trail = new History_Trail(trail_id,date,0,0);
+        historyTrailRepository.insert(history_trail);
     }
 }

@@ -29,8 +29,7 @@ public class History_Trail {
     @ColumnInfo(name = "travelled_distance")
     private int travelled_distance;
 
-    public History_Trail(int id, int trail_id, Date date, int travelled_time, int travelled_distance) {
-        this.id = id;
+    public History_Trail(int trail_id, Date date, int travelled_time, int travelled_distance) {
         this.trail_id = trail_id;
         this.date = date;
         this.travelled_time = travelled_time;

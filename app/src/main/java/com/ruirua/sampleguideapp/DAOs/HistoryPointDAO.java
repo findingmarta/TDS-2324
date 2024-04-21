@@ -25,6 +25,9 @@ public interface HistoryPointDAO {
     @Query("SELECT * FROM history_point")
     LiveData<List<History_Point>> getPoints();
 
+    @Query("SELECT * FROM history_point WHERE history_point.point_id = :point_id")
+    LiveData<History_Point> getHistoryPointByPointId(int point_id);
+
     @Query("SELECT * FROM history_point WHERE history_point.id = :id")
     LiveData<History_Point> getHistoryPointById(int id);
 

@@ -3,8 +3,10 @@ package com.ruirua.sampleguideapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,7 @@ import com.ruirua.sampleguideapp.adapters.PointsRecyclerViewAdapter;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.model.TrailWith;
+import com.ruirua.sampleguideapp.viewModel.HistoryViewModel;
 import com.ruirua.sampleguideapp.viewModel.TrailViewModel;
 import com.squareup.picasso.Picasso;
 
@@ -32,11 +35,14 @@ import java.util.List;
 public class PremiumTrailActivity extends AppCompatActivity implements OnMapReadyCallback {
     private PointsRecyclerViewAdapter adapter;
     private int trail_id;
+    private Trail trail;
     private TextView trail_name;
     private TextView trail_duration;
     private TextView trail_difficulty;
     private TextView trail_desc;
     private ImageView trail_image;
+    private Button start_button;
+    private Button stop_button;
 
     private MapView trail_map;
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
@@ -55,8 +61,8 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         trail_difficulty = findViewById(R.id.premium_trail_difficulty);
         trail_desc = findViewById(R.id.premium_trail_desc);
         trail_image = findViewById(R.id.premium_trail_gallery);
-
-
+        start_button = findViewById(R.id.start_button);
+        stop_button = findViewById(R.id.stop_button);
 
         // Get the info from de database
         // Trail
@@ -71,7 +77,8 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         LiveData<TrailWith> trailData = tvm.getTrailWith();
         trailData.observe(this, new_trail -> {
             if (new_trail != null) {
-                setTrailInfo(new_trail);
+                trail = new_trail.getTrail();
+                setTrailInfo();
             }
         });
 
@@ -95,12 +102,13 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         trail_map = findViewById(R.id.premium_mapView);
         trail_map.onCreate(mapViewBundle);
         trail_map.getMapAsync(this);
+
+        HistoryViewModel hvm = new ViewModelProvider(this).get(HistoryViewModel.class);
+        setStartStop(hvm);
     }
 
 
-    public void setTrailInfo(TrailWith trailWith){
-        Trail trail = trailWith.getTrail();
-
+    public void setTrailInfo(){
         trail_name.setText(trail.getTrail_name().toUpperCase());
         trail_duration.setText(String.valueOf(trail.getTrail_duration()));
         trail_difficulty.setText(trail.getTrail_difficulty());
@@ -108,6 +116,21 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         Picasso.get()
                 .load(trail.getTrail_image().replace("http:", "https:"))
                 .into(trail_image);
+    }
+
+    public void setStartStop(HistoryViewModel hvm){
+        // Block the Stop button
+        stop_button.setClickable(false);
+
+        start_button.setOnClickListener(view -> {
+            // Unblock the Stop button and block the Start button
+            stop_button.setClickable(true);
+            start_button.setClickable(false);
+
+            // Add the trail to the history
+            hvm.insertHistoryTrail(trail.getTrailId());
+            Toast.makeText(PremiumTrailActivity.this, "Trail added to your history!", Toast.LENGTH_SHORT).show();
+        });
     }
 
 
@@ -119,7 +142,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         googleMap.addMarker(new MarkerOptions()
                 .position(sydney)
                 .title("Marker in Sydney"));
-
 
         // Move the map's camera to the same location.
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
