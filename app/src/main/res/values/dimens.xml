@@ -1,4 +1,24 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
+    <!-- TEXT -->
+    <dimen name="margin_15">15dp</dimen>
+    <dimen name="title_size">50sp</dimen>
+    <dimen name="title_complement_size">17sp</dimen>
+    <dimen name="subtitle_size">40sp</dimen>
+    <dimen name="text_size">20sp</dimen>
+
+    <!-- RECYCLE'S VIEW -->
+    <dimen name="margin_card">5dp</dimen>
+
+    <!-- BUTTONS -->
+    <dimen name="button_height">60dp</dimen>
+
+    <dimen name="small_button_text">20sp</dimen>
+    <dimen name="small_button_width">150dp</dimen>
+    <dimen name="medium_button_width">180dp</dimen>
+
+    <!-- PROFILE -->
+    <dimen name="profile_name_size">30sp</dimen>
+
+    <!-- MENU -->
+    <dimen name="bottom_nav_size">60dp</dimen>
 </resources>

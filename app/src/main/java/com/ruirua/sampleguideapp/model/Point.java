@@ -90,4 +90,16 @@ public class Point {
     public Point clone(){
         return new Point(this);
     }
+
+    @Override
+    public String toString() {
+        return "Point{" +
+                "pointId=" + pointId +
+                ", point_name='" + point_name + '\'' +
+                ", point_desc='" + point_desc + '\'' +
+                ", point_lat=" + point_lat +
+                ", point_lng=" + point_lng +
+                ", point_alt=" + point_alt +
+                '}';
+    }
 }

@@ -18,6 +18,7 @@ import com.ruirua.sampleguideapp.database.GuideDatabase;
 import com.ruirua.sampleguideapp.model.User;
 import com.ruirua.sampleguideapp.APIs.UserAPI;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -68,28 +69,35 @@ public class UserRepository {
 
     private void makeRequest() {
         SharedPreferences sp = app.getSharedPreferences("BraGuia Shared Preferences",MODE_PRIVATE);
-        String cookies = sp.getString("cookies","");
-        String cookies_formated = formatCookies(cookies);
+        String cookies = sp.getString("cookies",null);
 
+        if (cookies != null){
+            String cookies_formated = formatCookies(cookies);
+            Call<User> call = api.getUser(cookies_formated);
 
-        Call<User> call = api.getUser(cookies_formated);
-
-        call.enqueue(new retrofit2.Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()) {
-                    insert(response.body());
+            call.enqueue(new retrofit2.Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if(response.isSuccessful()) {
+                        insert(response.body());
+                    }
+                    else{
+                        try {
+                            assert response.errorBody() != null;
+                            Log.e("main", "onFailure: "+response.errorBody().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
                 }
-                else{
-                    Log.e("main", "onFailure: "+response.errorBody());
-                }
-            }
 
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.e("main", "onFailure: " + t.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    Log.e("main", "onFailure: " + t.getMessage());
+                    Log.e("main", "message login: "+ t.getCause());
+                }
+            });
+        }
     }
 
     private static class InsertAsyncTask extends AsyncTask<User,Void,Void> {
@@ -127,7 +135,12 @@ public class UserRepository {
                 }
                 else{
                     isLoggedIn.postValue(false);
-                    Log.e("main", "onFailure: "+response.errorBody());
+                    try {
+                        assert response.errorBody() != null;
+                        Log.e("main", "onFailure: "+response.errorBody().string());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 
@@ -135,7 +148,7 @@ public class UserRepository {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 isLoggedIn.postValue(false);
                 Log.e("main", "onFailure: " + t.getMessage());
-                Log.e("main", "message: "+ t.getCause());
+                Log.e("main", "message login: "+ t.getCause());
             }
         });
     }
@@ -188,6 +201,10 @@ public class UserRepository {
 
     public LiveData<List<User>> getAllUsers(){
         return allUsers;
+    }
+
+    public void delete(){
+        GuideDatabase.databaseWriteExecutor.execute(userDAO::deleteAll);
     }
 
 }

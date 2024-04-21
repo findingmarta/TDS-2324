@@ -1,6 +1,7 @@
 package com.ruirua.sampleguideapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +24,9 @@ import com.ruirua.sampleguideapp.model.AppWith;
 import com.ruirua.sampleguideapp.model.Partner;
 import com.ruirua.sampleguideapp.model.Social;
 import com.ruirua.sampleguideapp.model.Trail;
+import com.ruirua.sampleguideapp.model.User;
 import com.ruirua.sampleguideapp.viewModel.AppViewModel;
+import com.ruirua.sampleguideapp.viewModel.UserViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -35,7 +38,7 @@ public class MainActivity extends GeneralActivity{
     private FloatingActionButton socials_button;
     private PartnersRecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
-
+    private boolean isPremium = false;
 
 
     @Override
@@ -74,29 +77,23 @@ public class MainActivity extends GeneralActivity{
                 setSocials(appWith);
             }
         });
+
+        saveUserType();
     }
 
     public void setSocials(AppWith appWith){
         // Get Social from App
         List<Social> socials = appWith.getSocials();
-        if (!socials.isEmpty()){
-            Social social = socials.get(0);
-            String url = "";
-        }
-
-        socials_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(@NonNull View view) {
-                //Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
+        if (!socials.isEmpty()) {
+            socials_button.setOnClickListener(view -> {
                 Social social = socials.get(0);
                 String url = social.getSocial_url();
 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
                 startActivity(intent);
-            }
-        });
+            });
+        }
     }
 
     public void setPartners(AppWith appWith){
@@ -106,5 +103,20 @@ public class MainActivity extends GeneralActivity{
             adapter = new PartnersRecyclerViewAdapter(partners);
             recyclerView.setAdapter(adapter);
         }
+    }
+
+    public void saveUserType(){
+        UserViewModel uvm = new ViewModelProvider(this).get(UserViewModel.class);
+        LiveData<List<User>> usersData = uvm.getUsers();
+        usersData.observe(this, users -> {
+            User user = users.get(0);
+            isPremium = user.getUser_type().equals("Premium");
+
+            // Save user's type on Shared Preferences
+            SharedPreferences sp = getApplication().getSharedPreferences("BraGuia Shared Preferences",MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("user_type",isPremium);
+            editor.apply();
+        });
     }
 }

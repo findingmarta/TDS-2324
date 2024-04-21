@@ -1,11 +1,14 @@
 package com.ruirua.sampleguideapp.adapters;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 
 import com.ruirua.sampleguideapp.PremiumTrailActivity;
 import com.ruirua.sampleguideapp.R;
+import com.ruirua.sampleguideapp.StandardTrailActivity;
 import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.model.TrailWith;
 import com.squareup.picasso.Picasso;
@@ -26,6 +30,7 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
 
     private ArrayList<TrailWith> trails;
     private Activity activity;
+    private boolean isPremium;
 
     // Class Constructor
     public TrailsRecyclerViewAdapter(ArrayList<TrailWith> new_trails, Activity new_activity) {
@@ -51,6 +56,9 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
     * Preenchemos as views com a informação daa API de dados.
     */
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        // Check if the user is premium or standard
+        isPremium = getPremium();
+
         // Given a list's position, get a Trail from the list of trails
         TrailWith trailWith = trails.get(position);
 
@@ -66,22 +74,20 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
                 .into(holder.trailImage);
 
         // Set a Listener
-        holder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent;
+        holder.item.setOnClickListener(view -> {
+            Intent intent;
 
-                // Check if the user is premium or standard
-
+            if (isPremium){
                 // Start the trail's activity if premium
                 intent = new Intent(activity, PremiumTrailActivity.class);
+            } else {
                 // Start the trail's activity if standard
-                //intent = new Intent(activity, StandardTrailActivity.class);      // TODO Fazer a activity StandardTrailActivity
-
-                // Send the trail's ID to the activity
-                intent.putExtra("trail_id", trail.getTrailId());
-                activity.startActivity(intent);
+                intent = new Intent(activity, StandardTrailActivity.class);
             }
+
+            // Send the trail's ID to the activity
+            intent.putExtra("trail_id", trail.getTrailId());
+            activity.startActivity(intent);
         });
     }
 
@@ -117,5 +123,11 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
 
     public void setTrails(ArrayList<TrailWith> trails) {
         this.trails = trails;
+    }
+
+    public Boolean getPremium () {
+        // PROVAVELMENTE VOU PRECISAR DA APPLICATION E NAO DA ACTIVITY
+        SharedPreferences sp = activity.getSharedPreferences("BraGuia Shared Preferences",MODE_PRIVATE);
+        return sp.getBoolean("user_type", false);
     }
 }

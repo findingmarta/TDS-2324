@@ -74,7 +74,7 @@ public abstract class GeneralActivity extends AppCompatActivity implements Botto
                 break;
 
             case (R.id.SOS):
-                if (getContentViewId() != R.layout.fragment_item_contact) {
+                if (getContentViewId() != R.layout.activity_contacts) {
                     Intent contactsIntent = new Intent(this, ContactsActivity.class);
                     startActivity(contactsIntent);
                 }

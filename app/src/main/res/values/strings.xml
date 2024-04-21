@@ -31,7 +31,7 @@
     <!-- PROFILE -->
     <string name="profile_premium_content_desc">Premium Logo</string>
     <string name="profile_picture_content_desc">User Stock Photo</string>
-    <string name="history_button">Trail\'s History</string>
+    <string name="history_button">History</string>
     <string name="settings_button">Settings</string>
     <string name="first_last_name">First Last Name</string>
     <string name="profile_username">Username</string>
@@ -48,10 +48,10 @@
     <string name="trail_itinerary_tag">ITINERARY</string>
 
     <!-- POINT OF INTEREST -->
-    <string name="point_location">LOCATION</string>
+    <string name="point_location">SEE LOCATION</string>
     <string name="point_desc_tag">DESCRIPTION</string>
     <string name="point_prop_tag">PROPERTIES</string>
-    <string name="point_visited">VISITED</string>
+    <string name="point_visited">MARK AS VISITED</string>
 
     <!-- PARTNER -->
     <string name="partner_email">Email:</string>
@@ -63,4 +63,10 @@
     <string name="contact_phone">Number: </string>
     <string name="contact_url">Website: </string>
     <string name="contact_email">Email: </string>
+
+    <!-- HISTORY TRAIL -->
+    <string name="history_trail_date">Date: </string>
+    <string name="history_trail_distance_travelled">Travelled Distance: </string>
+    <string name="history_trail_time_travelled">Travelled Time: </string>
+
 </resources>

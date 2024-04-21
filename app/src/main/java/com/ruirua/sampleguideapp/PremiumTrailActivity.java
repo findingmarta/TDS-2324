@@ -68,7 +68,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
         // Given the ID initialize the trail and set its info
         tvm.setTrailViewModel(trail_id);
-        LiveData<TrailWith> trailData = tvm.getTrail();
+        LiveData<TrailWith> trailData = tvm.getTrailWith();
         trailData.observe(this, new_trail -> {
             if (new_trail != null) {
                 setTrailInfo(new_trail);
@@ -80,7 +80,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         LiveData<List<Point>> pointsData = tvm.getTrailPoints(trail_id);
         pointsData.observe(this, pointslist -> {
             ArrayList<Point> points = new ArrayList<>(pointslist);
-            adapter = new PointsRecyclerViewAdapter(points);
+            adapter = new PointsRecyclerViewAdapter(points,this);
             recyclerView.setAdapter(adapter);
         });
 
@@ -126,7 +126,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
         if (mapViewBundle == null) {

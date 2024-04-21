@@ -22,22 +22,60 @@
       android:layout_height="wrap_content"
       tools:context=".PointActivity">
 
-   <RelativeLayout
-       android:id="@+id/point_title_layout"
+
+   <TextView
+       android:id="@+id/point_name"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_margin="15dp"
+       android:layout_margin="@dimen/margin_15"
+       android:textColor="@color/logo_yellow"
+       android:textSize="@dimen/title_size"
+       android:textStyle="bold"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent">
+       app:layout_constraintTop_toTopOf="parent" />
+
+   <ImageView
+       android:id="@+id/point_image"
+       android:layout_width="0dp"
+       android:layout_height="0dp"
+       app:layout_constraintDimensionRatio="16:9"
+       android:layout_margin="@dimen/margin_15"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/point_name"
+       app:srcCompat="@drawable/ic_launcher_background" />
+
+    <Button
+        android:id="@+id/point_location_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_margin="@dimen/margin_15"
+        android:backgroundTint="@color/logo_yellow"
+        android:text="@string/point_location"
+        android:textSize="@dimen/small_button_text"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/point_image"/>
+
+   <RelativeLayout
+       android:id="@+id/point_desc_layout"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_margin="@dimen/margin_15"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/point_location_button">
 
     <TextView
-        android:id="@+id/point_name"
-        android:layout_width="wrap_content"
+        android:id="@+id/point_desc_tag"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/logo_yellow"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:text="@string/point_desc_tag"
+        android:textColor="@color/white"
+        android:textSize="@dimen/subtitle_size"
+        android:textStyle="bold"/>
 
     <ImageButton
         android:id="@+id/point_media_button"
@@ -49,65 +87,27 @@
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/media_logo" />
-
-
    </RelativeLayout>
-
-   <ImageView
-       android:id="@+id/point_image"
-       android:layout_width="381dp"
-       android:layout_height="258dp"
-       android:layout_marginTop="15dp"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/point_title_layout"
-       app:srcCompat="@drawable/ic_launcher_background" />
-
-    <Button
-        android:id="@+id/point_location_button"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_margin="15dp"
-        android:backgroundTint="@color/logo_yellow"
-        android:text="@string/point_location"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/point_image"/>
-
-   <TextView
-       android:id="@+id/point_desc_tag"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_margin="15dp"
-       android:text="@string/point_desc_tag"
-       android:textColor="@color/white"
-       android:textSize="40sp"
-       android:textStyle="bold"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/point_location_button" />
 
    <TextView
        android:id="@+id/point_desc"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_margin="15dp"
+       android:layout_margin="@dimen/margin_15"
        android:textColor="@color/white"
-       android:textSize="15sp"
-       app:layout_constraintBottom_toBottomOf="parent"
+       android:textSize="@dimen/text_size"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/point_desc_tag" />
+       app:layout_constraintTop_toBottomOf="@+id/point_desc_layout" />
 
    <TextView
        android:id="@+id/point_prop_tag"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_margin="15dp"
+       android:layout_margin="@dimen/margin_15"
        android:text="@string/point_prop_tag"
        android:textColor="@color/white"
-       android:textSize="40sp"
+       android:textSize="@dimen/subtitle_size"
        android:textStyle="bold"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
@@ -117,10 +117,9 @@
        android:id="@+id/point_prop"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_margin="15dp"
+       android:layout_margin="@dimen/margin_15"
        android:textColor="@color/white"
-       android:textSize="15sp"
-       app:layout_constraintBottom_toBottomOf="parent"
+       android:textSize="@dimen/text_size"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
        app:layout_constraintTop_toBottomOf="@+id/point_prop_tag" />
@@ -128,11 +127,12 @@
    <Button
        android:id="@+id/point_visited_button"
        android:layout_width="match_parent"
-       android:layout_height="55dp"
-       android:layout_margin="15dp"
+       android:layout_height="@dimen/button_height"
+       android:layout_margin="@dimen/margin_15"
        android:backgroundTint="@color/logo_yellow"
        android:text="@string/point_visited"
-       android:textSize="20sp"
+       android:textSize="@dimen/small_button_text"
+       android:textStyle="bold"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
        app:layout_constraintTop_toBottomOf="@+id/point_prop"/>

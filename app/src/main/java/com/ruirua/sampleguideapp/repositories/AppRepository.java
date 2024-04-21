@@ -79,7 +79,11 @@ public class AppRepository {
                     insert(response.body().get(0));
                 }
                 else{
-                    Log.e("main", "onFailure: "+response.errorBody());
+                    try {
+                        Log.e("main", "onFailure: "+response.errorBody().string());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 

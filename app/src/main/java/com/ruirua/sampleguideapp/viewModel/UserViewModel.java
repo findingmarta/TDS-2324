@@ -34,8 +34,13 @@ public class UserViewModel extends AndroidViewModel {
         SharedPreferences sp = app.getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
-        editor.remove("cookies");
-        editor.apply();                                              // TODO deleteAll?????
+        //editor.remove("cookies");
+        //editor.remove("user_type");
+        editor.clear();
+        editor.apply();
+
+        // Delete user's database
+        userRepository.delete();
     }
 
     public LiveData<List<User>> getUsers() {

@@ -43,7 +43,22 @@
             android:name=".PremiumTrailActivity"
             android:exported="false" />
         <activity
+            android:name=".StandardTrailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PointActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MediaActivity"
+            android:exported="false" />
+        <activity
             android:name=".ContactsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HistoryActivity"
             android:exported="false" />
     </application>
 </manifest>

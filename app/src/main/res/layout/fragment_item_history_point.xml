@@ -6,34 +6,54 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="?android:attr/selectableItemBackground"
-    android:id="@+id/pointItem">
+    android:id="@+id/historyPointItem">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/point_card_view"
+        android:id="@+id/history_point_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_card"
+        android:layout_margin="5dp"
         app:cardBackgroundColor="@color/lighter_blue"
         card_view:cardCornerRadius="15dp"
         card_view:cardElevation="5dp"
         card_view:cardUseCompatPadding="true">
 
         <TextView
-            android:id="@+id/point_name"
+            android:id="@+id/history_point_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_15"
-            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
             android:textColor="@color/logo_yellow"
             android:textSize="25sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/point_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="85dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/history_trail_date"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/history_point_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="85dp"
+            android:layout_marginTop="85dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/history_point_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="110dp"
             android:layout_marginBottom="15dp"
             android:textSize="12sp"
             android:textColor="@color/white"/>

@@ -1,44 +1,71 @@
 package com.ruirua.sampleguideapp.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
+import androidx.room.Entity;
 import androidx.room.Junction;
+import androidx.room.PrimaryKey;
 import androidx.room.Relation;
 import androidx.room.TypeConverters;
 
+import com.ruirua.sampleguideapp.model.Converters.DateTypeConverter;
 import com.ruirua.sampleguideapp.model.Converters.PointsTypeConverter;
 
+import java.util.Date;
 import java.util.List;
 
-@TypeConverters({PointsTypeConverter.class})
+@Entity(tableName = "history_point")
+@TypeConverters({DateTypeConverter.class})
 public class History_Point {
-    @Embedded
-    public User user;
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private int id;
 
-    @Relation(
-            parentColumn = "userId",
-            entityColumn = "pointId",
-            associateBy = @Junction(UserPointCrossRef.class)
-    )
-    public List<Point> points;
+    @ColumnInfo(name = "point_id")
+    private int point_id;
 
-    public History_Point(User user, List<Point> points) {
-        this.user = user;
-        this.points = points;
+    @ColumnInfo(name = "date")
+    private Date date;
+
+    public History_Point(int point_id, Date date) {
+        this.point_id = point_id;
+        this.date = date;
     }
 
-    public User getUser() {
-        return user;
+    public int getId() {
+        return id;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public List<Point> getPoints() {
-        return points;
+    public int getPoint_id() {
+        return point_id;
     }
 
-    public void setPoints(List<Point> points) {
-        this.points = points;
+    public void setPoint_id(int point_id) {
+        this.point_id = point_id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "History_Point{" +
+                "id=" + id +
+                ", point_id=" + point_id +
+                ", date=" + date +
+                '}';
     }
 }
+
+

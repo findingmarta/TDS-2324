@@ -72,7 +72,11 @@ public class TrailRepository {
                     insert(response.body());
                 }
                 else{
-                    Log.e("main", "onFailure: "+response.errorBody());
+                    try {
+                        Log.e("main", "onFailure: "+response.errorBody().string());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 
@@ -121,7 +125,7 @@ public class TrailRepository {
                     int edge_start_id = setEdgePoint(startObj,trailDAO);
 
                     // END POINT
-                    JsonObject endObj = edgeObj.get("edge_start").getAsJsonObject();
+                    JsonObject endObj = edgeObj.get("edge_end").getAsJsonObject();
                     int edge_end_id = setEdgePoint(endObj,trailDAO);
 
                     // EDGE
