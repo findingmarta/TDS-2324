@@ -154,6 +154,8 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
             });
             // Shutdown executor after use
             executor.shutdown();
+
+            // TODO configure and open Google Maps
         });
     }
 
