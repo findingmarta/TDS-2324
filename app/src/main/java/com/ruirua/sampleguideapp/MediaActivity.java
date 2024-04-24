@@ -1,16 +1,21 @@
 package com.ruirua.sampleguideapp;
 
 
-import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,17 +23,21 @@ import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.ruirua.sampleguideapp.model.Media;
-import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.PointWith;
 import com.ruirua.sampleguideapp.viewModel.PointViewModel;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MediaActivity extends AppCompatActivity {
+    private List<Media> medias;
     private TextView point_name;
     private ImageView media_imagem;
     private VideoView media_video;
@@ -39,6 +48,8 @@ public class MediaActivity extends AppCompatActivity {
     private SeekBar media_seekBar;
     private TextView total_time;
     private MediaPlayer mediaPlayer;
+    private Button download;
+    private TextView no_media;
     private Handler handler = new Handler();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,39 +64,103 @@ public class MediaActivity extends AppCompatActivity {
         current_time = findViewById(R.id.current_time);
         media_seekBar = findViewById(R.id.media_seekBar);
         total_time = findViewById(R.id.total_time);
+        download = findViewById(R.id.point_download_button);
+        no_media = findViewById(R.id.no_media);
+
         mediaPlayer = new MediaPlayer();
 
-        media_seekBar.setMax(100);
         setEverythingInvisible();
+
         PointViewModel pvm = new ViewModelProvider(this).get(PointViewModel.class);
         Intent intent = getIntent();
         int point_id = intent.getIntExtra("point_id",0);
         pvm.setPointViewModel(point_id);
+
         LiveData<PointWith> point_data = pvm.getPointWith();
         point_data.observe(this,new_point->{
             if (new_point!=null){
-                List<Media> medias = new_point.getMedias();
-                for(Media media : medias){
-                    if (media.getMedia_type().equals("R")){
-                        setAudioVisible();
-                        prepareMediaPlayer(media);
-                        setMusicButtons(media);
-                        controlSeekBar();
-                    }
+                // Set point's name
+                point_name.setText(new_point.getPoint().getPoint_name());
+                medias = new_point.getMedias();
 
+                if (medias.isEmpty()){
+                    download.setVisibility(View.GONE);
+                    no_media.setVisibility(View.VISIBLE);
+                }else {
+
+                    for (Media media : medias) {
+                        no_media.setVisibility(View.GONE);
+                        String url = media.getMedia_file().replace("http:", "https:");
+                        int lastIndex = url.lastIndexOf('/');
+                        String filename = url.substring(lastIndex + 1);
+                        // Audio
+                        if (media.getMedia_type().equals("R")) {
+                            setAudioVisible();
+                            prepareMediaPlayer(media, filename);
+                            setMusicButtons(media, filename);
+                            controlSeekBar();
+                        }
+                        // Video
+                        if (media.getMedia_type().equals("V")) {
+                            media_video.setVisibility(View.VISIBLE);
+                            String videoUrl = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/" + filename;
+
+
+                            File file = new File(videoUrl);
+                            if (!file.exists()) {
+                                videoUrl = media.getMedia_file().replace("http:", "https:");
+                            }
+                            Uri uri = Uri.parse(videoUrl);
+                            media_video.setVideoURI(uri);
+                            media_video.start();
+                        }
+                        // Image
+                        if (media.getMedia_type().equals("I")) {
+                            media_imagem.setVisibility(View.VISIBLE);
+                            String imageUrl = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/" + filename;
+                            File file = new File(imageUrl);
+                            if (!file.exists()) {
+                                Picasso.get()
+                                        .load(media.getMedia_file().replace("http:", "https:"))
+                                        .into(media_imagem);
+                            } else {
+                                Picasso.get()
+                                        .load(file)
+                                        .into(media_imagem);
+                            }
+                        }
+                    }
                 }
             }
         });
+
+        download.setOnClickListener(view -> downloadAllMedia());
     }
 
-    private void prepareMediaPlayer(Media media){
+
+
+    private void prepareMediaPlayer(Media media,String filename){
         try{
-            mediaPlayer.setDataSource(media.getMedia_file());
+            mediaPlayer.setAudioAttributes(
+                    new AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .build()
+            );
+            String filePath = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/" + filename;
+
+            File file = new File(filePath);
+            if (!file.exists()) {
+                mediaPlayer.setDataSource(media.getMedia_file().replace("http:", "https:"));
+            }else{
+
+                mediaPlayer.setDataSource(filePath);
+            }
             mediaPlayer.prepare();
             total_time.setText(milisecondsToTimer(mediaPlayer.getDuration()));
 
         } catch (Exception exception){
-            Toast.makeText(this,exception.getMessage(),Toast.LENGTH_SHORT).show();
+            Log.e("media", Objects.requireNonNull(exception.getMessage()));
         }
     }
 
@@ -93,64 +168,81 @@ public class MediaActivity extends AppCompatActivity {
     private Runnable updater = new Runnable() {
         @Override
         public void run() {
-            updateSeekBar();
-            long currentDuration = mediaPlayer.getCurrentPosition();
-            current_time.setText(milisecondsToTimer(currentDuration));
+            media_seekBar.setProgress(mediaPlayer.getCurrentPosition());
+            handler.postDelayed(updater,1000);
         }
     };
 
-    private void updateSeekBar(){
-        if (mediaPlayer.isPlaying()){
-            media_seekBar.setProgress((int) (((float)mediaPlayer.getCurrentPosition()/mediaPlayer.getDuration())*100));
+
+    private void setMusicButtons(Media media,String filename){
+        play.setOnClickListener(view -> {
+            mediaPlayer.start();
+            media_seekBar.setMax(mediaPlayer.getDuration());
+            handler.postDelayed(updater,0);
+        });
+
+        pause.setOnClickListener(view -> {
+            mediaPlayer.pause();
+            handler.removeCallbacks(updater);
+        });
+
+        stop.setOnClickListener(view -> {
+            mediaPlayer.stop();
+
+            // Reset playback position to the beginning
+            mediaPlayer.seekTo(0);
+
+            current_time.setText(milisecondsToTimer(0));
+            prepareMediaPlayer(media,filename);
+        });
+    }
+
+
+    private void controlSeekBar(){
+        media_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(fromUser){
+                    mediaPlayer.seekTo(progress);
+                }
+                current_time.setText(milisecondsToTimer(mediaPlayer.getCurrentPosition()));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+
+        });
+        mediaPlayer.setOnCompletionListener(mediaPlayer -> mediaPlayer.seekTo(0));
+    }
+
+
+    public void downloadAllMedia(){
+        Toast.makeText(this, "Downloading media...", Toast.LENGTH_SHORT).show();
+        for(Media media : medias){
+            String url = media.getMedia_file().replace("http:", "https:");
+            int lastIndex = url.lastIndexOf('/');
+            String filename = url.substring(lastIndex + 1);
+
+            DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+
+            request.setTitle(filename)
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                    .setDestinationInExternalFilesDir(getApplication(),Environment.DIRECTORY_DOWNLOADS, filename);
+
+            manager.enqueue(request);
         }
     }
 
-    private void setMusicButtons(Media media){
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mediaPlayer.start();
-                updateSeekBar();
-            }
-        });
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handler.removeCallbacks(updater);
-                mediaPlayer.pause();
-            }
-        });
-        stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handler.removeCallbacks(updater);
-                mediaPlayer.stop();
-                current_time.setText(mediaPlayer.getCurrentPosition());
-                prepareMediaPlayer(media);
-            }
-        });
-    }
-
-
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void controlSeekBar(){
-        media_seekBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                SeekBar seekBar = (SeekBar) view;
-                int playPosition = (mediaPlayer.getDuration() / 100) * seekBar.getProgress();
-                mediaPlayer.seekTo(playPosition);
-                current_time.setText(milisecondsToTimer(mediaPlayer.getCurrentPosition()));
-                return false;
-            }
-        });
-    }
 
     private String milisecondsToTimer(long milliseconds){
         String timer = "";
         String minutes_part = "";
         String seconds_part= "";
+
         // Calculate hours, minutes, and seconds
         int hours = (int) milliseconds / (1000 * 60 * 60);
         int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
@@ -172,6 +264,7 @@ public class MediaActivity extends AppCompatActivity {
 
         return timer;
     }
+
     private void setEverythingInvisible(){
         media_imagem.setVisibility(View.GONE);
         media_video.setVisibility(View.GONE);
@@ -182,6 +275,7 @@ public class MediaActivity extends AppCompatActivity {
         media_seekBar.setVisibility(View.GONE);
         total_time.setVisibility(View.GONE);
     }
+
     private void setAudioVisible(){
         play.setVisibility(View.VISIBLE);
         pause.setVisibility(View.VISIBLE);
