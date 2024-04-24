@@ -11,7 +11,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.gson.JsonElement;
 import com.ruirua.sampleguideapp.BuildConfig;
 import com.ruirua.sampleguideapp.DAOs.UserDAO;
 import com.ruirua.sampleguideapp.database.GuideDatabase;
@@ -21,7 +20,6 @@ import com.ruirua.sampleguideapp.APIs.UserAPI;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

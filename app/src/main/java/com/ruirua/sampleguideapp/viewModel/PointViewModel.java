@@ -9,11 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.PointWith;
 import com.ruirua.sampleguideapp.repositories.PointRepository;
-
-import java.util.List;
 
 public class PointViewModel extends AndroidViewModel {
 

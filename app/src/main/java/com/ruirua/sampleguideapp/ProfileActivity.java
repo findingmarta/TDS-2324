@@ -4,8 +4,6 @@ package com.ruirua.sampleguideapp;
 import static android.text.TextUtils.concat;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -63,10 +61,11 @@ public class ProfileActivity extends GeneralActivity {
                 // If its not a premium user hide the history button and the verified tag
                 if (!isPremium){
                     profile_history_button.setVisibility(View.GONE);
+                    profile_settings_button.setVisibility(View.GONE);
                     premium_logo.setVisibility(View.GONE);
                 } else{
                     setHistoryButton();
-                    // TODO Meter o botão das settings a funcionar (só para premium?)
+                    setSettingsButton();
                 }
             }
         });
@@ -79,4 +78,10 @@ public class ProfileActivity extends GeneralActivity {
         });
     }
 
+    public void setSettingsButton(){
+        profile_settings_button.setOnClickListener(view -> {
+            Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+    }
 }

@@ -3,6 +3,8 @@ package com.ruirua.sampleguideapp.repositories;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
@@ -10,7 +12,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ruirua.sampleguideapp.BuildConfig;
 import com.ruirua.sampleguideapp.database.GuideDatabase;
-import com.ruirua.sampleguideapp.model.App;
 import com.ruirua.sampleguideapp.model.Edge;
 import com.ruirua.sampleguideapp.model.Media;
 import com.ruirua.sampleguideapp.model.Point;
@@ -67,12 +68,13 @@ public class TrailRepository {
         Call<List<JsonElement>> call = api.getTrails();
         call.enqueue(new retrofit2.Callback<List<JsonElement>>() {
             @Override
-            public void onResponse(Call<List<JsonElement>> call, Response<List<JsonElement>> response) {
+            public void onResponse(@NonNull Call<List<JsonElement>> call, @NonNull Response<List<JsonElement>> response) {
                 if(response.isSuccessful()) {
                     insert(response.body());
                 }
                 else{
                     try {
+                        assert response.errorBody() != null;
                         Log.e("main", "onFailure: "+response.errorBody().string());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -81,7 +83,7 @@ public class TrailRepository {
             }
 
             @Override
-            public void onFailure(Call<List<JsonElement>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<JsonElement>> call, @NonNull Throwable t) {
                 Log.e("main", "onFailure: " + t.getMessage());
                 Log.e("main", "message: "+ t.getCause());
             }
@@ -96,7 +98,7 @@ public class TrailRepository {
         }
 
         @Override
-        protected Void doInBackground(List<JsonElement>... lists) {
+        protected final Void doInBackground(List<JsonElement>... lists) {
             List<Trail> trails = new ArrayList<>();
             List<Prop_Trail> props_trail = new ArrayList<>();
             List<Edge> edges = new ArrayList<>();
@@ -174,10 +176,6 @@ public class TrailRepository {
 
     public LiveData<List<TrailWith>> getAllTrails(){
         return allTrails;
-    }
-
-    public LiveData<Trail> getTrailById(int id){
-        return trailDAO.getTrailById(id);
     }
 
     public LiveData<TrailWith> getTrailWithById(int id){

@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -21,8 +20,6 @@ import com.ruirua.sampleguideapp.model.AppWith;
 import com.ruirua.sampleguideapp.model.Contact;
 import com.ruirua.sampleguideapp.model.Partner;
 import com.ruirua.sampleguideapp.model.Social;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,10 +73,12 @@ public class AppRepository {
             @Override
             public void onResponse(Call<List<JsonElement>> call, Response<List<JsonElement>> response) {
                 if(response.isSuccessful()) {
+                    assert response.body() != null;
                     insert(response.body().get(0));
                 }
                 else{
                     try {
+                        assert response.errorBody() != null;
                         Log.e("main", "onFailure: "+response.errorBody().string());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -175,9 +174,5 @@ public class AppRepository {
     public LiveData<AppWith> getAppWith(){
         return appWith;
     }
-
-    //public LiveData<List<Contact>> getContacts(){
-        //return appDAO.getContacts();
-    //}
 
 }

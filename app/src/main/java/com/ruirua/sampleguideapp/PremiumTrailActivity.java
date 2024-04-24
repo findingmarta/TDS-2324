@@ -22,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ruirua.sampleguideapp.adapters.PointsRecyclerViewAdapter;
+import com.ruirua.sampleguideapp.model.History_Trail;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.model.TrailWith;
@@ -31,6 +32,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class PremiumTrailActivity extends AppCompatActivity implements OnMapReadyCallback {
     private PointsRecyclerViewAdapter adapter;
@@ -109,7 +113,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
 
     public void setTrailInfo(){
-        trail_name.setText(trail.getTrail_name().toUpperCase());
+        trail_name.setText(trail.getTrail_name().toUpperCase(Locale.ROOT));
         trail_duration.setText(String.valueOf(trail.getTrail_duration()));
         trail_difficulty.setText(trail.getTrail_difficulty());
         trail_desc.setText(trail.getTrail_desc());
@@ -127,13 +131,31 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
             stop_button.setClickable(true);
             start_button.setClickable(false);
 
-            // Add the trail to the history
-            hvm.insertHistoryTrail(trail.getTrailId());
-            Toast.makeText(PremiumTrailActivity.this, "Trail added to your history!", Toast.LENGTH_SHORT).show();
+            // Check if the trail is in the history
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            executor.execute(() -> {
+                History_Trail historyTrail = hvm.checkHistoryTrail(trail_id);
+
+                if (historyTrail != null){
+                    // Update trail if it exists in the history
+                    hvm.updateHistoryTrail(trail.getTrailId());
+                    // Update UI on the main thread
+                    runOnUiThread(() -> {
+                        Toast.makeText(PremiumTrailActivity.this, "Trail's history updated!", Toast.LENGTH_SHORT).show();
+                    });
+                } else {
+                    // Insert trail if it doesn't exist in the history
+                    hvm.insertHistoryTrail(trail.getTrailId());
+                    // Update UI on the main thread
+                    runOnUiThread(() -> {
+                        Toast.makeText(PremiumTrailActivity.this, "Trail added to your history!", Toast.LENGTH_SHORT).show();
+                    });
+                }
+            });
+            // Shutdown executor after use
+            executor.shutdown();
         });
     }
-
-
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {

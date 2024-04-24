@@ -6,11 +6,8 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Transaction;
 
 import com.ruirua.sampleguideapp.model.History_Point;
-import com.ruirua.sampleguideapp.model.Point;
-import com.ruirua.sampleguideapp.model.PointWith;
 
 import java.util.List;
 

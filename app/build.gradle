@@ -25,9 +25,19 @@ android {
         manifestPlaceholders = [MAPS_API_KEY: mapsApiKey]
     }
 
+    /*signingConfigs {
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }*/
+
     buildTypes {
         release {
             minifyEnabled false
+            //signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -71,7 +81,7 @@ dependencies {
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.3.0'
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.5.1"
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
 

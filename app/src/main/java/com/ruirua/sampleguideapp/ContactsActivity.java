@@ -1,21 +1,15 @@
 package com.ruirua.sampleguideapp;
 
-import android.os.Bundle;
-import android.widget.TextView;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ruirua.sampleguideapp.adapters.ContactsRecyclerViewAdapter;
-import com.ruirua.sampleguideapp.adapters.TrailsRecyclerViewAdapter;
-import com.ruirua.sampleguideapp.model.App;
 import com.ruirua.sampleguideapp.model.AppWith;
 import com.ruirua.sampleguideapp.model.Contact;
 import com.ruirua.sampleguideapp.viewModel.AppViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsActivity extends GeneralActivity{

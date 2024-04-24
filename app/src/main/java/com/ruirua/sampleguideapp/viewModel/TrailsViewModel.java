@@ -8,18 +8,15 @@ import androidx.lifecycle.LiveData;
 
 import com.ruirua.sampleguideapp.model.TrailWith;
 import com.ruirua.sampleguideapp.repositories.TrailRepository;
-import com.ruirua.sampleguideapp.model.Trail;
+
 import java.util.List;
 
 public class TrailsViewModel extends AndroidViewModel {
-
-    private TrailRepository trailRepository;
-
     private LiveData<List<TrailWith>> trails;
 
     public TrailsViewModel(@NonNull Application application) {
         super(application);
-        trailRepository= new TrailRepository(application);
+        TrailRepository trailRepository = new TrailRepository(application);
         trails = trailRepository.getAllTrails();
     }
 

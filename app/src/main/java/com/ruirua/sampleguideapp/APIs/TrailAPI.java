@@ -1,8 +1,6 @@
 package com.ruirua.sampleguideapp.APIs;
 
 import com.google.gson.JsonElement;
-import com.ruirua.sampleguideapp.model.Trail;
-import com.ruirua.sampleguideapp.model.TrailWith;
 
 import java.io.IOException;
 import java.util.List;

@@ -21,15 +21,6 @@ public class Social {
     @ColumnInfo(name = "social_app")
     private String social_app;
 
-    /*public Social(int id, int app_id, String social_name, String social_url, String social_share_link, String social_app) {
-        this.id = id;
-        this.app_id = app_id;
-        this.social_name = social_name;
-        this.social_url = social_url;
-        this.social_share_link = social_share_link;
-        this.social_app = social_app;
-    }*/
-
     public Social(String social_name, String social_url, String social_share_link, String social_app) {
         this.social_name = social_name;
         this.social_url = social_url;

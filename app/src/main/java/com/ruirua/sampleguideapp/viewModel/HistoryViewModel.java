@@ -53,4 +53,13 @@ public class HistoryViewModel extends AndroidViewModel {
         History_Trail history_trail = new History_Trail(trail_id,date,0,0);
         historyTrailRepository.insert(history_trail);
     }
+
+    public void updateHistoryTrail(int trail_id){
+        Date date = new Date(System.currentTimeMillis());
+        historyTrailRepository.updateTrailDate(trail_id,date);
+    }
+
+    public History_Trail checkHistoryTrail(int trail_id){
+        return historyTrailRepository.getHistoryTrailByTrailId(trail_id);
+    }
 }

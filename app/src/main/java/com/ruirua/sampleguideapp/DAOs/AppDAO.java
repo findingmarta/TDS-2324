@@ -13,7 +13,6 @@ import com.ruirua.sampleguideapp.model.App;
 import com.ruirua.sampleguideapp.model.AppWith;
 import com.ruirua.sampleguideapp.model.Contact;
 import com.ruirua.sampleguideapp.model.Partner;
-import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.Social;
 
 import java.util.List;

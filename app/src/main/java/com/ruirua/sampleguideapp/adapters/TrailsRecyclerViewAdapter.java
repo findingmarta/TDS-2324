@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -24,6 +23,7 @@ import com.ruirua.sampleguideapp.model.TrailWith;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecyclerViewAdapter.ViewHolder> {
@@ -66,7 +66,7 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
 
         // Set the trail's info on the view
         String durationString = trail.getTrail_duration() + " minutes";
-        holder.trailName.setText(trail.getTrail_name().toUpperCase());
+        holder.trailName.setText(trail.getTrail_name().toUpperCase(Locale.ROOT));
         holder.trailDuration.setText(durationString);
         holder.trailDifficulty.setText(trail.getTrail_difficulty());
         Picasso.get()

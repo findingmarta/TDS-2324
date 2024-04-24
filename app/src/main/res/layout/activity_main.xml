@@ -41,6 +41,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="@string/contentdesc_logo_google_maps"
                     app:srcCompat="@drawable/maps_logo" />
 
                 <TextView
@@ -85,10 +86,13 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginStart="@dimen/margin_15"
                 android:layout_marginEnd="@dimen/margin_15"
-                android:layout_marginBottom="@dimen/margin_15"                app:layout_constraintDimensionRatio="2:1"
+                android:layout_marginBottom="@dimen/margin_15"
+                app:layout_constraintDimensionRatio="2:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider"
+                android:contentDescription="@string/contentdesc_logo_da_app"
+
                 app:srcCompat="@drawable/logo" />
 
             <TextView
@@ -152,6 +156,7 @@
         android:backgroundTint="@color/light_yellow"
         android:src="@drawable/socials"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@string/contentdesc_socials_logo"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <include

@@ -5,11 +5,8 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.ruirua.sampleguideapp.DAOs.HistoryPointDAO;
-import com.ruirua.sampleguideapp.DAOs.PointDAO;
 import com.ruirua.sampleguideapp.database.GuideDatabase;
 import com.ruirua.sampleguideapp.model.History_Point;
-import com.ruirua.sampleguideapp.model.Point;
-import com.ruirua.sampleguideapp.model.PointWith;
 
 import java.util.List;
 

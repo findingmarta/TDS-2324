@@ -1,20 +1,12 @@
 <resources>
     <!-- MANIFEST FILE -->
     <string name="app_name">BraGuia</string>
-    <string name="action_settings">Settings</string>
-
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
 
     <!-- HOMEPAGE -->
     <string name="maps_warning_title">WARNING</string>
     <string name="maps_warning_text">In order to use this application you need to have Google Maps installed.</string>
     <string name="home_partners_tag">PARTNERS</string>
-    <string name="home_socials_tag">SOCIALS</string>
 
     <!-- MENU -->
     <string name="menu_sos">SOS</string>
@@ -35,7 +27,6 @@
     <string name="settings_button">Settings</string>
     <string name="first_last_name">First Last Name</string>
     <string name="profile_username">Username</string>
-    <string name="profile_password">Password</string>
 
     <!-- TRAIL's LIST -->
     <string name="trail_duration">Duration: </string>
@@ -58,11 +49,13 @@
     <string name="partner_website">Website:</string>
     <string name="partner_phone">Phone:</string>
 
-
     <!-- CONTACTS's LIST -->
     <string name="contact_phone">Number: </string>
     <string name="contact_url">Website: </string>
     <string name="contact_email">Email: </string>
+    <string name="contacts_call">Call</string>
+
+    <!-- MEDIA -->
     <string name="media_total_time">00:00</string>
     <string name="media_current_time">00:00</string>
     <string name="media_download">Download</string>
@@ -75,5 +68,17 @@
     <string name="history_trail_date">Date: </string>
     <string name="history_trail_distance_travelled">Travelled Distance: </string>
     <string name="history_trail_time_travelled">Travelled Time: </string>
+
+    <!-- NOTIFICATIONS -->
+    <string name="show_notifications">Show Notifications</string>
+    <string name="notification_distance">Distance (m):</string>
+
+    <!-- CONTENT DESCRIPTIONS -->
+    <string name="contentdesc_logo_da_app">BraGuia logo.</string>
+    <string name="contentdesc_logo_google_maps">Google Maps logo.</string>
+    <string name="contentdesc_socials_logo">Social Media\'s logo.</string>
+    <string name="contentdesc_point_image">Point of Interest image.</string>
+    <string name="contentdesc_point_media">Point of Interest media button.</string>
+    <string name="contentdesc_trail_image">Trail image.</string>
 
 </resources>

@@ -7,7 +7,6 @@
     <dimen name="text_size">20sp</dimen>
 
     <!-- RECYCLE'S VIEW -->
-    <dimen name="margin_card">5dp</dimen>
 
     <!-- BUTTONS -->
     <dimen name="button_height">60dp</dimen>

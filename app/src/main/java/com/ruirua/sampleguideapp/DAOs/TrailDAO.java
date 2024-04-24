@@ -9,15 +9,10 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.ruirua.sampleguideapp.model.Edge;
-import com.ruirua.sampleguideapp.model.History_Point;
-import com.ruirua.sampleguideapp.model.History_Trail;
 import com.ruirua.sampleguideapp.model.Media;
-import com.ruirua.sampleguideapp.model.Partner;
 import com.ruirua.sampleguideapp.model.Point;
-import com.ruirua.sampleguideapp.model.PointWith;
 import com.ruirua.sampleguideapp.model.Prop_Point;
 import com.ruirua.sampleguideapp.model.Prop_Trail;
-import com.ruirua.sampleguideapp.model.Social;
 import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.model.TrailWith;
 

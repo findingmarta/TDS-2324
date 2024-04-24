@@ -1,12 +1,16 @@
 package com.ruirua.sampleguideapp;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
-import android.os.Bundle;
-import android.util.Log;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,27 +20,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.ruirua.sampleguideapp.adapters.PartnersRecyclerViewAdapter;
-import com.ruirua.sampleguideapp.adapters.TrailsRecyclerViewAdapter;
 import com.ruirua.sampleguideapp.model.App;
 import com.ruirua.sampleguideapp.model.AppWith;
 import com.ruirua.sampleguideapp.model.Partner;
 import com.ruirua.sampleguideapp.model.Social;
-import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.model.User;
 import com.ruirua.sampleguideapp.viewModel.AppViewModel;
 import com.ruirua.sampleguideapp.viewModel.UserViewModel;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class MainActivity extends GeneralActivity{
-    //private TextView mapsWarning;                // TODO Ver como fazer este warning
+    private TextView mapsWarning;
     private TextView appDesc;
     private TextView appLandingPage;
     private FloatingActionButton socials_button;
-    private PartnersRecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
     private boolean isPremium = false;
 
@@ -56,6 +55,7 @@ public class MainActivity extends GeneralActivity{
         recyclerView = findViewById(R.id.rv_partners);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
+        mapsWarning = findViewById(R.id.home_mapsWarningText);
         appLandingPage = findViewById(R.id.home_appLandingPage);
         appDesc = findViewById(R.id.home_appDesc);
         socials_button = findViewById(R.id.home_socials_button);
@@ -78,7 +78,48 @@ public class MainActivity extends GeneralActivity{
             }
         });
 
+        setMapsLink();
         saveUserType();
+    }
+
+    public void setMapsLink(){
+        String fullText = mapsWarning.getText().toString();
+
+        // Index of the text "Google Maps installed" within the full text
+        int startIndex = fullText.indexOf("Google Maps");
+        int endIndex = startIndex + "Google Maps".length();
+
+        Spannable spannable = new SpannableString(fullText);
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                try {
+                    // Attempt to open Google Maps in Play Store
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("market://details?id=com.google.android.apps.maps"));
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    // If Play Store is not available, open the Google Play Store website in browser
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.maps"));
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(true); // Make the clickable text underlined
+            }
+        };
+
+        // Set the clickable span only on the portion of text "Google Maps"
+        spannable.setSpan(clickableSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mapsWarning.setText(spannable);
+        // Make link clickable
+        mapsWarning.setMovementMethod(LinkMovementMethod.getInstance());
+        // Remove link highlight
+        mapsWarning.setHighlightColor(Color.TRANSPARENT);
     }
 
     public void setSocials(AppWith appWith){
@@ -100,7 +141,7 @@ public class MainActivity extends GeneralActivity{
         // Get Partners from App
         List<Partner> partners = appWith.getPartners();
         if (!partners.isEmpty()){
-            adapter = new PartnersRecyclerViewAdapter(partners);
+            PartnersRecyclerViewAdapter adapter = new PartnersRecyclerViewAdapter(partners);
             recyclerView.setAdapter(adapter);
         }
     }

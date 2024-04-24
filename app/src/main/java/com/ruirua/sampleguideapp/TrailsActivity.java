@@ -1,14 +1,11 @@
 package com.ruirua.sampleguideapp;
 
 
-import android.os.Bundle;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.adapters.TrailsRecyclerViewAdapter;
 import com.ruirua.sampleguideapp.model.TrailWith;
 import com.ruirua.sampleguideapp.viewModel.TrailsViewModel;

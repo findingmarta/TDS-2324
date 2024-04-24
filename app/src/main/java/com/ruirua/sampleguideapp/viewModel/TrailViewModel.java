@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.ruirua.sampleguideapp.model.Point;
-import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.model.TrailWith;
 import com.ruirua.sampleguideapp.repositories.TrailRepository;
 

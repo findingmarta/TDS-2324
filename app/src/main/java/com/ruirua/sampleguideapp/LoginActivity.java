@@ -5,24 +5,15 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.ruirua.sampleguideapp.model.Point;
-import com.ruirua.sampleguideapp.viewModel.LoginViewModel;
-import com.ruirua.sampleguideapp.viewModel.PointViewModel;
 import com.ruirua.sampleguideapp.viewModel.UserViewModel;
 
 public class LoginActivity extends AppCompatActivity {
@@ -73,18 +64,13 @@ public class LoginActivity extends AppCompatActivity {
                                     if (isLoggedIn){
                                         // Start Homepage's Activity
                                         startMainActivity();
-                                        loading.setVisibility(View.GONE);
-
-                                        // Close this Activity
-                                        finish();
                                     }
                                     else{
                                         Toast.makeText(this, "Unable to log in with provided credentials.",Toast.LENGTH_LONG).show();
-                                        loading.setVisibility(View.GONE);
-
-                                        // Close this Activity
-                                        finish();
                                     }
+                                    loading.setVisibility(View.GONE);
+                                    // Close this Activity
+                                    finish();
                                 }
                             });
         });

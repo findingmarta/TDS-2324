@@ -2,18 +2,13 @@ package com.ruirua.sampleguideapp.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.Junction;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
 import androidx.room.TypeConverters;
 
 import com.ruirua.sampleguideapp.model.Converters.DateTypeConverter;
-import com.ruirua.sampleguideapp.model.Converters.PointsTypeConverter;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity(tableName = "history_point")
 @TypeConverters({DateTypeConverter.class})

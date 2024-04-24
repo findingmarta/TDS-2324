@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ruirua.sampleguideapp">
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-feature android:name="android.hardware.telephony" android:required="false" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -16,13 +18,9 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.SampleGuideApp.NoActionBar">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,6 +28,9 @@
                     android:host="http://facebook.com/braguia"/>
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
@@ -41,15 +42,19 @@
             android:exported="false" />
         <activity
             android:name=".PremiumTrailActivity"
+            android:theme="@style/Theme.SampleGuideApp.NoBackground"
             android:exported="false" />
         <activity
             android:name=".StandardTrailActivity"
+            android:theme="@style/Theme.SampleGuideApp.NoBackground"
             android:exported="false" />
         <activity
             android:name=".PointActivity"
+            android:theme="@style/Theme.SampleGuideApp.NoBackground"
             android:exported="false" />
         <activity
             android:name=".MediaActivity"
+            android:theme="@style/Theme.SampleGuideApp.NoBackground"
             android:exported="false" />
         <activity
             android:name=".ContactsActivity"

@@ -8,11 +8,8 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.ruirua.sampleguideapp.model.AppWith;
-import com.ruirua.sampleguideapp.model.History_Point;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.PointWith;
-import com.ruirua.sampleguideapp.model.Trail;
 
 import java.util.List;
 

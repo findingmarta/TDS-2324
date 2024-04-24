@@ -1,6 +1,5 @@
 package com.ruirua.sampleguideapp.adapters;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.model.Partner;
-import com.ruirua.sampleguideapp.model.Point;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Locale;
 
 
 public class PartnersRecyclerViewAdapter extends RecyclerView.Adapter<PartnersRecyclerViewAdapter.ViewHolder> {
@@ -43,7 +40,7 @@ public class PartnersRecyclerViewAdapter extends RecyclerView.Adapter<PartnersRe
         // Given a list's position, get a Partner from the list of partners
         Partner partner = partners.get(position);
 
-        holder.partnerName.setText(partner.getPartner_name().toUpperCase());
+        holder.partnerName.setText(partner.getPartner_name().toUpperCase(Locale.ROOT));
         holder.partnerPhone.setText(partner.getPartner_phone());
         holder.partnerUrl.setText(partner.getPartner_url());
         holder.partnerEmail.setText(partner.getPartner_mail());

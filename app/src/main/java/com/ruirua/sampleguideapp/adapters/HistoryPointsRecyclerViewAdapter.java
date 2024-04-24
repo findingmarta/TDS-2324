@@ -24,7 +24,6 @@ import com.ruirua.sampleguideapp.viewModel.PointViewModel;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -61,8 +60,6 @@ public class HistoryPointsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
         pvm.setPointViewModel(point_id);
         LiveData<PointWith> pointData = pvm.getPointWith();
         pointData.observe((LifecycleOwner) this.activity, new_point -> {
-            //@Override
-            //public void onChanged(PointWith pointWith) {                          // TODO verificar isto
             if (new_point != null) {
                 Point point = new_point.getPoint();
 
@@ -78,7 +75,7 @@ public class HistoryPointsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
                 holder.pointDesc.setText(descritionLimit);
 
                 // Convert Date to String
-                DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);
                 String date = df.format(history_point.getDate());
                 holder.pointDate.setText(date);
 

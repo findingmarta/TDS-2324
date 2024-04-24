@@ -1,7 +1,5 @@
 package com.ruirua.sampleguideapp.adapters;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -16,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ruirua.sampleguideapp.PointActivity;
 import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.model.Point;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class PointsRecyclerViewAdapter extends RecyclerView.Adapter<PointsRecyclerViewAdapter.ViewHolder> {
@@ -55,7 +53,7 @@ public class PointsRecyclerViewAdapter extends RecyclerView.Adapter<PointsRecycl
         Point point = points.get(position);
 
         // Set the trail's info on the view
-        holder.pointName.setText(point.getPoint_name().toUpperCase());
+        holder.pointName.setText(point.getPoint_name().toUpperCase(Locale.ROOT));
 
         String desc = point.getPoint_desc();
         // To limit the amount of characters on the item

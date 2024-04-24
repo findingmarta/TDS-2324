@@ -1,9 +1,7 @@
 package com.ruirua.sampleguideapp.adapters;
-import static androidx.core.content.ContextCompat.startActivity;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ruirua.sampleguideapp.R;
-import com.ruirua.sampleguideapp.model.App;
 import com.ruirua.sampleguideapp.model.Contact;
-import com.ruirua.sampleguideapp.model.Point;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRecyclerViewAdapter.ViewHolder>{
     private List<Contact> contacts;
@@ -53,7 +49,7 @@ public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRe
         Contact contact = contacts.get(position);
 
         // Set the trail's info on the view
-        holder.contactName.setText(contact.getContact_name().toUpperCase());
+        holder.contactName.setText(contact.getContact_name().toUpperCase(Locale.ROOT));
         holder.contactNumber.setText(contact.getContact_phone());
         holder.contactURL.setText(contact.getContact_url());
         holder.contactEmail.setText(contact.getContact_mail());

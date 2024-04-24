@@ -26,17 +26,6 @@ public class Partner {
     @ColumnInfo(name = "partner_app")
     private String partner_app;
 
-    /*public Partner(int id, int app_id, String partner_name, String partner_phone, String partner_url, String partner_mail, String partner_desc, String partner_app) {
-        this.id = id;
-        this.app_id = app_id;
-        this.partner_name = partner_name;
-        this.partner_phone = partner_phone;
-        this.partner_url = partner_url;
-        this.partner_mail = partner_mail;
-        this.partner_desc = partner_desc;
-        this.partner_app = partner_app;
-    }*/
-
     public Partner(String partner_name, String partner_phone, String partner_url, String partner_mail, String partner_desc, String partner_app) {
         this.partner_name = partner_name;
         this.partner_phone = partner_phone;

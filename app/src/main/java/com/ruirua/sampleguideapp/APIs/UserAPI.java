@@ -1,9 +1,6 @@
 package com.ruirua.sampleguideapp.APIs;
 
-import com.google.gson.JsonElement;
 import com.ruirua.sampleguideapp.model.User;
-
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

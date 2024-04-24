@@ -87,6 +87,7 @@
                 android:layout_width="@dimen/medium_button_width"
                 android:layout_height="@dimen/button_height"
                 android:textStyle="bold"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:text="@string/history_button" />
 
             <Button
@@ -95,6 +96,7 @@
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/margin_15"
                 android:textStyle="bold"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:text="@string/settings_button" />
         </LinearLayout>
 

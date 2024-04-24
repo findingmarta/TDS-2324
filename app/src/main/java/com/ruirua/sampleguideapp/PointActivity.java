@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.ruirua.sampleguideapp.model.History_Point;
 import com.ruirua.sampleguideapp.model.Point;
@@ -26,9 +25,9 @@ import com.ruirua.sampleguideapp.model.PointWith;
 import com.ruirua.sampleguideapp.model.Prop_Point;
 import com.ruirua.sampleguideapp.viewModel.HistoryViewModel;
 import com.ruirua.sampleguideapp.viewModel.PointViewModel;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 public class PointActivity extends AppCompatActivity {
     private int point_id;
@@ -100,7 +99,7 @@ public class PointActivity extends AppCompatActivity {
     }
 
     public void setPointInfo(){
-        point_name.setText(point.getPoint_name().toUpperCase());
+        point_name.setText(point.getPoint_name().toUpperCase(Locale.getDefault()));
         point_desc.setText(point.getPoint_desc());
         /*Picasso.get()
                 .load(point.getPoint_image().replace("http:", "https:"))

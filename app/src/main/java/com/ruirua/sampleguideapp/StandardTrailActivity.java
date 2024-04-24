@@ -6,19 +6,12 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.ruirua.sampleguideapp.adapters.PointsRecyclerViewAdapter;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.Trail;
@@ -28,10 +21,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class StandardTrailActivity extends AppCompatActivity{
     private PointsRecyclerViewAdapter adapter;
-    private int trail_id;
     private TextView trail_name;
     private TextView trail_duration;
     private TextView trail_difficulty;
@@ -61,7 +54,7 @@ public class StandardTrailActivity extends AppCompatActivity{
 
         // Get trail's id
         Intent intent = getIntent();
-        trail_id = intent.getIntExtra("trail_id",0);
+        int trail_id = intent.getIntExtra("trail_id", 0);
 
         // Given the ID initialize the trail and set its info
         tvm.setTrailViewModel(trail_id);
@@ -87,7 +80,7 @@ public class StandardTrailActivity extends AppCompatActivity{
     public void setTrailInfo(TrailWith trailWith){
         Trail trail = trailWith.getTrail();
 
-        trail_name.setText(trail.getTrail_name().toUpperCase());
+        trail_name.setText(trail.getTrail_name().toUpperCase(Locale.ROOT));
         trail_duration.setText(String.valueOf(trail.getTrail_duration()));
         trail_difficulty.setText(trail.getTrail_difficulty());
         trail_desc.setText(trail.getTrail_desc());

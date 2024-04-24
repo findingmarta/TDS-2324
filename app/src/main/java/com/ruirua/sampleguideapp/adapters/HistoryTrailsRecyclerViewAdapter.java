@@ -16,24 +16,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ruirua.sampleguideapp.PointActivity;
 import com.ruirua.sampleguideapp.PremiumTrailActivity;
 import com.ruirua.sampleguideapp.R;
-import com.ruirua.sampleguideapp.model.History_Point;
 import com.ruirua.sampleguideapp.model.History_Trail;
-import com.ruirua.sampleguideapp.model.Point;
-import com.ruirua.sampleguideapp.model.PointWith;
 import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.model.TrailWith;
-import com.ruirua.sampleguideapp.viewModel.PointViewModel;
 import com.ruirua.sampleguideapp.viewModel.TrailViewModel;
-import com.ruirua.sampleguideapp.viewModel.TrailsViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 
@@ -68,8 +61,6 @@ public class HistoryTrailsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
         tvm.setTrailViewModel(trail_id);
         LiveData<TrailWith> trailData = tvm.getTrailWith();
         trailData.observe((LifecycleOwner) this.activity, new_trail -> {
-            //@Override
-            //public void onChanged(PointWith pointWith) {                          // TODO verificar isto
             if (new_trail != null) {
                 Trail trail = new_trail.getTrail();
 
@@ -86,19 +77,19 @@ public class HistoryTrailsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
                 int distance = history_trail.getTravelled_distance();
                 String distanceString = "-";
                 if (distance > 0){
-                    distanceString = String.valueOf(distance) + " meters";
+                    distanceString = distance + " meters";
                 }
                 holder.trailTravelledDistance.setText(distanceString);
 
                 int time = history_trail.getTravelled_time();
                 String timeString = "-";
                 if (time > 0){
-                    timeString = String.valueOf(time) + " minutes";
+                    timeString = time + " minutes";
                 }
                 holder.trailTravelledTime.setText(timeString);
 
                 // Convert Date to String. If there isn't a Date the default is "-"
-                DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);
                 String date = df.format(history_trail.getDate());
                 holder.trailDate.setText(date);
 
