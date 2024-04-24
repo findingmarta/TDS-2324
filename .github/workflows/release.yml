@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checking out code
-        uses: actions/checkout@v2
+      - name: Checkout Git Repository
+        uses: actions/checkout@v4.1.4
 
       - name: Decode Keystore
         env:
@@ -24,15 +24,15 @@ jobs:
           echo $ENCODED_STRING > keystore-b64.txt
           base64 -d keystore-b64.txt > keystore.jks
 
-      - name: Build Release apk
+      - name: Build Release APK
         env:
           RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
           RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
         run: ./gradlew assembleRelease
 
-      - name: Upload Release Build to Artifacts
-        uses: actions/upload-artifact@v3
+      - name: Upload APK
+        uses: actions/upload-artifact@v4.3.3
         with:
           name: release-artifacts
           path: ${{ steps.releaseApk.outputs.apkfile }}
