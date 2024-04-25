@@ -9,11 +9,11 @@ localProperties.load(project.rootProject.file('local.properties').newDataInputSt
 def mapsApiKey = localProperties.getProperty('MAPS_API_KEY')
 
 android {
+    compileSdk 33
     buildToolsVersion "32.0.0"
 
     defaultConfig {
         applicationId "com.ruirua.sampleguideapp"
-        compileSdkVersion 33
         minSdkVersion 27
         targetSdkVersion 33
         versionCode 1

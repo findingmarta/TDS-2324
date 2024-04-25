@@ -1,10 +1,14 @@
 package com.ruirua.sampleguideapp;
 
+import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -61,6 +65,7 @@ public class MainActivity extends GeneralActivity{
         socials_button = findViewById(R.id.home_socials_button);
 
         setAppInfo();
+        createNotificationChannel();
     }
 
     public void setAppInfo(){
@@ -159,5 +164,16 @@ public class MainActivity extends GeneralActivity{
             editor.putBoolean("user_type",isPremium);
             editor.apply();
         });
+    }
+
+    @SuppressLint("ObsoleteSdkInt")
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(NotificationChannel.DEFAULT_CHANNEL_ID, "notifyChannel", importance);
+            channel.setDescription("Notify Maps");
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
