@@ -9,11 +9,11 @@ localProperties.load(project.rootProject.file('local.properties').newDataInputSt
 def mapsApiKey = localProperties.getProperty('MAPS_API_KEY')
 
 android {
-    compileSdkVersion 33
     buildToolsVersion "32.0.0"
 
     defaultConfig {
         applicationId "com.ruirua.sampleguideapp"
+        compileSdkVersion 33
         minSdkVersion 27
         targetSdkVersion 33
         versionCode 1
@@ -25,19 +25,19 @@ android {
         manifestPlaceholders = [MAPS_API_KEY: mapsApiKey]
     }
 
-    /*signingConfigs {
+    signingConfigs {
         release {
-            storeFile file(RELEASE_STORE_FILE)
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
+            storeFile file("../keystore.jks")
+            storePassword System.getenv("RELEASE_STORE_PASSWORD")
+            keyAlias System.getenv("RELEASE_KEY_ALIAS")
+            keyPassword System.getenv("RELEASE_KEY_PASSWORD")
         }
-    }*/
+    }
 
     buildTypes {
         release {
             minifyEnabled false
-            //signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -87,5 +87,6 @@ dependencies {
 
     // Google Maps
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
+    implementation 'com.google.android.gms:play-services-location:21.2.0'
 
 }

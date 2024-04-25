@@ -1,0 +1,33 @@
+name: Release Generator
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Git Repository
+        uses: actions/checkout@v4.1.4
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
+
+      - name: Sign App APK
+        uses: r0adkll/sign-android-release@v1.0.1
+        # ID used to access action output
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.RELEASE_STORE_FILE }}
+          alias: ${{ secrets.RELEASE_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.RELEASE_KEY_PASSWORD }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          name: release-artifacts
+          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
