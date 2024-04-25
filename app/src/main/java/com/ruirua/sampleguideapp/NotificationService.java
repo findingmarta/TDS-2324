@@ -8,10 +8,15 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.ruirua.sampleguideapp.model.Point;
+
+import java.util.ArrayList;
+
 public class NotificationService extends Service {
     private SharedPreferences sp;
     private Boolean notification_state;
     private  int notification_distance;
+    private ArrayList<Point> points;
 
     @Nullable
     @Override
@@ -22,13 +27,22 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // TODO AAAAAAAAA
-
         // Get user's preferences
         sp = getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
         getPreferences();
 
+        // Get trail's points
+        points = (ArrayList<Point>) intent.getSerializableExtra("points");
+        Boolean start_request = intent.getBooleanExtra("start",true);
 
+        if (start_request){
+
+
+
+        } else {
+            // Stop the Notification Service
+            stopSelf();
+        }
 
         // If the service is eliminated by the system, it will not be re-created
         return START_NOT_STICKY;

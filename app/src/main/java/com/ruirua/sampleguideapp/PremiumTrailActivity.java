@@ -191,7 +191,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
         stop_button.setOnClickListener(view -> {
             // TODO Stop Notification Service
-
+            stopService();
         });
     }
 
@@ -222,16 +222,24 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
     public void startService(){
         // In this case we need a foreground service
-        //TODO É preciso passar alguma variável para o servico de notificações??????????????????
         Intent serviceIntent = new Intent(this, NotificationService.class);
-        ComponentName componentName = this.startForegroundService(serviceIntent);
+        serviceIntent.putExtra("points", points);
+        serviceIntent.putExtra("start",true);
 
+        ComponentName componentName = this.startForegroundService(serviceIntent);
         // Check if the service is running
         if (componentName != null) {
             Log.d("Notification Service", "Notification Service is running in the foreground...");
         } else {
-            Log.e("Notification Service", "Something went wrong: Failed to start service");
+            Log.e("Notification Service", "Something went wrong: Failed to start service.");
         }
+    }
+
+    public void stopService(){
+        // Send another request to the Notification Service
+        Intent serviceIntent = new Intent(this, NotificationService.class);
+        this.startForegroundService(serviceIntent);
+        Log.d("Notification Service", "Notification Service is not longer running.");
     }
 
 
