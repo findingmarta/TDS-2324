@@ -2,7 +2,11 @@ package com.ruirua.sampleguideapp;
 
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,8 +23,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.ruirua.sampleguideapp.adapters.PointsRecyclerViewAdapter;
 import com.ruirua.sampleguideapp.model.History_Trail;
 import com.ruirua.sampleguideapp.model.Point;
@@ -31,6 +37,7 @@ import com.ruirua.sampleguideapp.viewModel.TrailViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -49,6 +56,8 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     private Button stop_button;
 
     private MapView trail_map;
+
+    private ArrayList<Point> points;
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,29 +95,41 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
             }
         });
 
-
-        // Trail's Points
-        LiveData<List<Point>> pointsData = tvm.getTrailPoints(trail_id);
-        pointsData.observe(this, pointslist -> {
-            ArrayList<Point> points = new ArrayList<>(pointslist);
-            adapter = new PointsRecyclerViewAdapter(points,this);
-            recyclerView.setAdapter(adapter);
-        });
-
-
-
-        // Set up the Map
-        // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK objects or sub-Bundles.
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
         }
         trail_map = findViewById(R.id.premium_mapView);
         trail_map.onCreate(mapViewBundle);
-        trail_map.getMapAsync(this);
+
+
+        // Trail's Points
+        LiveData<List<Point>> pointsData = tvm.getTrailPoints(trail_id);
+        pointsData.observe(this, pointslist -> {
+            points = new ArrayList<>(pointslist);
+            adapter = new PointsRecyclerViewAdapter(points,this);
+            recyclerView.setAdapter(adapter);
+            String link = "https://www.google.com/maps/dir";
+            StringBuilder linkMaps = new StringBuilder();
+            linkMaps.append(link);
+            for(Point p:points){
+                linkMaps.append("/").append(p.getPoint_lat()).append(",").append(p.getPoint_lng());
+            }
+            Log.e("Antes do start","11111111111111");
+            creatPathOnMaps(linkMaps.toString());
+            trail_map.getMapAsync(this);
+        });
+
+
+
+        // Set up the Map
+        // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK objects or sub-Bundles.
+
+        //trail_map.getMapAsync(this);
 
         HistoryViewModel hvm = new ViewModelProvider(this).get(HistoryViewModel.class);
         setStartStop(hvm);
+
     }
 
 
@@ -160,13 +181,24 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         // Add a marker in Sydney, Australia,
-        LatLng sydney = new LatLng(-33.852, 151.211);
-        googleMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"));
+        if(points!=null) {
+            Log.e("Antes de pôr pontos", points.get(0).toString());
+            for (Point p : points) {
+                Log.e("Antes de pôr pontos", "2222222222");
+                LatLng trail = new LatLng(p.getPoint_lat(), p.getPoint_lng());
+                googleMap.addMarker(new MarkerOptions()
+                        .position(trail)
+                        .title(p.getPoint_name()));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(trail, 12));
+            }
+        }
+        //LatLng sydney = new LatLng(-33.852, 151.211);
+        //googleMap.addMarker(new MarkerOptions()
+        //        .position(sydney)
+        //        .title("Marker in Sydney"));
 
         // Move the map's camera to the same location.
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,12));
     }
 
     @Override
@@ -216,6 +248,18 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     public void onLowMemory() {
         super.onLowMemory();
         trail_map.onLowMemory();
+    }
+    public void creatPathOnMaps(String linkMaps){
+        start_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse(linkMaps);
+                Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+                intent.setPackage("com.google.android.apps.maps");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
     }
 
 }
