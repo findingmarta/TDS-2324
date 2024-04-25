@@ -19,11 +19,11 @@ public class SettingsActivity extends AppCompatActivity {
     private SwitchCompat show_notifications;
     private TextView notification_distance_tag;
     private Spinner notification_distance;
-    private String selected_distance;
+    private int selected_distance;
     private SharedPreferences sp;
     //SharedPreferences.Editor editor;
 
-    String distance;
+    int distance;
     Boolean state;
 
     @Override
@@ -93,11 +93,11 @@ public class SettingsActivity extends AppCompatActivity {
         notification_distance.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 // Get the selected value
-                selected_distance = parent.getItemAtPosition(pos).toString();
+                selected_distance = Integer.parseInt(parent.getItemAtPosition(pos).toString());
 
                 // Save Settings
                 SharedPreferences.Editor editor = sp.edit();
-                editor.putString("notification_distance",selected_distance);
+                editor.putInt("notification_distance",selected_distance);
                 editor.apply();
 
                 distance = selected_distance;
@@ -107,7 +107,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         getDistancePreferences();
-        notification_distance.setSelection(adapter.getPosition(distance));
+        notification_distance.setSelection(adapter.getPosition(String.valueOf(distance)));
     }
 
     public void getNotificationsPreferences(){
@@ -116,14 +116,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void getDistancePreferences(){
-        String selectedValueString= sp.getString("notification_distance",null);
-
-        if (selectedValueString == null){
-            // For default the distance is 50m;
-            distance = "50";
-        }
-        else{
-            distance = selectedValueString;
-        }
+        // For default the distance is 50m;
+        distance = sp.getInt("notification_distance",50);
     }
 }

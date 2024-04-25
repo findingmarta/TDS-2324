@@ -1,6 +1,7 @@
 package com.ruirua.sampleguideapp;
 
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -43,7 +44,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class PremiumTrailActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class PremiumTrailActivity extends AppCompatActivity implements OnMapReadyCallback { // TODO remover data dos pontos de interesse
     private PointsRecyclerViewAdapter adapter;
     private int trail_id;
     private Trail trail;
@@ -95,6 +96,8 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
             }
         });
 
+        // Set up the Map
+        // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK objects or sub-Bundles.
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
@@ -102,34 +105,27 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         trail_map = findViewById(R.id.premium_mapView);
         trail_map.onCreate(mapViewBundle);
 
+        HistoryViewModel hvm = new ViewModelProvider(this).get(HistoryViewModel.class);
 
         // Trail's Points
+        StringBuilder linkMaps = new StringBuilder();
         LiveData<List<Point>> pointsData = tvm.getTrailPoints(trail_id);
         pointsData.observe(this, pointslist -> {
             points = new ArrayList<>(pointslist);
             adapter = new PointsRecyclerViewAdapter(points,this);
             recyclerView.setAdapter(adapter);
+
+            // Create trail's link
             String link = "https://www.google.com/maps/dir";
-            StringBuilder linkMaps = new StringBuilder();
             linkMaps.append(link);
             for(Point p:points){
                 linkMaps.append("/").append(p.getPoint_lat()).append(",").append(p.getPoint_lng());
             }
-            Log.e("Antes do start","11111111111111");
-            creatPathOnMaps(linkMaps.toString());
+
+            setStartStop(hvm,linkMaps.toString());
+
             trail_map.getMapAsync(this);
         });
-
-
-
-        // Set up the Map
-        // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK objects or sub-Bundles.
-
-        //trail_map.getMapAsync(this);
-
-        HistoryViewModel hvm = new ViewModelProvider(this).get(HistoryViewModel.class);
-        setStartStop(hvm);
-
     }
 
 
@@ -143,7 +139,15 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
                 .into(trail_image);
     }
 
-    public void setStartStop(HistoryViewModel hvm){
+    public void createPathOnMaps(String linkMaps){
+        Uri uri = Uri.parse(linkMaps);
+        Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+        intent.setPackage("com.google.android.apps.maps");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    public void setStartStop(HistoryViewModel hvm, String linkMaps){
         // Block the Stop button
         stop_button.setClickable(false);
 
@@ -176,17 +180,25 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
             // Shutdown executor after use
             executor.shutdown();
 
-            // TODO configure and open Google Maps
+            // Configure and open Google Maps
+            createPathOnMaps(linkMaps);
+
+            // Start Notification Service
+            startService();
+        });
+
+
+
+        stop_button.setOnClickListener(view -> {
+            // TODO Stop Notification Service
+
         });
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        // Add a marker in Sydney, Australia,
         if(points!=null) {
-            Log.e("Antes de pôr pontos", points.get(0).toString());
             for (Point p : points) {
-                Log.e("Antes de pôr pontos", "2222222222");
                 LatLng trail = new LatLng(p.getPoint_lat(), p.getPoint_lng());
                 googleMap.addMarker(new MarkerOptions()
                         .position(trail)
@@ -194,13 +206,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(trail, 12));
             }
         }
-        //LatLng sydney = new LatLng(-33.852, 151.211);
-        //googleMap.addMarker(new MarkerOptions()
-        //        .position(sydney)
-        //        .title("Marker in Sydney"));
-
-        // Move the map's camera to the same location.
-        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,12));
     }
 
     @Override
@@ -214,6 +219,20 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         trail_map.onSaveInstanceState(mapViewBundle);
     }
 
+
+    public void startService(){
+        // In this case we need a foreground service
+        //TODO É preciso passar alguma variável para o servico de notificações??????????????????
+        Intent serviceIntent = new Intent(this, NotificationService.class);
+        ComponentName componentName = this.startForegroundService(serviceIntent);
+
+        // Check if the service is running
+        if (componentName != null) {
+            Log.d("Notification Service", "Notification Service is running in the foreground...");
+        } else {
+            Log.e("Notification Service", "Something went wrong: Failed to start service");
+        }
+    }
 
 
     @Override
@@ -251,17 +270,4 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         super.onLowMemory();
         trail_map.onLowMemory();
     }
-    public void creatPathOnMaps(String linkMaps){
-        start_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Uri uri = Uri.parse(linkMaps);
-                Intent intent = new Intent(Intent.ACTION_VIEW,uri);
-                intent.setPackage("com.google.android.apps.maps");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
-    }
-
 }
