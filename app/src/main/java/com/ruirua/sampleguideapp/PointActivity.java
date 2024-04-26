@@ -84,8 +84,8 @@ public class PointActivity extends AppCompatActivity {
         });
 
         HistoryViewModel hvm = new ViewModelProvider(this).get(HistoryViewModel.class);
-        // Check if point is already in the history
-        LiveData<History_Point> historyPointData = hvm.checkHistoryPoint(point_id);
+        // Check if point is already in the history                                           // TODO tirei o liveData
+       /* LiveData<History_Point> historyPointData = hvm.checkHistoryPoint(point_id);
         historyPointData.observe(this, new_history_point -> {
             if (new_history_point == null){
                 // Set visited if point not in the history
@@ -95,7 +95,16 @@ public class PointActivity extends AppCompatActivity {
                 point_visited_button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_grey)));
                 point_visited_button.setClickable(false);
             }
-        });
+        });*/
+        History_Point historyPoint = hvm.checkHistoryPoint(point_id);
+        if (historyPoint == null){
+            // Set visited if point not in the history
+            setVisited(hvm);
+        } else{
+            // Block the "Mark As Visited" button
+            point_visited_button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_grey)));
+            point_visited_button.setClickable(false);
+        }
     }
 
     public void setPointInfo(){

@@ -28,31 +28,11 @@
             android:textStyle="bold" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="85dp"
-            android:layout_marginBottom="15dp"
-            android:text="@string/history_trail_date"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/history_point_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="85dp"
-            android:layout_marginTop="85dp"
-            android:layout_marginBottom="15dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"/>
-
-        <TextView
             android:id="@+id/history_point_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="110dp"
+            android:layout_marginTop="85dp"
             android:layout_marginBottom="15dp"
             android:textSize="12sp"
             android:textColor="@color/white"/>

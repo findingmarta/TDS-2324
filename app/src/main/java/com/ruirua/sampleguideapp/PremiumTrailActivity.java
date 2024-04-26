@@ -2,9 +2,11 @@ package com.ruirua.sampleguideapp;
 
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -23,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,7 +62,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class PremiumTrailActivity extends AppCompatActivity implements OnMapReadyCallback { // TODO remover data dos pontos de interesse
+public class PremiumTrailActivity extends AppCompatActivity implements OnMapReadyCallback {
     private PointsRecyclerViewAdapter adapter;
     private int trail_id;
     private Trail trail;
@@ -93,6 +96,11 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         trail_image = findViewById(R.id.premium_trail_gallery);
         start_button = findViewById(R.id.start_button);
         stop_button = findViewById(R.id.stop_button);
+
+
+        // Register an observer to receive data from the notification service
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("coords-event"));
+
 
         // Get the info from de database
         // Trail
@@ -206,7 +214,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
 
         stop_button.setOnClickListener(view -> {
-            // TODO Stop Notification Service
             stopService();
         });
     }
@@ -258,6 +265,20 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         Log.d("Notification Service", "Notification Service is not longer running.");
     }
 
+    private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            Log.d("Receiver", "Got message from the Notification Service");
+
+            String lat = intent.getStringExtra("current_lat");
+            String lng = intent.getStringExtra("current_lng");
+
+            // Create the path on Google Maps
+            createPathOnMaps(lat,lng);
+        }
+    };
+
 
     @Override
     public void onResume() {
@@ -286,6 +307,8 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     @Override
     public void onDestroy() {
         super.onDestroy();
+        // Unregister since the activity is about to be closed.
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         trail_map.onDestroy();
     }
 
@@ -296,21 +319,22 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     }
 
     private boolean isGPSEnabled() {
-
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
+
     private void checkPermissions(){
-        boolean hasPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-        if (!hasPermission){
+        // Exact Location
+        boolean hasFinePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        // Aproximate Location
+        boolean hasCoarsePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+        if (!hasFinePermission && !hasCoarsePermission){
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         };
     }
+
     private void turnOnGPS() {
-
-
-
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest);
         builder.setAlwaysShow(true);
@@ -318,34 +342,29 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(getApplicationContext())
                 .checkLocationSettings(builder.build());
 
-        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+        result.addOnCompleteListener(task -> {
+            try {
+                LocationSettingsResponse response = task.getResult(ApiException.class);
+                Toast.makeText(PremiumTrailActivity.this, "GPS is already turned on", Toast.LENGTH_SHORT).show();
 
-                try {
-                    LocationSettingsResponse response = task.getResult(ApiException.class);
-                    Toast.makeText(PremiumTrailActivity.this, "GPS is already tured on", Toast.LENGTH_SHORT).show();
+            } catch (ApiException e) {
 
-                } catch (ApiException e) {
+                switch (e.getStatusCode()) {
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
 
-                    switch (e.getStatusCode()) {
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        try {
+                            ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                            resolvableApiException.startResolutionForResult(PremiumTrailActivity.this, 2);
+                        } catch (IntentSender.SendIntentException ex) {
+                            ex.printStackTrace();
+                        }
+                        break;
 
-                            try {
-                                ResolvableApiException resolvableApiException = (ResolvableApiException) e;
-                                resolvableApiException.startResolutionForResult(PremiumTrailActivity.this, 2);
-                            } catch (IntentSender.SendIntentException ex) {
-                                ex.printStackTrace();
-                            }
-                            break;
-
-                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                            //Device does not have location
-                            break;
-                    }
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        //Device does not have location
+                        break;
                 }
             }
         });
-
     }
 }

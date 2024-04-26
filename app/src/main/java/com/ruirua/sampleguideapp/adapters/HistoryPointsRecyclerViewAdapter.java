@@ -74,13 +74,6 @@ public class HistoryPointsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
                 }
                 holder.pointDesc.setText(descritionLimit);
 
-                // Convert Date to String
-                DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);
-                String date = df.format(history_point.getDate());
-                holder.pointDate.setText(date);
-
-
-
                 // Set a Listener
                 holder.item.setOnClickListener(view -> {
                     // Start a Point Of Interest Activity
@@ -103,7 +96,6 @@ public class HistoryPointsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
         public final View mView;
         public final TextView pointName;
         public final TextView pointDesc;
-        public final TextView pointDate;
         private final LinearLayout item;
 
         public ViewHolder(@NonNull View view) {
@@ -113,7 +105,6 @@ public class HistoryPointsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
             // Other variables
             pointName = view.findViewById(R.id.history_point_name);
             pointDesc = view.findViewById(R.id.history_point_desc);
-            pointDate = view.findViewById(R.id.history_point_date);
 
             item = view.findViewById(R.id.historyPointItem);
         }
