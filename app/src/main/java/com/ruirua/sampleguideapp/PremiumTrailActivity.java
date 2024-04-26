@@ -3,6 +3,7 @@ package com.ruirua.sampleguideapp;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -54,6 +56,7 @@ import com.ruirua.sampleguideapp.model.TrailWith;
 import com.ruirua.sampleguideapp.viewModel.HistoryViewModel;
 import com.ruirua.sampleguideapp.viewModel.TrailViewModel;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Request;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,6 +82,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     private ArrayList<Point> points;
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
     private LocationRequest locationRequest;
+    private static final int REQUEST_CHECK_SETTING = 1001;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,21 +136,14 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         HistoryViewModel hvm = new ViewModelProvider(this).get(HistoryViewModel.class);
 
         // Trail's Points
-        StringBuilder linkMaps = new StringBuilder();
+
         LiveData<List<Point>> pointsData = tvm.getTrailPoints(trail_id);
         pointsData.observe(this, pointslist -> {
             points = new ArrayList<>(pointslist);
             adapter = new PointsRecyclerViewAdapter(points,this);
             recyclerView.setAdapter(adapter);
 
-            // Create trail's link
-            String link = "https://www.google.com/maps/dir";
-            linkMaps.append(link);
-            for(Point p:points){
-                linkMaps.append("/").append(p.getPoint_lat()).append(",").append(p.getPoint_lng());
-            }
-
-            setStartStop(hvm,linkMaps.toString());
+            setStartStop(hvm);
 
             trail_map.getMapAsync(this);
         });
@@ -163,15 +160,23 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
                 .into(trail_image);
     }
 
-    public void createPathOnMaps(String linkMaps){
-        Uri uri = Uri.parse(linkMaps);
+    public void createPathOnMaps(String lat,String lng){
+        // Create trail's link
+        StringBuilder linkMaps = new StringBuilder();
+        String link = "https://www.google.com/maps/dir";
+        linkMaps.append(link);
+        linkMaps.append("/").append(lat).append(",").append(lng);
+        for(Point p:points){
+            linkMaps.append("/").append(p.getPoint_lat()).append(",").append(p.getPoint_lng());
+        }
+        Uri uri = Uri.parse(linkMaps.toString());
         Intent intent = new Intent(Intent.ACTION_VIEW,uri);
         intent.setPackage("com.google.android.apps.maps");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
-    public void setStartStop(HistoryViewModel hvm, String linkMaps){
+    public void setStartStop(HistoryViewModel hvm){
         // Block the Stop button
         stop_button.setClickable(false);
 
@@ -205,7 +210,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
             executor.shutdown();
 
             // Configure and open Google Maps
-            createPathOnMaps(linkMaps);
+            //createPathOnMaps(lat,lng);
 
             // Start Notification Service
             startService();
@@ -318,20 +323,43 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         trail_map.onLowMemory();
     }
 
+    private void getPermissions(){
+        checkPermissions();
+        if (!isGPSEnabled()){
+            turnOnGPS();
+        }
+    }
+
     private boolean isGPSEnabled() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
     private void checkPermissions(){
+        boolean hasPermission;
         // Exact Location
         boolean hasFinePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         // Aproximate Location
         boolean hasCoarsePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
-        if (!hasFinePermission && !hasCoarsePermission){
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            boolean hasBackgroundPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
+            hasPermission = hasCoarsePermission && hasFinePermission && hasBackgroundPermission;
+        } else {
+            hasPermission = hasCoarsePermission && hasFinePermission;
+        }
+
+        if (!hasPermission){
+            requestPermissions();
         };
+    }
+
+    private void requestPermissions() {
+        int PERMISSION_ID = 44;
+        ActivityCompat.requestPermissions(this, new String[]{
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
     }
 
     private void turnOnGPS() {
@@ -366,5 +394,20 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
                 }
             }
         });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode,Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CHECK_SETTING){
+            switch (resultCode){
+                case Activity.RESULT_OK:
+                    Toast.makeText(this, "Location is turned on",Toast.LENGTH_SHORT).show();
+
+                case Activity.RESULT_CANCELED:
+                    Toast.makeText(this, "ocation turned on",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
