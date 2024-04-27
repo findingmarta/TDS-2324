@@ -22,6 +22,8 @@ public class Point implements Serializable {
     private float point_lng;
     @ColumnInfo(name = "pin_alt")
     private float point_alt;
+    @ColumnInfo(name = "visited")
+    private boolean visited;
 
     public Point(int pointId, String point_name, String point_desc, float point_lat, float point_lng, float point_alt) {
         this.pointId = pointId;
@@ -30,6 +32,7 @@ public class Point implements Serializable {
         this.point_lat = point_lat;
         this.point_lng = point_lng;
         this.point_alt = point_alt;
+        this.visited = false;
     }
 
     public Point(Point p) {
@@ -39,6 +42,7 @@ public class Point implements Serializable {
         this.point_lat = p.point_lat;
         this.point_lng = p.point_lng;
         this.point_alt = p.point_alt;
+        this.visited = p.visited;
     }
 
     public int getPointId() {
@@ -87,6 +91,14 @@ public class Point implements Serializable {
 
     public void setPoint_alt(float point_alt) {
         this.point_alt = point_alt;
+    }
+
+    public boolean getVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 
     public Point clone(){

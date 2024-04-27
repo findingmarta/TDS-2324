@@ -28,6 +28,8 @@ import com.ruirua.sampleguideapp.viewModel.PointViewModel;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class PointActivity extends AppCompatActivity {
     private int point_id;
@@ -42,6 +44,7 @@ public class PointActivity extends AppCompatActivity {
     private Boolean isPremium;
 
     Point point;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,18 +88,18 @@ public class PointActivity extends AppCompatActivity {
 
         HistoryViewModel hvm = new ViewModelProvider(this).get(HistoryViewModel.class);
         // Check if point is already in the history                                           // TODO tirei o liveData
-       /* LiveData<History_Point> historyPointData = hvm.checkHistoryPoint(point_id);
+        LiveData<History_Point> historyPointData = hvm.checkHistoryPoint(point_id);
         historyPointData.observe(this, new_history_point -> {
             if (new_history_point == null){
                 // Set visited if point not in the history
-                setVisited(hvm);
+                setVisited(hvm,pvm);
             } else{
                 // Block the "Mark As Visited" button
                 point_visited_button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_grey)));
                 point_visited_button.setClickable(false);
             }
-        });*/
-        History_Point historyPoint = hvm.checkHistoryPoint(point_id);
+        });
+        /*History_Point historyPoint = hvm.checkHistoryPoint(point_id);
         if (historyPoint == null){
             // Set visited if point not in the history
             setVisited(hvm);
@@ -104,7 +107,7 @@ public class PointActivity extends AppCompatActivity {
             // Block the "Mark As Visited" button
             point_visited_button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_grey)));
             point_visited_button.setClickable(false);
-        }
+        }*/
     }
 
     public void setPointInfo(){
@@ -147,7 +150,7 @@ public class PointActivity extends AppCompatActivity {
         }
     }
 
-    public void setVisited (HistoryViewModel hvm) {
+    public void setVisited (HistoryViewModel hvm, PointViewModel pvm) {
         if (!isPremium) {
             point_visited_button.setVisibility(View.GONE);
         }
@@ -156,6 +159,12 @@ public class PointActivity extends AppCompatActivity {
                 // Add point to the user's history
                 hvm.insertHistoryPoint(point.getPointId());
                 Toast.makeText(PointActivity.this, "Point of Interest added to your history!", Toast.LENGTH_SHORT).show();
+                ExecutorService executor = Executors.newSingleThreadExecutor();
+                executor.execute(() -> {
+                    pvm.updateVisited(point.getPointId());
+                });
+                // Shutdown executor after use
+                executor.shutdown();
             });
         }
     }

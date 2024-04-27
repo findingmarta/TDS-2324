@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.lifecycle.LifecycleService;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -34,11 +35,12 @@ import com.google.android.gms.location.Priority;
 import com.ruirua.sampleguideapp.model.History_Point;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.viewModel.HistoryViewModel;
+import com.ruirua.sampleguideapp.viewModel.PointViewModel;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class NotificationService extends Service {
+public class NotificationService extends LifecycleService {
     private ArrayList<Point> points;
     private SharedPreferences sp;
     private Boolean notification_state;
@@ -46,7 +48,7 @@ public class NotificationService extends Service {
     private LocationManager locationManager;
     private LocationListener locationListener;
     private Location prev_location;
-    private Float travelled_distance;
+    private float travelled_distance;
     private int NOTIFICATION_ID;
     private boolean sent = false;
 
@@ -61,17 +63,26 @@ public class NotificationService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // We don't provide binding, so return null
+        super.onBind(intent);
         return null;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Start user's preferences
+        super.onStartCommand(intent, flags, startId);
         sp = getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
 
         // Get trail's points
         points = (ArrayList<Point>) intent.getSerializableExtra("points");
         assert points != null;
+
+        // Access the history
+        PointViewModel hvm = new ViewModelProvider((ViewModelStoreOwner) this).get(PointViewModel.class);
+        hvm.getTrailPoints(trail_id).observe(this, pointslist -> {
+            points = new ArrayList<>(pointslist);
+            Log.e("AAAAAAAAAAAAAAAAAAAAAA",points.get(0).getPoint_name());
+        });
 
         boolean start_request = intent.getBooleanExtra("start", true);
         if (start_request) {
@@ -86,7 +97,7 @@ public class NotificationService extends Service {
                     String lng = String.valueOf(location.getLongitude());
 
                     // Send them to the activity once
-                    if (!sent){
+                    if (!sent) {
                         Log.d("Sender", "Sending a message to the activity");
                         sendCoords(lat, lng);
                         sent = true;
@@ -97,13 +108,16 @@ public class NotificationService extends Service {
                 }
 
                 @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) {}
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                }
 
                 @Override
-                public void onProviderEnabled(@NonNull String provider) {}
+                public void onProviderEnabled(@NonNull String provider) {
+                }
 
                 @Override
-                public void onProviderDisabled(@NonNull String provider) {}
+                public void onProviderDisabled(@NonNull String provider) {
+                }
             };
 
             // Necessary in order to use the requestLocationUpdates
@@ -194,8 +208,6 @@ public class NotificationService extends Service {
 
         Log.e("AAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAA");
 
-        // Access the history
-        //HistoryViewModel hvm = new ViewModelProvider((ViewModelStoreOwner) this).get(HistoryViewModel.class);
 
         // Check if the notifications are on
         if (notification_state){
@@ -205,6 +217,7 @@ public class NotificationService extends Service {
 
                 //if (historyPoint == null) {
                     // Create o Location using the point's coords
+                    Log.e(p.getPoint_name(),p.getVisited()+" ");
                     Location point_location = new Location("point_location");
                     point_location.setLatitude(p.getPoint_lat());
                     point_location.setLatitude(p.getPoint_lng());
@@ -223,6 +236,7 @@ public class NotificationService extends Service {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
 
         // Remove location updates in order to avoid unnecessary consumption

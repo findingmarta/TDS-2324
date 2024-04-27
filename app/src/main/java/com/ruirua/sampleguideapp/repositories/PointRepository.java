@@ -33,4 +33,7 @@ public class PointRepository {
             pointDAO.insert(points);
         });
     }
+    public void updateVisited(int point_id){
+        pointDAO.updateVisited(point_id);
+    }
 }

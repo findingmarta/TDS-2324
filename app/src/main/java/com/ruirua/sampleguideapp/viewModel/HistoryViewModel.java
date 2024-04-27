@@ -43,12 +43,12 @@ public class HistoryViewModel extends AndroidViewModel {
         historyPointRepository.insert(history_point);
     }
 
-    /*public LiveData<History_Point> checkHistoryPoint(int point_id){
-        return historyPointRepository.getHistoryPointByPointId(point_id);
-    }*/
-    public History_Point checkHistoryPoint(int point_id){
+    public LiveData<History_Point> checkHistoryPoint(int point_id){
         return historyPointRepository.getHistoryPointByPointId(point_id);
     }
+    /*public History_Point checkHistoryPoint(int point_id){
+        return historyPointRepository.getHistoryPointByPointId(point_id);
+    }*/
 
     public void insertHistoryTrail(int trail_id){
         Date date = new Date(System.currentTimeMillis());

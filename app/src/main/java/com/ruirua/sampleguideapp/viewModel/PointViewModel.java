@@ -35,4 +35,8 @@ public class PointViewModel extends AndroidViewModel {
         SharedPreferences sp = getApplication().getSharedPreferences("BraGuia Shared Preferences",MODE_PRIVATE);
         return sp.getBoolean("user_type", false);
     }
+
+    public void updateVisited(int point_id){
+        pointRepository.updateVisited(point_id);
+    }
 }

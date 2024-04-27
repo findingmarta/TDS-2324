@@ -7,10 +7,13 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.TypeConverters;
 
+import com.ruirua.sampleguideapp.model.Converters.DateTypeConverter;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.PointWith;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -35,5 +38,8 @@ public interface PointDAO {
     // DELETE
     @Query("DELETE FROM point")
     void deleteAll();
+
+    @Query("UPDATE point SET visited = 1 WHERE pointId = :id")
+    void updateVisited(int id);
 
 }

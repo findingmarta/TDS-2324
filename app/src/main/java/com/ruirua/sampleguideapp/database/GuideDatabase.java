@@ -47,7 +47,7 @@ import java.util.concurrent.Executors;
         Media.class,
         Partner.class,
         Social.class,
-        Contact.class}, version = 972, exportSchema = false)
+        Contact.class}, version = 973, exportSchema = false)
 
 public abstract class GuideDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "BraGuide";
