@@ -144,10 +144,10 @@
                     android:layout_height="@dimen/button_height"
                     android:layout_alignParentEnd="true"
                     android:backgroundTint="@color/dark_grey"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/trail_stop"
                     android:textSize="@dimen/small_button_text"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView

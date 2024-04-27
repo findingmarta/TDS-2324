@@ -160,12 +160,12 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
     public void setStartStop(HistoryViewModel hvm){
         // Block the Stop button
-        stop_button.setClickable(false);
+        stop_button.setEnabled(false);
 
         start_button.setOnClickListener(view -> {
             // Unblock the Stop button and block the Start button
-            stop_button.setClickable(true);
-            start_button.setClickable(false);
+            stop_button.setEnabled(true);
+            start_button.setEnabled(false);
 
             // Check if the trail is in the history
             ExecutorService executor = Executors.newSingleThreadExecutor();

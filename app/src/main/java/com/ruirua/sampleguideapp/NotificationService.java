@@ -1,11 +1,11 @@
 package com.ruirua.sampleguideapp;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,22 +20,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.LifecycleService;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.Priority;
-
-import com.ruirua.sampleguideapp.model.History_Point;
 import com.ruirua.sampleguideapp.model.Point;
-import com.ruirua.sampleguideapp.viewModel.HistoryViewModel;
-import com.ruirua.sampleguideapp.viewModel.PointViewModel;
+import com.ruirua.sampleguideapp.viewModel.TrailViewModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,16 +44,8 @@ public class NotificationService extends LifecycleService {
     private int NOTIFICATION_ID;
     private boolean sent = false;
 
-    LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 30000)
-            .setWaitForAccurateLocation(false)
-            .setMinUpdateIntervalMillis(500)
-            .setMaxUpdateDelayMillis(1000)
-            .build();
-
-
-    @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(@NonNull Intent intent) {
         // We don't provide binding, so return null
         super.onBind(intent);
         return null;
@@ -73,15 +57,18 @@ public class NotificationService extends LifecycleService {
         super.onStartCommand(intent, flags, startId);
         sp = getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
 
+        // Get trail's id
+        int trail_id = intent.getIntExtra("trail_id", -1);
+        assert trail_id != -1;
+
         // Get trail's points
         points = (ArrayList<Point>) intent.getSerializableExtra("points");
         assert points != null;
 
         // Access the history
-        PointViewModel hvm = new ViewModelProvider((ViewModelStoreOwner) this).get(PointViewModel.class);
-        hvm.getTrailPoints(trail_id).observe(this, pointslist -> {
+        TrailViewModel tvm = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(TrailViewModel.class);
+        tvm.getTrailPoints(trail_id).observe(this, pointslist -> {
             points = new ArrayList<>(pointslist);
-            Log.e("AAAAAAAAAAAAAAAAAAAAAA",points.get(0).getPoint_name());
         });
 
         boolean start_request = intent.getBooleanExtra("start", true);
@@ -151,7 +138,7 @@ public class NotificationService extends LifecycleService {
 
     public void getPreferences(){
         notification_state = sp.getBoolean("notification_state",true);  // default on
-        notification_distance = sp.getInt("notification_distance", 50); // default 50 meters
+        notification_distance = sp.getInt("notification_distance", 500); // default 500 meters
     }
 
     private void sendData(){
@@ -169,18 +156,27 @@ public class NotificationService extends LifecycleService {
         Intent intent_coords = new Intent("coords-event");
         intent_coords.putExtra("current_lat",lat);
         intent_coords.putExtra("current_lng",lng);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent_coords);    // TODO talvez tenha que meter uma flag para não fazer isto muitas vezes
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent_coords);
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     public void createNotification(Point point){
-        // TODO Notification channel??????????????
+        // Create the notification channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("aaa", "Notification Channel", importance);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
 
         // Create an explicit intent for an Activity in your app.
         Intent intent = new Intent(this, PointActivity.class);
+        intent.putExtra("point_id",point.getPointId());
         //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NotificationChannel.DEFAULT_CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "aaa")
+                .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(point.getPoint_name() + " is near you!")
                 .setContentText("The distance between you and " + point.getPoint_name() + " is " + notification_distance + "m.")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -190,7 +186,7 @@ public class NotificationService extends LifecycleService {
 
         // Notify - notificationId is a unique int for each notification.
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_NOTIFICATION_POLICY) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         notificationManager.notify(NOTIFICATION_ID, builder.build());
@@ -203,33 +199,29 @@ public class NotificationService extends LifecycleService {
         // For every location update, add the distance to the travelled distance
         if (prev_location != null) {
             travelled_distance += current_location.distanceTo(prev_location);
+            Log.d("Notification Service", "Travelled Distance: " + travelled_distance);
         }
         prev_location = current_location;
-
-        Log.e("AAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAA");
-
 
         // Check if the notifications are on
         if (notification_state){
             for (Point p : points){
                 // Check if the point was already visited
-                //History_Point historyPoint = hvm.checkHistoryPoint(p.getPointId());
-
-                //if (historyPoint == null) {
+                if (!p.getVisited()) {
                     // Create o Location using the point's coords
-                    Log.e(p.getPoint_name(),p.getVisited()+" ");
                     Location point_location = new Location("point_location");
                     point_location.setLatitude(p.getPoint_lat());
-                    point_location.setLatitude(p.getPoint_lng());
+                    point_location.setLongitude(p.getPoint_lng());
 
                     // Calculate the distance
                     float distance = current_location.distanceTo(point_location);
+                    Log.d("Notification Service", "Distance to " + p.getPoint_name() + ": " + distance + " ; " + notification_distance);
                     if (distance <= notification_distance) {
                         // Create notification
                         createNotification(p);
                         NOTIFICATION_ID++;
                     }
-                //}
+                }
             }
         }
     }
