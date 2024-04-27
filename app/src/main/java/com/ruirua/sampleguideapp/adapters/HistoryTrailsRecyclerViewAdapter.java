@@ -76,15 +76,15 @@ public class HistoryTrailsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
                 // Set the travelled distance and time. If they are equal to 0 the default is "-"
                 int distance = history_trail.getTravelled_distance();
                 String distanceString = "-";
-                if (distance > 0){
-                    distanceString = distance + " meters";
+                if (distance >= 0){
+                    distanceString = distance + " meter(s)";
                 }
                 holder.trailTravelledDistance.setText(distanceString);
 
                 int time = history_trail.getTravelled_time();
                 String timeString = "-";
-                if (time > 0){
-                    timeString = time + " minutes";
+                if (time >= 0){
+                    timeString = time + " minute(s)";
                 }
                 holder.trailTravelledTime.setText(timeString);
 

@@ -22,9 +22,9 @@ public interface HistoryTrailDAO {
 
 
     // UPDATE
-    @Query("UPDATE history_trail SET date = :date WHERE id = :id")
+    @Query("UPDATE history_trail SET date = :date, travelled_time = :time, travelled_distance = :distance WHERE trail_id = :trail_id")
     @TypeConverters({DateTypeConverter.class})
-    void updateTrailDate(int id, Date date);
+    void updateTrailDate(int trail_id, Date date, int time, int distance);
 
 
     // GET

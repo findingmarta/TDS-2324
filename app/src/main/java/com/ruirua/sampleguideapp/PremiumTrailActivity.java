@@ -2,6 +2,7 @@ package com.ruirua.sampleguideapp;
 
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -53,7 +54,6 @@ import com.ruirua.sampleguideapp.viewModel.HistoryViewModel;
 import com.ruirua.sampleguideapp.viewModel.TrailViewModel;
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,6 +61,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class PremiumTrailActivity extends AppCompatActivity implements OnMapReadyCallback {
     private PointsRecyclerViewAdapter adapter;
@@ -81,6 +82,9 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     private LocationRequest locationRequest;
     private static final int REQUEST_CHECK_SETTING = 2;
     int PERMISSION_ID = 44;
+    private Date date_start;
+    private Date date_end;
+    int travelled_distance;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +109,14 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
         // Get Permissions
         getPermissions();
+
+        // Check if I have a Notification Service running
+        if(isServiceRunning(NotificationService.class)){
+            stop_button.setEnabled(true);
+            start_button.setEnabled(false);
+        }else{
+            stop_button.setEnabled(false);
+        }
 
         // Get the info from de database
         // Trail
@@ -133,7 +145,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         trail_map = findViewById(R.id.premium_mapView);
         trail_map.onCreate(mapViewBundle);
 
-        HistoryViewModel hvm = new ViewModelProvider(this).get(HistoryViewModel.class);
 
         // Trail's Points
         LiveData<List<Point>> pointsData = tvm.getTrailPoints(trail_id);
@@ -142,7 +153,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
             adapter = new PointsRecyclerViewAdapter(points,this);
             recyclerView.setAdapter(adapter);
 
-            setStartStop(hvm);
+            setStartStop();
 
             trail_map.getMapAsync(this);
         });
@@ -158,38 +169,16 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
                 .into(trail_image);
     }
 
-    public void setStartStop(HistoryViewModel hvm){
+    public void setStartStop(){
         // Block the Stop button
-        stop_button.setEnabled(false);
+        //stop_button.setEnabled(false);
 
         start_button.setOnClickListener(view -> {
             // Unblock the Stop button and block the Start button
             stop_button.setEnabled(true);
             start_button.setEnabled(false);
 
-            // Check if the trail is in the history
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            executor.execute(() -> {
-                History_Trail historyTrail = hvm.checkHistoryTrail(trail_id);
-
-                if (historyTrail != null){
-                    // Update trail if it exists in the history
-                    hvm.updateHistoryTrail(trail.getTrailId());
-                    // Update UI on the main thread
-                    runOnUiThread(() -> {
-                        Toast.makeText(PremiumTrailActivity.this, "Trail's history updated!", Toast.LENGTH_SHORT).show();
-                    });
-                } else {
-                    // Insert trail if it doesn't exist in the history
-                    hvm.insertHistoryTrail(trail.getTrailId());
-                    // Update UI on the main thread
-                    runOnUiThread(() -> {
-                        Toast.makeText(PremiumTrailActivity.this, "Trail added to your history!", Toast.LENGTH_SHORT).show();
-                    });
-                }
-            });
-            // Shutdown executor after use
-            executor.shutdown();
+            date_start = new Date(System.currentTimeMillis());
 
             // Start Notification Service
             startService();
@@ -242,6 +231,15 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         trail_map.onSaveInstanceState(mapViewBundle);
     }
 
+    public boolean isServiceRunning(Class<?> serviceClass){
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void startService(){
         // In this case we need a foreground service
@@ -286,13 +284,46 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
             // Get extra data included in the Intent
             Log.d("Data Receiver", "Got message from the Notification Service");
 
-            Float travelled_distance = intent.getFloatExtra("travelled_distance",0.0F);
-            Date date = (Date) Objects.requireNonNull(intent.getExtras()).get("stopped_time");
+            travelled_distance = (int) intent.getFloatExtra("travelled_distance",0);
+            date_end = (Date) Objects.requireNonNull(intent.getExtras()).get("stopped_time");
 
-            // TODO Update trails history
-            Log.d("AAAAAAAAAAAAAAAAAA", ": " + travelled_distance + date);
+            // Update trails history
+            updateHistory();
         }
     };
+
+    private void updateHistory(){
+        // Calculate the time that it took to travel
+        long time_difference = date_end.getTime() - date_start.getTime();
+        int travelled_time = (int) TimeUnit.MILLISECONDS.toMinutes(time_difference);
+
+        // Check if the trail is in the history
+        HistoryViewModel hvm = new ViewModelProvider(this).get(HistoryViewModel.class);
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+
+            // Check if the trail is already in the history
+            History_Trail historyTrail = hvm.checkHistoryTrail(trail_id);
+            if (historyTrail != null){
+                // Update trail if it exists in the history
+                hvm.updateHistoryTrail(trail.getTrailId(),date_start,travelled_time,travelled_distance);
+                // Update UI on the main thread
+                runOnUiThread(() -> {
+                    Toast.makeText(PremiumTrailActivity.this, "Trail's history updated!", Toast.LENGTH_SHORT).show();
+                });
+            } else {
+                // Insert trail if it doesn't exist in the history
+                hvm.insertHistoryTrail(trail.getTrailId(),date_start,travelled_time,travelled_distance);
+                // Update UI on the main thread
+                runOnUiThread(() -> {
+                    Toast.makeText(PremiumTrailActivity.this, "Trail added to your history!", Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+        // Shutdown executor after use
+        executor.shutdown();
+    }
 
     private void getPermissions(){
         checkPermissions();
@@ -386,9 +417,9 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onResume() {
-        trail_map.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(dataReceiver, new IntentFilter("data-event"));  // TODO WHYYYYYYYY
         super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(dataReceiver, new IntentFilter("data-event"));
+        trail_map.onResume();
     }
 
     @Override
@@ -400,20 +431,21 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     @Override
     protected void onStop() {
         super.onStop();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(dataReceiver);
         trail_map.onStop();
     }
 
     @Override
     protected void onPause() {
-        trail_map.onPause();
         super.onPause();
+        trail_map.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         // Unregister since the activity is about to be closed.
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(coordsReceiver);
+        //LocalBroadcastManager.getInstance(this).unregisterReceiver(coordsReceiver);
         trail_map.onDestroy();
     }
 
