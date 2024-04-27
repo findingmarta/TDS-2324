@@ -10,13 +10,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,15 +36,13 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.ruirua.sampleguideapp.adapters.PointsRecyclerViewAdapter;
 import com.ruirua.sampleguideapp.model.History_Trail;
@@ -56,12 +52,13 @@ import com.ruirua.sampleguideapp.model.TrailWith;
 import com.ruirua.sampleguideapp.viewModel.HistoryViewModel;
 import com.ruirua.sampleguideapp.viewModel.TrailViewModel;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Request;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -83,6 +80,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
     private LocationRequest locationRequest;
     private static final int REQUEST_CHECK_SETTING = 1001;
+    int PERMISSION_ID = 44;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,8 +101,10 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
 
         // Register an observer to receive data from the notification service
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("coords-event"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(coordsReceiver, new IntentFilter("coords-event"));
 
+        // Get Permissions
+        getPermissions();
 
         // Get the info from de database
         // Trail
@@ -136,7 +136,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         HistoryViewModel hvm = new ViewModelProvider(this).get(HistoryViewModel.class);
 
         // Trail's Points
-
         LiveData<List<Point>> pointsData = tvm.getTrailPoints(trail_id);
         pointsData.observe(this, pointslist -> {
             points = new ArrayList<>(pointslist);
@@ -149,7 +148,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         });
     }
 
-
     public void setTrailInfo(){
         trail_name.setText(trail.getTrail_name().toUpperCase(Locale.ROOT));
         trail_duration.setText(String.valueOf(trail.getTrail_duration()));
@@ -158,22 +156,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         Picasso.get()
                 .load(trail.getTrail_image().replace("http:", "https:"))
                 .into(trail_image);
-    }
-
-    public void createPathOnMaps(String lat,String lng){
-        // Create trail's link
-        StringBuilder linkMaps = new StringBuilder();
-        String link = "https://www.google.com/maps/dir";
-        linkMaps.append(link);
-        linkMaps.append("/").append(lat).append(",").append(lng);
-        for(Point p:points){
-            linkMaps.append("/").append(p.getPoint_lat()).append(",").append(p.getPoint_lng());
-        }
-        Uri uri = Uri.parse(linkMaps.toString());
-        Intent intent = new Intent(Intent.ACTION_VIEW,uri);
-        intent.setPackage("com.google.android.apps.maps");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 
     public void setStartStop(HistoryViewModel hvm){
@@ -209,18 +191,29 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
             // Shutdown executor after use
             executor.shutdown();
 
-            // Configure and open Google Maps
-            //createPathOnMaps(lat,lng);
-
             // Start Notification Service
             startService();
         });
 
-
-
         stop_button.setOnClickListener(view -> {
             stopService();
         });
+    }
+
+    public void createPathOnMaps(String lat,String lng){
+        // Create trail's link
+        StringBuilder linkMaps = new StringBuilder();
+        String link = "https://www.google.com/maps/dir";
+        linkMaps.append(link);
+        linkMaps.append("/").append(lat).append(",").append(lng);
+        for(Point p:points){
+            linkMaps.append("/").append(p.getPoint_lat()).append(",").append(p.getPoint_lng());
+        }
+        Uri uri = Uri.parse(linkMaps.toString());
+        Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+        intent.setPackage("com.google.android.apps.maps");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
@@ -257,7 +250,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         ComponentName componentName = this.startForegroundService(serviceIntent);
         // Check if the service is running
         if (componentName != null) {
-            Log.d("Notification Service", "Notification Service is running in the foreground...");
+            Log.d("Notification Service", "Notification Service started...");
         } else {
             Log.e("Notification Service", "Something went wrong: Failed to start service.");
         }
@@ -270,11 +263,11 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         Log.d("Notification Service", "Notification Service is not longer running.");
     }
 
-    private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver coordsReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
-            Log.d("Receiver", "Got message from the Notification Service");
+            Log.d("Coords Receiver", "Got message from the Notification Service");
 
             String lat = intent.getStringExtra("current_lat");
             String lng = intent.getStringExtra("current_lng");
@@ -284,44 +277,19 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         }
     };
 
+    private final BroadcastReceiver dataReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            Log.d("Data Receiver", "Got message from the Notification Service");
 
-    @Override
-    public void onResume() {
-        trail_map.onResume();
-        super.onResume();
-    }
+            Float travelled_distance = intent.getFloatExtra("travelled_distance",0.0F);
+            Date date = (Date) Objects.requireNonNull(intent.getExtras()).get("stopped_time");
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        trail_map.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        trail_map.onStop();
-    }
-
-    @Override
-    protected void onPause() {
-        trail_map.onPause();
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        // Unregister since the activity is about to be closed.
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
-        trail_map.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        trail_map.onLowMemory();
-    }
+            // TODO Update trails history
+            Log.d("AAAAAAAAAAAAAAAAAA", ": " + travelled_distance + date);
+        }
+    };
 
     private void getPermissions(){
         checkPermissions();
@@ -330,19 +298,13 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         }
     }
 
-    private boolean isGPSEnabled() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }
-
     private void checkPermissions(){
-        boolean hasPermission;
         // Exact Location
         boolean hasFinePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-        // Aproximate Location
+        // Approximate Location
         boolean hasCoarsePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
+        boolean hasPermission;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             boolean hasBackgroundPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
             hasPermission = hasCoarsePermission && hasFinePermission && hasBackgroundPermission;
@@ -352,19 +314,27 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
         if (!hasPermission){
             requestPermissions();
-        };
+        }
     }
 
     private void requestPermissions() {
-        int PERMISSION_ID = 44;
         ActivityCompat.requestPermissions(this, new String[]{
-                android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+        }, PERMISSION_ID);
+    }
+
+    private boolean isGPSEnabled() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
     private void turnOnGPS() {
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest);
+        locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY,5000)
+                .setMinUpdateIntervalMillis(3000)
+                .build();
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
         builder.setAlwaysShow(true);
 
         Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(getApplicationContext())
@@ -394,7 +364,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
                 }
             }
         });
-
     }
 
     @Override
@@ -404,10 +373,50 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
             switch (resultCode){
                 case Activity.RESULT_OK:
                     Toast.makeText(this, "Location is turned on",Toast.LENGTH_SHORT).show();
-
+                    break;
                 case Activity.RESULT_CANCELED:
-                    Toast.makeText(this, "ocation turned on",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Turn on your location",Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        trail_map.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(dataReceiver, new IntentFilter("data-event"));  // TODO WHYYYYYYYY
+        super.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        trail_map.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        trail_map.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        trail_map.onPause();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Unregister since the activity is about to be closed.
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(coordsReceiver);
+        trail_map.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        trail_map.onLowMemory();
     }
 }

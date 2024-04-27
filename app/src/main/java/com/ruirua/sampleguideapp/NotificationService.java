@@ -1,9 +1,9 @@
 package com.ruirua.sampleguideapp;
 
-import static androidx.core.app.ActivityCompat.requestPermissions;
-
 import android.Manifest;
+import android.app.Notification;
 import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -11,28 +11,27 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.Priority;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import com.ruirua.sampleguideapp.model.History_Point;
-import com.ruirua.sampleguideapp.model.History_Trail;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.viewModel.HistoryViewModel;
 
@@ -43,18 +42,19 @@ public class NotificationService extends Service {
     private ArrayList<Point> points;
     private SharedPreferences sp;
     private Boolean notification_state;
-    private  int notification_distance;
+    private int notification_distance;
     private LocationManager locationManager;
     private LocationListener locationListener;
     private Location prev_location;
     private Float travelled_distance;
-    private static final int PERMISSION_FINE_LOCATION = 99;
+    private int NOTIFICATION_ID;
+    private boolean sent = false;
 
     LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 30000)
             .setWaitForAccurateLocation(false)
-                .setMinUpdateIntervalMillis(500)
-                .setMaxUpdateDelayMillis(1000)
-                .build();
+            .setMinUpdateIntervalMillis(500)
+            .setMaxUpdateDelayMillis(1000)
+            .build();
 
 
     @Nullable
@@ -71,27 +71,57 @@ public class NotificationService extends Service {
 
         // Get trail's points
         points = (ArrayList<Point>) intent.getSerializableExtra("points");
-        boolean start_request = intent.getBooleanExtra("start",true);
+        assert points != null;
 
-        if (start_request){
+        boolean start_request = intent.getBooleanExtra("start", true);
+        if (start_request) {
             // Get Actual Location
             locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-            locationListener = location -> {
-                // Get current coordinates
-                String lat = String.valueOf(location.getLatitude());
-                String lng  = String.valueOf(location.getLongitude());
 
-                // Send them to the activity
-                Log.d("Sender", "Sending a message to the activity.");
+            locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(@NonNull Location location) {
+                    // Get current coordinates
+                    String lat = String.valueOf(location.getLatitude());
+                    String lng = String.valueOf(location.getLongitude());
 
-                Intent intent_coords = new Intent("coords-event");
-                intent_coords.putExtra("current_lat",lat);
-                intent_coords.putExtra("current_lng",lng);
-                LocalBroadcastManager.getInstance(this).sendBroadcast(intent_coords);    // TODO talvez tenha que meter uma flag para não fazer isto muitas vezes
+                    // Send them to the activity once
+                    if (!sent){
+                        Log.d("Sender", "Sending a message to the activity");
+                        sendCoords(lat, lng);
+                        sent = true;
+                    }
 
-                // Check the distances
-                checkDistance(location);
+                    // Check the distances
+                    checkDistance(location);
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+                @Override
+                public void onProviderEnabled(@NonNull String provider) {}
+
+                @Override
+                public void onProviderDisabled(@NonNull String provider) {}
             };
+
+            // Necessary in order to use the requestLocationUpdates
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+            }
+            // Triggers the LocationListener
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, locationListener);
+
+            // Create a notification to start a foreground service
+            Notification notification = new NotificationCompat.Builder(this, "notifyChannel")
+                    .setContentTitle("Foreground Service")
+                    .setContentText("Running...")
+                    .build();
+
+            // Start foreground service
+            startForeground(1, notification);
+            Log.d("Notification Service", "Foreground Service running...");
         } else {
             // Send data to the activity
             sendData();
@@ -121,7 +151,16 @@ public class NotificationService extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent_data);
     }
 
+    private void sendCoords(String lat, String lng){
+        Intent intent_coords = new Intent("coords-event");
+        intent_coords.putExtra("current_lat",lat);
+        intent_coords.putExtra("current_lng",lng);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent_coords);    // TODO talvez tenha que meter uma flag para não fazer isto muitas vezes
+    }
+
     public void createNotification(Point point){
+        // TODO Notification channel??????????????
+
         // Create an explicit intent for an Activity in your app.
         Intent intent = new Intent(this, PointActivity.class);
         //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -134,6 +173,13 @@ public class NotificationService extends Service {
                 // Set the intent that fires when the user taps the notification.
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
+
+        // Notify - notificationId is a unique int for each notification.
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
     public void checkDistance(Location current_location){
@@ -146,16 +192,18 @@ public class NotificationService extends Service {
         }
         prev_location = current_location;
 
+        Log.e("AAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAA");
+
         // Access the history
-        HistoryViewModel hvm = new ViewModelProvider((ViewModelStoreOwner) this).get(HistoryViewModel.class);
+        //HistoryViewModel hvm = new ViewModelProvider((ViewModelStoreOwner) this).get(HistoryViewModel.class);
 
         // Check if the notifications are on
         if (notification_state){
             for (Point p : points){
                 // Check if the point was already visited
-                History_Point historyPoint = hvm.checkHistoryPoint(p.getPointId());
+                //History_Point historyPoint = hvm.checkHistoryPoint(p.getPointId());
 
-                if (historyPoint == null) {
+                //if (historyPoint == null) {
                     // Create o Location using the point's coords
                     Location point_location = new Location("point_location");
                     point_location.setLatitude(p.getPoint_lat());
@@ -166,13 +214,9 @@ public class NotificationService extends Service {
                     if (distance <= notification_distance) {
                         // Create notification
                         createNotification(p);
-
-                        // Check permissions
-
-                        // Send notification
-                        //notify();
+                        NOTIFICATION_ID++;
                     }
-                }
+                //}
             }
         }
     }
@@ -182,7 +226,7 @@ public class NotificationService extends Service {
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
 
         // Remove location updates in order to avoid unnecessary consumption
-        locationManager.removeUpdates((android.location.LocationListener) locationListener);
+        locationManager.removeUpdates(locationListener);
     }
 
 }

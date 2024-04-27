@@ -5,8 +5,10 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "point",indices = @Index(value = {"pointId"},unique = true))
-public class Point {
+public class Point implements Serializable {
     @PrimaryKey
     @ColumnInfo(name = "pointId")
     private int pointId;
