@@ -75,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     protected void setDistance(){
-        List<String> distances = new ArrayList<>(Arrays.asList("10","30","50","70"));
+        List<String> distances = new ArrayList<>(Arrays.asList("250","500","750","1000"));
 
         // Create an ArrayAdapter using the string array and a default spinner layout.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -117,6 +117,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void getDistancePreferences(){
         // For default the distance is 50m;
-        distance = sp.getInt("notification_distance",50);
+        distance = sp.getInt("notification_distance",500);
     }
 }

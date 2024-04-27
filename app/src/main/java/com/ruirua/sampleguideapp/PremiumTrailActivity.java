@@ -245,6 +245,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         // In this case we need a foreground service
         Intent serviceIntent = new Intent(this, NotificationService.class);
         serviceIntent.putExtra("points", points);
+        serviceIntent.putExtra("trail_id", trail_id);
         serviceIntent.putExtra("start",true);
 
         ComponentName componentName = this.startForegroundService(serviceIntent);
