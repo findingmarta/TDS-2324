@@ -57,22 +57,21 @@ public class NotificationService extends LifecycleService {
         super.onStartCommand(intent, flags, startId);
         sp = getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
 
-        // Get trail's id
-        int trail_id = intent.getIntExtra("trail_id", -1);
-        assert trail_id != -1;
-
-        // Get trail's points
-        points = (ArrayList<Point>) intent.getSerializableExtra("points");
-        assert points != null;
-
-        // Access the history
-        TrailViewModel tvm = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(TrailViewModel.class);
-        tvm.getTrailPoints(trail_id).observe(this, pointslist -> {
-            points = new ArrayList<>(pointslist);
-        });
-
-        boolean start_request = intent.getBooleanExtra("start", true);
+        boolean start_request = intent.getBooleanExtra("start", false);
         if (start_request) {
+            // Get trail's id
+            int trail_id = intent.getIntExtra("trail_id", -1);
+            assert trail_id != -1;
+
+            // Get trail's points
+            points = (ArrayList<Point>) intent.getSerializableExtra("points");
+            assert points != null;
+
+            // Access the history
+            TrailViewModel tvm = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(TrailViewModel.class);
+            tvm.getTrailPoints(trail_id).observe(this, pointslist -> {
+                points = new ArrayList<>(pointslist);
+            });
             // Get Actual Location
             locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 

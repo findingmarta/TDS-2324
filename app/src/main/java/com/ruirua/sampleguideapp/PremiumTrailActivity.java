@@ -79,7 +79,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     private ArrayList<Point> points;
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
     private LocationRequest locationRequest;
-    private static final int REQUEST_CHECK_SETTING = 1001;
+    private static final int REQUEST_CHECK_SETTING = 2;
     int PERMISSION_ID = 44;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,6 +196,8 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         });
 
         stop_button.setOnClickListener(view -> {
+            stop_button.setEnabled(false);
+            start_button.setEnabled(true);
             stopService();
         });
     }
@@ -245,6 +247,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         // In this case we need a foreground service
         Intent serviceIntent = new Intent(this, NotificationService.class);
         serviceIntent.putExtra("points", points);
+        serviceIntent.putExtra("trail_id", trail_id);
         serviceIntent.putExtra("start",true);
 
         ComponentName componentName = this.startForegroundService(serviceIntent);
