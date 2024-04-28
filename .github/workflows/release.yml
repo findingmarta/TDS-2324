@@ -18,11 +18,13 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Set up Android SDK
-        run: echo "ANDROID_SDK_ROOT=$HOME/android-sdk" >> $GITHUB_ENV
 
       - name: Build Release APK
-        run: ./gradlew assembleRelease
+        env:
+          MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+        run: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties 
+          ./gradlew assembleRelease
 
       - name: Sign App APK
         uses: r0adkll/sign-android-release@v1.0.1
