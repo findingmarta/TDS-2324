@@ -43,6 +43,7 @@ public class NotificationService extends LifecycleService {
     private float travelled_distance;
     private int NOTIFICATION_ID;
     private boolean sent = false;
+    private Date date_start;
 
     @Override
     public IBinder onBind(@NonNull Intent intent) {
@@ -59,6 +60,8 @@ public class NotificationService extends LifecycleService {
 
         boolean start_request = intent.getBooleanExtra("start", false);
         if (start_request) {
+            date_start = new Date(System.currentTimeMillis());
+
             // Get trail's id
             int trail_id = intent.getIntExtra("trail_id", -1);
             assert trail_id != -1;
@@ -142,11 +145,12 @@ public class NotificationService extends LifecycleService {
 
     private void sendData(){
         // Send current_time in order to calculate the travelled time
-        Date date = new Date(System.currentTimeMillis());
+        Date date_end = new Date(System.currentTimeMillis());
 
         Intent intent_data = new Intent("data-event");
         intent_data.putExtra("travelled_distance",travelled_distance);
-        intent_data.putExtra("stopped_time",date);
+        intent_data.putExtra("started_time",date_start);
+        intent_data.putExtra("stopped_time",date_end);
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent_data);
     }
