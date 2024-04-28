@@ -44,6 +44,9 @@ android {
     }
     namespace 'com.ruirua.sampleguideapp'
 
+    secrets {
+        defaultPropertiesFileName = 'local.defaults.properties'
+    }
 }
 
 
