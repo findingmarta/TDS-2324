@@ -50,16 +50,13 @@ public class HistoryViewModel extends AndroidViewModel {
         return historyPointRepository.getHistoryPointByPointId(point_id);
     }*/
 
-    public void insertHistoryTrail(int trail_id){
-        Date date = new Date(System.currentTimeMillis());
-
-        History_Trail history_trail = new History_Trail(trail_id,date,0,0);
+    public void insertHistoryTrail(int trail_id, Date date, int time, int distance){
+        History_Trail history_trail = new History_Trail(trail_id,date,time,distance);
         historyTrailRepository.insert(history_trail);
     }
 
-    public void updateHistoryTrail(int trail_id){
-        Date date = new Date(System.currentTimeMillis());
-        historyTrailRepository.updateTrailDate(trail_id,date);
+    public void updateHistoryTrail(int trail_id, Date date, int time, int distance){
+        historyTrailRepository.updateTrailDate(trail_id,date,time,distance);
     }
 
     public History_Trail checkHistoryTrail(int trail_id){

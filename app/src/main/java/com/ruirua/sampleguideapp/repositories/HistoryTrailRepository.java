@@ -1,6 +1,7 @@
 package com.ruirua.sampleguideapp.repositories;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -25,9 +26,10 @@ public class HistoryTrailRepository {
         });
     }
 
-    public void updateTrailDate(int trail_id, Date date){
+    public void updateTrailDate(int trail_id, Date date, int time, int distance){
+        Log.e("AAAAAAAAAAAAAAAAAAAAAAAA", "Time: " + time + " Distance: " + distance);
         GuideDatabase.databaseWriteExecutor.execute(() -> {
-            historyTrailDAO.updateTrailDate(trail_id,date);
+            historyTrailDAO.updateTrailDate(trail_id,date,time,distance);
         });
     }
 
