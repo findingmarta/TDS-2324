@@ -341,11 +341,19 @@ public class MediaActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (mediaPlayer.getCurrentPosition() > 0) {
+        /*if (mediaPlayer.getCurrentPosition() > 0) {
             mediaPlayer.stop();
             mediaPlayer.reset();
             handler.removeCallbacks(updater);
-        }
+        }*/
+        mediaPlayer.release();
+        handler.removeCallbacks(updater);
+    }
+
+    @Override
+    public void onDestroy () {
+        super.onDestroy();
+        mediaPlayer.release();
     }
 
 }
