@@ -21,8 +21,8 @@ jobs:
       - name: Setup local.properties
         env:        
           MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
-          run: |
-            sed "s|MAPS_API_KEY|$MAPS_API_KEY|g;" local.defaults.properties > local.properties
+        run: |
+          sed "s|MAPS_API_KEY|$MAPS_API_KEY|g;" local.defaults.properties > local.properties
 
       - name: Build Release APK
         run: ./gradlew assembleRelease
