@@ -4,6 +4,7 @@ package com.ruirua.sampleguideapp;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import android.widget.VideoView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.ruirua.sampleguideapp.model.Media;
 import com.ruirua.sampleguideapp.model.PointWith;
@@ -98,6 +100,7 @@ public class MediaActivity extends AppCompatActivity {
                             setAudioVisible();
                             prepareMediaPlayer(media, filename);
                             setMusicButtons(media, filename);
+                            media_seekBar.setMax(mediaPlayer.getDuration());
                             controlSeekBar();
                         }
                         // Video
@@ -178,7 +181,6 @@ public class MediaActivity extends AppCompatActivity {
         play.setOnClickListener(view -> {
             if (!mediaPlayer.isPlaying()) {
                 mediaPlayer.start();
-                media_seekBar.setMax(mediaPlayer.getDuration());
                 handler.postDelayed(updater, 0);
             }
         });
@@ -288,4 +290,15 @@ public class MediaActivity extends AppCompatActivity {
         media_seekBar.setVisibility(View.VISIBLE);
         total_time.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mediaPlayer.getCurrentPosition() > 0) {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            handler.removeCallbacks(updater);
+        }
+    }
+
 }

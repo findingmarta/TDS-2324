@@ -20,14 +20,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.ruirua.sampleguideapp.model.History_Point;
+import com.ruirua.sampleguideapp.model.Media;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.PointWith;
 import com.ruirua.sampleguideapp.model.Prop_Point;
 import com.ruirua.sampleguideapp.viewModel.HistoryViewModel;
 import com.ruirua.sampleguideapp.viewModel.PointViewModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -79,7 +82,7 @@ public class PointActivity extends AppCompatActivity {
             if (new_point != null) {
                 point = new_point.getPoint();
 
-                setPointInfo();
+                setPointInfo(new_point);
                 setProperties(new_point.getProp_point());
                 setMedia();
                 setLocation();
@@ -110,12 +113,18 @@ public class PointActivity extends AppCompatActivity {
         }*/
     }
 
-    public void setPointInfo(){
+    public void setPointInfo(PointWith pw){
         point_name.setText(point.getPoint_name().toUpperCase(Locale.getDefault()));
         point_desc.setText(point.getPoint_desc());
-        /*Picasso.get()
-                .load(point.getPoint_image().replace("http:", "https:"))
-                .into(point_image);*/
+        point_image.setVisibility(View.GONE);
+        for(Media m:pw.getMedias()) {
+            if(Objects.equals(m.getMedia_type(), "I")) {
+                point_image.setVisibility(View.VISIBLE);
+                Picasso.get()
+                        .load(m.getMedia_file().replace("http:", "https:"))
+                        .into(point_image);
+            }
+        }
     }
 
     public void setProperties(List<Prop_Point> props){
