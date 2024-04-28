@@ -4,6 +4,7 @@ package com.ruirua.sampleguideapp;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
@@ -25,6 +26,7 @@ import android.widget.VideoView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.ruirua.sampleguideapp.model.Media;
 import com.ruirua.sampleguideapp.model.PointWith;
@@ -183,6 +185,7 @@ public class MediaActivity extends AppCompatActivity {
                     total_time.setText(milisecondsToTimer(mediaPlayer.getDuration()));
 
                     setMusicButtons(media, filename);
+                    media_seekBar.setMax(mediaPlayer.getDuration());
                     controlSeekBar();
                 } else {
                     no_media.setText(R.string.media_no_internet);
@@ -195,6 +198,7 @@ public class MediaActivity extends AppCompatActivity {
                 total_time.setText(milisecondsToTimer(mediaPlayer.getDuration()));
 
                 setMusicButtons(media, filename);
+                media_seekBar.setMax(mediaPlayer.getDuration());
                 controlSeekBar();
             }
         } catch (Exception exception){
@@ -216,7 +220,6 @@ public class MediaActivity extends AppCompatActivity {
         play.setOnClickListener(view -> {
             if (!mediaPlayer.isPlaying()) {
                 mediaPlayer.start();
-                media_seekBar.setMax(mediaPlayer.getDuration());
                 handler.postDelayed(updater, 0);
             }
         });
@@ -334,4 +337,15 @@ public class MediaActivity extends AppCompatActivity {
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mediaPlayer.getCurrentPosition() > 0) {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            handler.removeCallbacks(updater);
+        }
+    }
+
 }
