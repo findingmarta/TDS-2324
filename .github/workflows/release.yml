@@ -18,13 +18,14 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
+      - name: Setup local.properties
+        env:        
+          MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
+          run: |
+            sed "s|MAPS_API_KEY|$MAPS_API_KEY|g;" local.defaults.properties > local.properties
 
       - name: Build Release APK
-        env:
-          MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
-        run: |
-          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties 
-          ./gradlew assembleRelease
+        run: ./gradlew assembleRelease
 
       - name: Sign App APK
         uses: r0adkll/sign-android-release@v1.0.1
