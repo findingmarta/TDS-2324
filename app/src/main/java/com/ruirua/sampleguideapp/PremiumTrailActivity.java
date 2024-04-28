@@ -431,7 +431,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onResume() {
-        Log.e("ON RESUME","ON RESUME");
         super.onResume();
         LocalBroadcastManager.getInstance(this).registerReceiver(dataReceiver, new IntentFilter("data-event"));
         trail_map.onResume();
@@ -439,14 +438,12 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     protected void onStart() {
-        Log.e("ON START","ON START");
         super.onStart();
         trail_map.onStart();
     }
 
     @Override
     protected void onStop() {
-        Log.e("ON STOP","ON STOP");
         super.onStop();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(dataReceiver);
         trail_map.onStop();
@@ -454,14 +451,12 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     protected void onPause() {
-        Log.e("ON PAUSE","ON PAUSE");
         super.onPause();
         trail_map.onPause();
     }
 
     @Override
     public void onDestroy() {
-        Log.e("ON DESTROY","ON DESTROY");
         super.onDestroy();
         // Unregister since the activity is about to be closed.
         //LocalBroadcastManager.getInstance(this).unregisterReceiver(coordsReceiver);

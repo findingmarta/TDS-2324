@@ -1,12 +1,7 @@
 plugins {
     id 'com.android.application'
-    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin' version '2.0.1' apply false
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
-
-// Load the Maps API key from local.properties
-Properties localProperties = new Properties()
-localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
-def mapsApiKey = localProperties.getProperty('MAPS_API_KEY')
 
 android {
     compileSdk 33
@@ -20,9 +15,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BRAGUIDE_BACKEND_URL", "\"$BRAGUIDE_BACKEND_URL\""
-
-        // Define the API key as a manifest placeholder
-        manifestPlaceholders = [MAPS_API_KEY: mapsApiKey]
     }
 
     signingConfigs {
@@ -61,8 +53,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.3.0'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.0-alpha03'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.0-alpha03'
 
     // Retrofit
     implementation 'com.google.code.gson:gson:2.8.6'

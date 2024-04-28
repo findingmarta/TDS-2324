@@ -66,6 +66,7 @@ public class MainActivity extends GeneralActivity{
         socials_button = findViewById(R.id.home_socials_button);
 
         setAppInfo();
+        createNotificationChannel();
     }
 
     public void setAppInfo(){
@@ -166,7 +167,7 @@ public class MainActivity extends GeneralActivity{
         });
     }
 
-    /*@SuppressLint("ObsoleteSdkInt")
+    @SuppressLint("ObsoleteSdkInt")
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Log.d("Notification Service", "Created a notification channel");
@@ -175,5 +176,5 @@ public class MainActivity extends GeneralActivity{
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-    }*/
+    }
 }
