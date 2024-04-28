@@ -214,24 +214,28 @@ public class MediaActivity extends AppCompatActivity {
 
     private void setMusicButtons(Media media,String filename){
         play.setOnClickListener(view -> {
-            mediaPlayer.start();
-            media_seekBar.setMax(mediaPlayer.getDuration());
-            handler.postDelayed(updater,0);
+            if (!mediaPlayer.isPlaying()) {
+                mediaPlayer.start();
+                media_seekBar.setMax(mediaPlayer.getDuration());
+                handler.postDelayed(updater, 0);
+            }
         });
 
         pause.setOnClickListener(view -> {
-            mediaPlayer.pause();
-            handler.removeCallbacks(updater);
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.pause();
+                handler.removeCallbacks(updater);
+            }
         });
 
         stop.setOnClickListener(view -> {
-            mediaPlayer.stop();
-
-            // Reset playback position to the beginning
-            mediaPlayer.seekTo(0);
-
-            current_time.setText(milisecondsToTimer(0));
-            prepareMediaPlayer(media,filename);
+            if (mediaPlayer.getCurrentPosition() > 0) {
+                mediaPlayer.stop();
+                mediaPlayer.reset(); // Redefine o estado do MediaPlayer
+                prepareMediaPlayer(media, filename);
+                media_seekBar.setProgress(0);
+                current_time.setText(milisecondsToTimer(0));
+            }
         });
     }
 
