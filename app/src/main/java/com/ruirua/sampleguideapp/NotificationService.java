@@ -189,7 +189,7 @@ public class NotificationService extends LifecycleService {
 
         // Notify - notificationId is a unique int for each notification.
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_NOTIFICATION_POLICY) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) { // TODO mudei a permissão
             return;
         }
         notificationManager.notify(NOTIFICATION_ID, builder.build());
@@ -232,7 +232,6 @@ public class NotificationService extends LifecycleService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
 
         // Remove location updates in order to avoid unnecessary consumption
         locationManager.removeUpdates(locationListener);

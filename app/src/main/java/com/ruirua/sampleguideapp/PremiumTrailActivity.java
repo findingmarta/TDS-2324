@@ -120,8 +120,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         sp = getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
         int trail_running = sp.getInt("trail_running",-1);
 
-        Log.e("AAAAAAAAAAAAAAAAAAAAAAA", "Trail ID: " + trail_id + " Trail RUNNING: " + trail_running);
-
         // Check if I have a Notification Service running
         if(isServiceRunning(NotificationService.class)){
             stop_button.setEnabled(trail_running == -1 || trail_running == trail_id);
