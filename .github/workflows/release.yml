@@ -48,4 +48,4 @@ jobs:
         uses: actions/upload-artifact@v4.3.3
         with:
           name: release-artifacts
-          path: ${{ steps.releaseAPK.outputs.signedReleaseFile }}
+          path: ${{ steps.releaseAPK.outputs.apkfile }}
