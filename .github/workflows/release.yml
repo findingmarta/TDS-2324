@@ -23,6 +23,16 @@ jobs:
           MAPS_API_KEY: $
         run: echo MAPS_API_KEY=\"MAPS_API_KEY\" > ./local.properties
 
+      - name: Decode Keystore
+        env:
+          ENCODED_STRING: ${{ secrets.RELEASE_STORE_FILE }}
+          alias: ${{ secrets.RELEASE_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.RELEASE_KEY_PASSWORD }} 
+        run: |
+          echo $ENCODED_STRING > keystore-b64.txt
+          base64 -d keystore-b64.txt > keystore.jks
+
       - name: Build Release APK
         run: ./gradlew assembleRelease
 
@@ -32,7 +42,6 @@ jobs:
         id: sign_app
         with:
           releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.RELEASE_STORE_FILE }}
           alias: ${{ secrets.RELEASE_KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.RELEASE_KEY_PASSWORD }}
