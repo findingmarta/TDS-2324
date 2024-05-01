@@ -349,7 +349,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         boolean hasFinePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         // Approximate Location
         boolean hasCoarsePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-
         boolean hasPermission;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             boolean hasBackgroundPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;

@@ -49,3 +49,10 @@ jobs:
         with:
           name: release-artifacts
           path: ${{ steps.releaseAPK.outputs.apkfile }}
+
+      - name: Release APK
+        uses: johnwbyrd/update-release@v1.0.0
+        with:
+          token: ${{ secrets.YOUR_PRIVATE_SECRET_TOKEN }}
+          files: ${{ steps.releaseAPK.outputs.apkfile }}
+          prerelease: false

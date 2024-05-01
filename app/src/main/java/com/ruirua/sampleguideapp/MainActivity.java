@@ -170,9 +170,9 @@ public class MainActivity extends GeneralActivity{
     @SuppressLint("ObsoleteSdkInt")
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.d("Notification Service", "Created a notification channel");
+            Log.d("Location Service", "Created channel for foreground service");
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("notifyChannel", "Notification Channel", importance);
+            NotificationChannel channel = new NotificationChannel("foreground_channel", "Foreground Location Channel", importance);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }

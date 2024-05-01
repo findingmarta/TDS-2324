@@ -51,7 +51,7 @@ public class HistoryTrailsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         // Given a list's position, get a Trail from the list of trails
         History_Trail history_trail = historyTrails.get(position);
 
@@ -65,7 +65,7 @@ public class HistoryTrailsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
                 Trail trail = new_trail.getTrail();
 
                 // Set the points's info on the view
-                holder.trailName.setText(trail.getTrail_name().toUpperCase());
+                holder.trailName.setText(trail.getTrail_name().toUpperCase(Locale.ROOT));
                 String durationString = trail.getTrail_duration() + " minutes";
                 holder.trailDuration.setText(durationString);
                 holder.trailDifficulty.setText(trail.getTrail_difficulty());
