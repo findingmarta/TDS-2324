@@ -29,7 +29,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_15"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:textColor="@color/logo_yellow"
@@ -40,23 +39,22 @@
                 android:id="@+id/point_image"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="16:9"
                 android:layout_margin="@dimen/margin_15"
+                android:contentDescription="@string/point_media_image"
+                app:layout_constraintDimensionRatio="16:9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/point_name"
-                app:srcCompat="@drawable/ic_launcher_background"
-                android:contentDescription="@string/point_media_image" />
+                app:srcCompat="@drawable/ic_launcher_background" />
 
             <TextView
                 android:id="@+id/no_media"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_15"
-                android:layout_marginEnd="@dimen/margin_15"
+                android:layout_margin="@dimen/margin_15"
                 android:text="@string/no_media"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size"
+                android:textSize="@dimen/subtitle_size"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,12 +66,12 @@
                 android:id="@+id/media_video"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="16:9"
                 android:layout_margin="@dimen/margin_15"
+                app:layout_constraintDimensionRatio="16:9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/point_image"
-                app:srcCompat="@drawable/ic_launcher_background" />
+                app:srcCompat="@drawable/ic_launcher_background"/>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -81,24 +79,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_15"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/media_video"
-                android:orientation="horizontal">
+                app:layout_constraintTop_toBottomOf="@+id/media_video">
 
                 <TextView
                     android:id="@+id/current_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_15"
                     android:layout_marginStart="@dimen/margin_15"
-                    app:layout_constraintEnd_toStartOf="@+id/media_seekBar"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginEnd="@dimen/margin_15"
                     android:text="@string/media_current_time"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/media_seekBar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <SeekBar
                     android:id="@+id/media_seekBar"
@@ -106,21 +104,21 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@+id/total_time"
                     app:layout_constraintStart_toEndOf="@+id/current_time"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/total_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="@dimen/margin_15"
                     android:layout_marginStart="@dimen/margin_15"
-                    app:layout_constraintStart_toEndOf="@+id/media_seekBar"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginEnd="@dimen/margin_15"
                     android:text="@string/media_total_time"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/media_seekBar"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -128,6 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_15"
+                android:paddingBottom="500dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/point_seak_layout">
@@ -136,63 +135,65 @@
                     android:id="@+id/point_start_button"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/point_pause_button"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:adjustViewBounds="true"
                     android:background="#00FFFFFF"
-                    android:scaleType="fitCenter"
+                    android:contentDescription="@string/start_button_desc"
                     android:foreground="?android:attr/selectableItemBackground"
-                    app:srcCompat="@drawable/media_start"
-                    android:contentDescription="@string/start_button_desc" />
+                    android:scaleType="fitCenter"
+                    app:layout_constraintEnd_toStartOf="@id/point_pause_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/media_start" />
 
                 <ImageButton
                     android:id="@+id/point_pause_button"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/point_start_button"
-                    app:layout_constraintEnd_toStartOf="@id/point_stop_button"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:background="#00FFFFFF"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
+                    android:background="#00FFFFFF"
+                    android:contentDescription="@string/pause_button_desc"
                     android:foreground="?android:attr/selectableItemBackground"
-                    app:srcCompat="@drawable/media_pause"
-                    android:contentDescription="@string/pause_button_desc" />
+                    android:scaleType="fitCenter"
+                    app:layout_constraintEnd_toStartOf="@id/point_stop_button"
+                    app:layout_constraintStart_toEndOf="@id/point_start_button"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/media_pause" />
 
                 <ImageButton
                     android:id="@+id/point_stop_button"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/point_pause_button"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:background="#00FFFFFF"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
+                    android:background="#00FFFFFF"
+                    android:contentDescription="@string/stop_button_desc"
                     android:foreground="?android:attr/selectableItemBackground"
-                    app:srcCompat="@drawable/media_stop"
-                    android:contentDescription="@string/stop_button_desc" />
+                    android:scaleType="fitCenter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/point_pause_button"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/media_stop" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Button
-                android:id="@+id/point_download_button"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
-                android:layout_margin="@dimen/margin_15"
-                android:backgroundTint="@color/logo_yellow"
-                android:text="@string/media_download"
-                android:textSize="@dimen/text_size"
-                android:textStyle="bold"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/point_title_layout" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/point_download_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_margin="@dimen/margin_15"
+        android:backgroundTint="@color/logo_yellow"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="@string/media_download"
+        android:textSize="@dimen/text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/point_scroll"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

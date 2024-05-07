@@ -2,20 +2,21 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="HistoryTrailActivityTest">
-        <State />
-      </entry>
-      <entry key="LoginPremiumActivityTest">
-        <State />
-      </entry>
-      <entry key="LoginStandardActivityTest">
-        <State />
-      </entry>
-      <entry key="PremiumLogoutActivityTest">
-        <State />
-      </entry>
-      <entry key="StandardLogoutActivityTest">
-        <State />
+      <entry key="All Tests">
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\Marta\.android\avd\Pixel_7_API_29.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-04-28T16:03:50.530034800Z" />
+        </State>
       </entry>
       <entry key="app">
         <State>
@@ -25,12 +26,12 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\inesf\.android\avd\Pixel_7_API_29.avd" />
+                  <value value="C:\Users\Marta\.android\avd\Pixel_7_API_29.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-28T21:45:02.517954800Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-04-24T17:30:00.010221600Z" />
         </State>
       </entry>
     </value>

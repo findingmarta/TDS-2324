@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -64,6 +65,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class PremiumTrailActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private SharedPreferences sp;
     private PointsRecyclerViewAdapter adapter;
     private int trail_id;
     private Trail trail;
@@ -110,9 +112,17 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         // Get Permissions
         getPermissions();
 
+        // Get trail's id
+        Intent intent = getIntent();
+        trail_id = intent.getIntExtra("trail_id",0);
+
+        // Check which trail is the user navegating
+        sp = getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
+        int trail_running = sp.getInt("trail_running",-1);
+
         // Check if I have a Notification Service running
         if(isServiceRunning(NotificationService.class)){
-            stop_button.setEnabled(true);
+            stop_button.setEnabled(trail_running == -1 || trail_running == trail_id);
             start_button.setEnabled(false);
         }else{
             stop_button.setEnabled(false);
@@ -122,9 +132,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         // Trail
         TrailViewModel tvm = new ViewModelProvider(this).get(TrailViewModel.class);
 
-        // Get trail's id
-        Intent intent = getIntent();
-        trail_id = intent.getIntExtra("trail_id",0);
+
 
         // Given the ID initialize the trail and set its info
         tvm.setTrailViewModel(trail_id);
@@ -170,24 +178,27 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     }
 
     public void setStartStop(){
-        // Block the Stop button
-        //stop_button.setEnabled(false);
 
         start_button.setOnClickListener(view -> {
-            // Unblock the Stop button and block the Start button
             stop_button.setEnabled(true);
             start_button.setEnabled(false);
-
-            date_start = new Date(System.currentTimeMillis());
-
-            // Start Notification Service
             startService();
+
+            // Set the trail's state as running
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putInt("trail_running",trail_id);
+            editor.apply();
         });
 
         stop_button.setOnClickListener(view -> {
             stop_button.setEnabled(false);
             start_button.setEnabled(true);
             stopService();
+
+            // Remove the trail's state
+            SharedPreferences.Editor editor = sp.edit();
+            editor.remove("trail_running");
+            editor.apply();
         });
     }
 
@@ -285,6 +296,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
             Log.d("Data Receiver", "Got message from the Notification Service");
 
             travelled_distance = (int) intent.getFloatExtra("travelled_distance",0);
+            date_start = (Date) Objects.requireNonNull(intent.getExtras()).get("started_time");
             date_end = (Date) Objects.requireNonNull(intent.getExtras()).get("stopped_time");
 
             // Update trails history
@@ -337,7 +349,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         boolean hasFinePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         // Approximate Location
         boolean hasCoarsePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-
         boolean hasPermission;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             boolean hasBackgroundPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;

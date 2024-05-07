@@ -64,16 +64,13 @@ public class PointsRecyclerViewAdapter extends RecyclerView.Adapter<PointsRecycl
         holder.pointDesc.setText(descritionLimit);
 
         // Set a Listener
-        holder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Start a Point Of Interest Activity
-                Intent intent = new Intent(activity, PointActivity.class);
+        holder.item.setOnClickListener(view -> {
+            // Start a Point Of Interest Activity
+            Intent intent = new Intent(activity, PointActivity.class);
 
-                // Send the trail's ID to the activity
-                intent.putExtra("point_id", point.getPointId());
-                activity.startActivity(intent);
-            }
+            // Send the trail's ID to the activity
+            intent.putExtra("point_id", point.getPointId());
+            activity.startActivity(intent);
         });
     }
 

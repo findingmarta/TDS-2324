@@ -17,7 +17,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -43,6 +42,7 @@ public class NotificationService extends LifecycleService {
     private float travelled_distance;
     private int NOTIFICATION_ID;
     private boolean sent = false;
+    private Date date_start;
 
     @Override
     public IBinder onBind(@NonNull Intent intent) {
@@ -59,6 +59,9 @@ public class NotificationService extends LifecycleService {
 
         boolean start_request = intent.getBooleanExtra("start", false);
         if (start_request) {
+            date_start = new Date(System.currentTimeMillis());
+            travelled_distance = 0;
+
             // Get trail's id
             int trail_id = intent.getIntExtra("trail_id", -1);
             assert trail_id != -1;
@@ -111,22 +114,23 @@ public class NotificationService extends LifecycleService {
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
             }
             // Triggers the LocationListener
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, locationListener);
+            // The user will receive a notification at least every 30 seconds and if the device moves more than 100 meters
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 100, locationListener);
 
             // Create a notification to start a foreground service
-            Notification notification = new NotificationCompat.Builder(this, "notifyChannel")
+            Notification notification = new NotificationCompat.Builder(this, "foreground_channel")
                     .setContentTitle("Foreground Service")
                     .setContentText("Running...")
                     .build();
 
             // Start foreground service
             startForeground(1, notification);
-            Log.d("Notification Service", "Foreground Service running...");
+            Log.d("Location Service", "Foreground Service running...");
         } else {
             // Send data to the activity
             sendData();
 
-            // Stop the Notification Service
+            // Stop the Foreground Service
             stopForeground(true);
             stopSelf();
         }
@@ -142,11 +146,12 @@ public class NotificationService extends LifecycleService {
 
     private void sendData(){
         // Send current_time in order to calculate the travelled time
-        Date date = new Date(System.currentTimeMillis());
+        Date date_end = new Date(System.currentTimeMillis());
 
         Intent intent_data = new Intent("data-event");
         intent_data.putExtra("travelled_distance",travelled_distance);
-        intent_data.putExtra("stopped_time",date);
+        intent_data.putExtra("started_time",date_start);
+        intent_data.putExtra("stopped_time",date_end);
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent_data);
     }
@@ -163,7 +168,7 @@ public class NotificationService extends LifecycleService {
         // Create the notification channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("aaa", "Notification Channel", importance);
+            NotificationChannel channel = new NotificationChannel("notification_service", "Notification Channel", importance);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
@@ -171,10 +176,9 @@ public class NotificationService extends LifecycleService {
         // Create an explicit intent for an Activity in your app.
         Intent intent = new Intent(this, PointActivity.class);
         intent.putExtra("point_id",point.getPointId());
-        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "aaa")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notification_service")
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(point.getPoint_name() + " is near you!")
                 .setContentText("The distance between you and " + point.getPoint_name() + " is " + notification_distance + "m.")
@@ -185,7 +189,7 @@ public class NotificationService extends LifecycleService {
 
         // Notify - notificationId is a unique int for each notification.
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_NOTIFICATION_POLICY) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         notificationManager.notify(NOTIFICATION_ID, builder.build());
@@ -214,7 +218,7 @@ public class NotificationService extends LifecycleService {
 
                     // Calculate the distance
                     float distance = current_location.distanceTo(point_location);
-                    Log.d("Notification Service", "Distance to " + p.getPoint_name() + ": " + distance + " ; " + notification_distance);
+                    Log.d("Notification Service", "Distance to " + p.getPoint_name() + ": " + distance + " ; Preference: " + notification_distance);
                     if (distance <= notification_distance) {
                         // Create notification
                         createNotification(p);
@@ -228,7 +232,6 @@ public class NotificationService extends LifecycleService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
 
         // Remove location updates in order to avoid unnecessary consumption
         locationManager.removeUpdates(locationListener);

@@ -68,7 +68,7 @@
     <string name="history_trail_date">Date: </string>
     <string name="history_trail_distance_travelled">Travelled Distance: </string>
     <string name="history_trail_time_travelled">Travelled Time: </string>
-    <string name="no_media">This point dosen\'t have any media to display.</string>
+    <string name="no_media">This point doesn\'t have any media to display.</string>
 
     <!-- NOTIFICATIONS -->
     <string name="show_notifications">Show Notifications</string>
@@ -81,5 +81,6 @@
     <string name="contentdesc_point_image">Point of Interest image.</string>
     <string name="contentdesc_point_media">Point of Interest media button.</string>
     <string name="contentdesc_trail_image">Trail image.</string>
+    <string name="media_no_internet">There\'s no internet connection and the media isn\'t stored locally.</string>
 
 </resources>

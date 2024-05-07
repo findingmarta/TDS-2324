@@ -22,8 +22,6 @@ import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.PointWith;
 import com.ruirua.sampleguideapp.viewModel.PointViewModel;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -50,7 +48,7 @@ public class HistoryPointsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         // Given a list's position, get a History_Point
         History_Point history_point = historyPoints.get(position);
 
@@ -64,7 +62,7 @@ public class HistoryPointsRecyclerViewAdapter extends RecyclerView.Adapter<Histo
                 Point point = new_point.getPoint();
 
                 // Set the points's info on the view
-                holder.pointName.setText(point.getPoint_name().toUpperCase());
+                holder.pointName.setText(point.getPoint_name().toUpperCase(Locale.ROOT));
 
                 String desc = point.getPoint_desc();
                 // To limit the amount of characters on the item

@@ -27,7 +27,6 @@ public class HistoryTrailRepository {
     }
 
     public void updateTrailDate(int trail_id, Date date, int time, int distance){
-        Log.e("AAAAAAAAAAAAAAAAAAAAAAAA", "Time: " + time + " Distance: " + distance);
         GuideDatabase.databaseWriteExecutor.execute(() -> {
             historyTrailDAO.updateTrailDate(trail_id,date,time,distance);
         });
