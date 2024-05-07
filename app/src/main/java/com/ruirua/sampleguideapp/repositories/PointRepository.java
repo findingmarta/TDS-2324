@@ -12,16 +12,11 @@ import com.ruirua.sampleguideapp.model.PointWith;
 import java.util.List;
 
 public class PointRepository {
-
-    public PointDAO pointDAO;
+    private final PointDAO pointDAO;
 
     public PointRepository(Application application){
         GuideDatabase database = GuideDatabase.getInstance(application);
         pointDAO = database.pointDAO();
-    }
-
-    public LiveData<List<Point>> getAllPoints(){
-        return pointDAO.getPoints();
     }
 
     public LiveData<PointWith> getPointWithById(int id){

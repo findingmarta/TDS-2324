@@ -1,8 +1,6 @@
 package com.ruirua.sampleguideapp.repositories;
 
 import android.app.Application;
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 
 import com.ruirua.sampleguideapp.DAOs.HistoryTrailDAO;
@@ -13,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 public class HistoryTrailRepository {
-    public HistoryTrailDAO historyTrailDAO;
+    private final HistoryTrailDAO historyTrailDAO;
 
     public HistoryTrailRepository(Application application){
         GuideDatabase database = GuideDatabase.getInstance(application);
@@ -39,9 +37,4 @@ public class HistoryTrailRepository {
     public History_Trail getHistoryTrailByTrailId(int trail_id){
         return historyTrailDAO.getHistoryTrailByTrailId(trail_id);
     }
-
-    public LiveData<History_Trail> getHistoryPointById(int id){
-        return historyTrailDAO.getHistoryTrailById(id);
-    }
-
 }

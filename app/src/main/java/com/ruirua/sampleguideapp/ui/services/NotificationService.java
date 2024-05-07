@@ -1,4 +1,4 @@
-package com.ruirua.sampleguideapp;
+package com.ruirua.sampleguideapp.ui.services;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -25,7 +25,10 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.LifecycleService;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.model.Point;
+import com.ruirua.sampleguideapp.ui.PointActivity;
 import com.ruirua.sampleguideapp.viewModel.TrailViewModel;
 
 import java.util.ArrayList;
@@ -67,7 +70,7 @@ public class NotificationService extends LifecycleService {
             assert trail_id != -1;
 
             // Get trail's points
-            points = (ArrayList<Point>) intent.getSerializableExtra("points");
+            points = intent.getParcelableArrayListExtra("points");
             assert points != null;
 
             // Access the history

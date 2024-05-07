@@ -1,4 +1,4 @@
-package com.ruirua.sampleguideapp;
+package com.ruirua.sampleguideapp.ui;
 
 
 import static android.text.TextUtils.concat;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.model.User;
 import com.ruirua.sampleguideapp.viewModel.UserViewModel;
 

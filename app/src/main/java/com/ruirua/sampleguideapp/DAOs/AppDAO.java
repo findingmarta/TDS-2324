@@ -34,9 +34,6 @@ public interface AppDAO {
 
 
     // GET
-    @Query("SELECT DISTINCT * FROM app")
-    LiveData<List<App>> getApps();
-
     @Transaction
     @Query("SELECT * FROM app")
     LiveData<AppWith> getAppWith();

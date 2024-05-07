@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.ruirua.sampleguideapp.model.Converters.DateTypeConverter;
+import com.ruirua.sampleguideapp.model.converters.DateTypeConverter;
 
 import java.util.Date;
 

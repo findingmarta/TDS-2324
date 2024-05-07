@@ -1,6 +1,9 @@
 package com.ruirua.sampleguideapp.repositories;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -31,19 +34,27 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TrailRepository {
-
-    public TrailDAO trailDAO;
+    private final Application app;
+    private final TrailDAO trailDAO;
     public MediatorLiveData<List<TrailWith>> allTrails;
 
     public TrailRepository(Application application){
         GuideDatabase database = GuideDatabase.getInstance(application);
+        app = application;
         trailDAO = database.trailDAO();
         allTrails = new MediatorLiveData<>();
         allTrails.addSource(
                 trailDAO.getTrailWith(), localTrails -> {
-                    // TODO: ADD cache validation logic
                     if (localTrails != null && !localTrails.isEmpty()) {
                         allTrails.setValue(localTrails);
+
+                        // Fetch new data
+                        try {
+                            cacheValidation();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
                     } else {
                         try {
                             makeRequest();
@@ -53,6 +64,33 @@ public class TrailRepository {
                     }
                 }
         );
+    }
+
+    public void cacheValidation() throws IOException {
+        // The date has an expiration time of 2 days
+        long EXPIRATION_TIME = 2 * 24 * 60 * 60 * 1000;
+
+        long last_update = getLastUpdate();
+        long current_time = System.currentTimeMillis();
+
+        long time_passed = current_time - last_update;
+        if (time_passed >= EXPIRATION_TIME){
+            makeRequest();
+            Log.d("main", "FETCHED NEW DATA......");
+            saveLastUpdate();
+        }
+    }
+
+    public long getLastUpdate(){
+        SharedPreferences sp = app.getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
+        return sp.getLong("last_update",0);
+    }
+
+    public void saveLastUpdate(){
+        SharedPreferences sp = app.getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putLong("last_update", System.currentTimeMillis());
+        editor.apply();
     }
 
     public void insert(List<JsonElement> trails){
@@ -91,12 +129,13 @@ public class TrailRepository {
     }
 
     private static class InsertAsyncTask extends AsyncTask<List<JsonElement>,Void,Void> {
-        private TrailDAO trailDAO;
+        private final TrailDAO trailDAO;
 
         public InsertAsyncTask(TrailDAO catDao) {
             this.trailDAO=catDao;
         }
 
+        @SafeVarargs
         @Override
         protected final Void doInBackground(List<JsonElement>... lists) {
             List<Trail> trails = new ArrayList<>();

@@ -28,7 +28,7 @@
         android:requestLegacyExternalStorage="true">
 
         <service
-            android:name=".NotificationService"
+            android:name=".ui.services.NotificationService"
             android:foregroundServiceType="location"
             android:enabled="true">
         </service>
@@ -37,7 +37,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,38 +50,38 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".ui.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".TrailsActivity"
+            android:name=".ui.TrailsActivity"
             android:exported="false" />
         <activity
-            android:name=".PremiumTrailActivity"
+            android:name=".ui.PremiumTrailActivity"
             android:theme="@style/Theme.SampleGuideApp.NoBackground"
             android:exported="false" />
         <activity
-            android:name=".StandardTrailActivity"
+            android:name=".ui.StandardTrailActivity"
             android:theme="@style/Theme.SampleGuideApp.NoBackground"
             android:exported="false" />
         <activity
-            android:name=".PointActivity"
+            android:name=".ui.PointActivity"
             android:theme="@style/Theme.SampleGuideApp.NoBackground"
             android:exported="false" />
         <activity
-            android:name=".MediaActivity"
+            android:name=".ui.MediaActivity"
             android:theme="@style/Theme.SampleGuideApp.NoBackground"
             android:exported="false" />
         <activity
-            android:name=".ContactsActivity"
+            android:name=".ui.ContactsActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".HistoryActivity"
+            android:name=".ui.HistoryActivity"
             android:exported="false" />
     </application>
 </manifest>

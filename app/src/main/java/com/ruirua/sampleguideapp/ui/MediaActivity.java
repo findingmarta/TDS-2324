@@ -1,10 +1,9 @@
-package com.ruirua.sampleguideapp;
+package com.ruirua.sampleguideapp.ui;
 
 
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
@@ -26,8 +25,8 @@ import android.widget.VideoView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.model.Media;
 import com.ruirua.sampleguideapp.model.PointWith;
 import com.ruirua.sampleguideapp.viewModel.PointViewModel;
@@ -341,11 +340,6 @@ public class MediaActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        /*if (mediaPlayer.getCurrentPosition() > 0) {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            handler.removeCallbacks(updater);
-        }*/
         mediaPlayer.release();
         handler.removeCallbacks(updater);
     }

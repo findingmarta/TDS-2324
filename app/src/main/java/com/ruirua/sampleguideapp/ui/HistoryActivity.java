@@ -1,4 +1,4 @@
-package com.ruirua.sampleguideapp;
+package com.ruirua.sampleguideapp.ui;
 
 
 import android.content.res.ColorStateList;
@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.adapters.HistoryPointsRecyclerViewAdapter;
 import com.ruirua.sampleguideapp.adapters.HistoryTrailsRecyclerViewAdapter;
 import com.ruirua.sampleguideapp.model.History_Point;
@@ -60,14 +61,12 @@ public class HistoryActivity extends AppCompatActivity {
         ArrayList<History_Point> points = new ArrayList<>();
         // Initialize the adapter
         adapterPoints = new HistoryPointsRecyclerViewAdapter(points,this);
-        //recyclerView.setAdapter(adapterPoints);
 
         LiveData<List<History_Point>> pointsData = hvm.getAllPoints();
         pointsData.observe(this, pointList -> {
             // Update the adapter
             ArrayList<History_Point> new_points = new ArrayList<>(pointList);
             adapterPoints.setPoints(new_points);
-            //recyclerView.setAdapter(adapterPoints);
         });
 
         setTrailsButton();

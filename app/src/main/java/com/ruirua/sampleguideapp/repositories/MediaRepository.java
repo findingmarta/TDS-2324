@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MediaRepository {
 
-    public MediaDAO mediaDAO;
+    private final MediaDAO mediaDAO;
 
     public MediaRepository(Application application){
         GuideDatabase database = GuideDatabase.getInstance(application);
