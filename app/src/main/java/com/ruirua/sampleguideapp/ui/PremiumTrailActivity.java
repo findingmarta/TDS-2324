@@ -232,7 +232,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
     public boolean isServiceRunning(){
         sp = getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
-        return sp.getBoolean("service_running",false);                     // TODO Eliminar no logout?
+        return sp.getBoolean("service_running",false);
     }
 
     public void startService(){

@@ -40,6 +40,7 @@ public class UserViewModel extends AndroidViewModel {
         editor.remove("notification_state");
         editor.remove("notification_distance");
         editor.remove("trail_running");
+        editor.remove("service_running");
         editor.apply();
 
         // Delete user's database

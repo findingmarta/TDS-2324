@@ -34,6 +34,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class MediaActivity extends AppCompatActivity {
@@ -89,7 +90,7 @@ public class MediaActivity extends AppCompatActivity {
         point_data.observe(this,new_point->{
             if (new_point!=null){
                 // Set point's name
-                point_name.setText(new_point.getPoint().getPoint_name());
+                point_name.setText(new_point.getPoint().getPoint_name().toUpperCase(Locale.getDefault()));
                 medias = new_point.getMedias();
 
                 if (medias.isEmpty()){

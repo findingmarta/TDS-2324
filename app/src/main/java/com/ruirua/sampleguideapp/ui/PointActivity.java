@@ -160,7 +160,7 @@ public class PointActivity extends AppCompatActivity {
                 // Add point to the user's history
                 hvm.insertHistoryPoint(point.getPointId());
                 Toast.makeText(PointActivity.this, "Point of Interest added to your history!", Toast.LENGTH_SHORT).show();
-                ExecutorService executor = Executors.newSingleThreadExecutor();                        // TODO talvez precise de um live data
+                ExecutorService executor = Executors.newSingleThreadExecutor();
                 executor.execute(() -> {
                     pvm.updateVisited(point.getPointId());
                 });
