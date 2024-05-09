@@ -3,7 +3,6 @@ package com.ruirua.sampleguideapp.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,9 +16,7 @@ import java.util.Locale;
 
 
 public class PartnersRecyclerViewAdapter extends RecyclerView.Adapter<PartnersRecyclerViewAdapter.ViewHolder> {
-
     private List<Partner> partners;
-
 
     // Class Constructor
     public PartnersRecyclerViewAdapter(List<Partner> new_partners) {
@@ -61,8 +58,6 @@ public class PartnersRecyclerViewAdapter extends RecyclerView.Adapter<PartnersRe
         public final TextView partnerUrl;
         public final TextView partnerEmail;
 
-        private final LinearLayout item;
-
         public ViewHolder(@NonNull View view) {
             super(view);
             mView = view;
@@ -71,12 +66,6 @@ public class PartnersRecyclerViewAdapter extends RecyclerView.Adapter<PartnersRe
             partnerPhone = view.findViewById(R.id.partner_phone);
             partnerUrl = view.findViewById(R.id.partner_url);
             partnerEmail = view.findViewById(R.id.partner_email);
-
-            item = view.findViewById(R.id.partnerItem);
         }
-    }
-
-    public void setPartners(List<Partner> partners) {
-        this.partners = partners;
     }
 }

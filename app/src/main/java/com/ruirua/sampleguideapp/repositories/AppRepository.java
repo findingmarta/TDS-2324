@@ -31,7 +31,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AppRepository {
-    public AppDAO appDAO;
+    private final AppDAO appDAO;
     public MediatorLiveData<AppWith> appWith;
 
     public AppRepository(Application application){
@@ -40,7 +40,6 @@ public class AppRepository {
         appWith = new MediatorLiveData<>();
         appWith.addSource(
                 appDAO.getAppWith(), localApps -> {
-                    // TODO: ADD cache validation logic
                     if (localApps != null) {
                         appWith.setValue(localApps);
                     } else {
@@ -71,7 +70,7 @@ public class AppRepository {
 
         call.enqueue(new retrofit2.Callback<List<JsonElement>>() {
             @Override
-            public void onResponse(Call<List<JsonElement>> call, Response<List<JsonElement>> response) {
+            public void onResponse(@NonNull Call<List<JsonElement>> call, @NonNull Response<List<JsonElement>> response) {
                 if(response.isSuccessful()) {
                     assert response.body() != null;
                     insert(response.body().get(0));
@@ -87,7 +86,7 @@ public class AppRepository {
             }
 
             @Override
-            public void onFailure(Call<List<JsonElement>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<JsonElement>> call, @NonNull Throwable t) {
                 Log.e("main", "onFailure: " + t.getMessage());
                 Log.e("main", "message: "+ t.getCause());
             }
@@ -95,7 +94,7 @@ public class AppRepository {
     }
 
     private static class InsertAsyncTask extends AsyncTask<JsonElement,Void,Void> {
-        private AppDAO appDAO;
+        private final AppDAO appDAO;
 
         public InsertAsyncTask(AppDAO appDao) {
             this.appDAO=appDao;

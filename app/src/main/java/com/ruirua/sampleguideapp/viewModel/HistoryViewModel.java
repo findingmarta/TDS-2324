@@ -46,9 +46,6 @@ public class HistoryViewModel extends AndroidViewModel {
     public LiveData<History_Point> checkHistoryPoint(int point_id){
         return historyPointRepository.getHistoryPointByPointId(point_id);
     }
-    /*public History_Point checkHistoryPoint(int point_id){
-        return historyPointRepository.getHistoryPointByPointId(point_id);
-    }*/
 
     public void insertHistoryTrail(int trail_id, Date date, int time, int distance){
         History_Trail history_trail = new History_Trail(trail_id,date,time,distance);

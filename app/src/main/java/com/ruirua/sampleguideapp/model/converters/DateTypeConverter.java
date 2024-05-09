@@ -1,4 +1,4 @@
-package com.ruirua.sampleguideapp.model.Converters;
+package com.ruirua.sampleguideapp.model.converters;
 
 import androidx.room.TypeConverter;
 

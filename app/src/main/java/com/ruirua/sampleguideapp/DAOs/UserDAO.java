@@ -17,11 +17,6 @@ public interface UserDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(User user);
 
-    /*@Insert(onConflict = OnConflictStrategy.REPLACE)          // must be an entity
-    void insertHistory_Point(History_Point historyPoint);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertHistory_Trail(History_Trail historyTrail);*/
 
     // GET
     @Query("SELECT DISTINCT * FROM user LIMIT 1")
@@ -29,14 +24,6 @@ public interface UserDAO {
 
     @Query("SELECT * FROM user WHERE user.userId = :id")
     LiveData<User> getUserById(int id);
-
-   /*@Transaction
-    @Query("SELECT * FROM user")
-    LiveData<List<History_Point>> getUser_HistoryPoints();
-
-    @Transaction
-    @Query("SELECT * FROM user")
-    LiveData<List<History_Trail>> getUser_HistoryTrails();*/
 
 
     // DELETE

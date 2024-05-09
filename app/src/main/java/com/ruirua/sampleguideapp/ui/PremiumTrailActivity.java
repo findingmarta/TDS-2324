@@ -1,8 +1,7 @@
-package com.ruirua.sampleguideapp;
+package com.ruirua.sampleguideapp.ui;
 
 
 import android.Manifest;
-import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -46,11 +45,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.adapters.PointsRecyclerViewAdapter;
 import com.ruirua.sampleguideapp.model.History_Trail;
 import com.ruirua.sampleguideapp.model.Point;
 import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.model.TrailWith;
+import com.ruirua.sampleguideapp.ui.services.NotificationService;
 import com.ruirua.sampleguideapp.viewModel.HistoryViewModel;
 import com.ruirua.sampleguideapp.viewModel.TrailViewModel;
 import com.squareup.picasso.Picasso;
@@ -81,7 +82,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
     private ArrayList<Point> points;
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
-    private LocationRequest locationRequest;
     private static final int REQUEST_CHECK_SETTING = 2;
     int PERMISSION_ID = 44;
     private Date date_start;
@@ -116,12 +116,12 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         Intent intent = getIntent();
         trail_id = intent.getIntExtra("trail_id",0);
 
-        // Check which trail is the user navegating
+        // Check which trail is the user navigating
         sp = getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
         int trail_running = sp.getInt("trail_running",-1);
 
         // Check if I have a Notification Service running
-        if(isServiceRunning(NotificationService.class)){
+        if(isServiceRunning()){
             stop_button.setEnabled(trail_running == -1 || trail_running == trail_id);
             start_button.setEnabled(false);
         }else{
@@ -131,8 +131,6 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         // Get the info from de database
         // Trail
         TrailViewModel tvm = new ViewModelProvider(this).get(TrailViewModel.class);
-
-
 
         // Given the ID initialize the trail and set its info
         tvm.setTrailViewModel(trail_id);
@@ -183,22 +181,12 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
             stop_button.setEnabled(true);
             start_button.setEnabled(false);
             startService();
-
-            // Set the trail's state as running
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putInt("trail_running",trail_id);
-            editor.apply();
         });
 
         stop_button.setOnClickListener(view -> {
             stop_button.setEnabled(false);
             start_button.setEnabled(true);
             stopService();
-
-            // Remove the trail's state
-            SharedPreferences.Editor editor = sp.edit();
-            editor.remove("trail_running");
-            editor.apply();
         });
     }
 
@@ -242,14 +230,9 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         trail_map.onSaveInstanceState(mapViewBundle);
     }
 
-    public boolean isServiceRunning(Class<?> serviceClass){
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
+    public boolean isServiceRunning(){
+        sp = getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
+        return sp.getBoolean("service_running",false);
     }
 
     public void startService(){
@@ -263,16 +246,35 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
         // Check if the service is running
         if (componentName != null) {
             Log.d("Notification Service", "Notification Service started...");
+
+            // Set the trail and the service states as running
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putInt("trail_running",trail_id);
+            editor.putBoolean("service_running",true);
+            editor.apply();
+
         } else {
-            Log.e("Notification Service", "Something went wrong: Failed to start service.");
+            Log.e("Notification Service", "Something went wrong: Failed to START service.");
         }
     }
 
     public void stopService(){
         // Send another request to the Notification Service
         Intent serviceIntent = new Intent(this, NotificationService.class);
-        this.startForegroundService(serviceIntent);
-        Log.d("Notification Service", "Notification Service is not longer running.");
+        ComponentName componentName = this.startForegroundService(serviceIntent);
+
+        if (componentName != null) {
+            Log.d("Notification Service", "Notification Service is not longer running.");
+
+            // Remove the trail's state
+            SharedPreferences.Editor editor = sp.edit();
+            editor.remove("trail_running");
+            editor.remove("service_running");
+            editor.apply();
+        }
+        else {
+            Log.e("Notification Service", "Something went wrong: Failed to STOP service.");
+        }
     }
 
     private final BroadcastReceiver coordsReceiver = new BroadcastReceiver() {
@@ -314,6 +316,8 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
+
+            Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
             // Check if the trail is already in the history
             History_Trail historyTrail = hvm.checkHistoryTrail(trail_id);
@@ -375,7 +379,7 @@ public class PremiumTrailActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void turnOnGPS() {
-        locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY,5000)
+        LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
                 .setMinUpdateIntervalMillis(3000)
                 .build();
 

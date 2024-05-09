@@ -20,7 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".StandardTrailActivity">
+            tools:context=".ui.StandardTrailActivity">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/standard_title_layout"
@@ -41,35 +41,40 @@
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintEnd_toStartOf="@id/guideline_standard"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/standard_trail_duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="10dp"
                     android:textColor="@color/white"
                     android:textSize="@dimen/title_complement_size"
                     android:textStyle="bold"
+                    android:layout_marginTop="@dimen/margin_15"
                     app:layout_constraintHorizontal_bias="1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/standard_trail_name"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_standard"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/standard_trail_difficulty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="35dp"
                     android:textColor="@color/white"
                     android:textSize="@dimen/title_complement_size"
                     android:textStyle="bold"
                     app:layout_constraintHorizontal_bias="1"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/standard_trail_duration"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/standard_trail_name"/>
+                    app:layout_constraintStart_toEndOf="@+id/guideline_standard" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_standard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.75" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView

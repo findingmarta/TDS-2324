@@ -1,4 +1,4 @@
-package com.ruirua.sampleguideapp;
+package com.ruirua.sampleguideapp.ui;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.ruirua.sampleguideapp.R;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +23,6 @@ public class SettingsActivity extends AppCompatActivity {
     private Spinner notification_distance;
     private int selected_distance;
     private SharedPreferences sp;
-    //SharedPreferences.Editor editor;
 
     int distance;
     Boolean state;

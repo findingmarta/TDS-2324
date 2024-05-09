@@ -1,13 +1,11 @@
 package com.ruirua.sampleguideapp.premium_user;
 
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.UiDevice;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.scrollCompletelyTo;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
@@ -34,7 +32,7 @@ import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
 
-import com.ruirua.sampleguideapp.MainActivity;
+import com.ruirua.sampleguideapp.ui.MainActivity;
 import com.ruirua.sampleguideapp.R;
 
 import org.hamcrest.Description;

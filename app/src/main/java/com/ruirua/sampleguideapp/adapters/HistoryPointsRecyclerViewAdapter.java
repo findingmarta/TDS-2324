@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ruirua.sampleguideapp.PointActivity;
+import com.ruirua.sampleguideapp.ui.PointActivity;
 import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.model.History_Point;
 import com.ruirua.sampleguideapp.model.Point;

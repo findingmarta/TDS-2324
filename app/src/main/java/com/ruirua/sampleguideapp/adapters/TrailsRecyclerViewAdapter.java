@@ -15,9 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ruirua.sampleguideapp.PremiumTrailActivity;
+import com.ruirua.sampleguideapp.ui.PremiumTrailActivity;
 import com.ruirua.sampleguideapp.R;
-import com.ruirua.sampleguideapp.StandardTrailActivity;
+import com.ruirua.sampleguideapp.ui.StandardTrailActivity;
 import com.ruirua.sampleguideapp.model.Trail;
 import com.ruirua.sampleguideapp.model.TrailWith;
 import com.squareup.picasso.Picasso;
@@ -126,7 +126,6 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
     }
 
     public Boolean getPremium () {
-        // PROVAVELMENTE VOU PRECISAR DA APPLICATION E NAO DA ACTIVITY
         SharedPreferences sp = activity.getSharedPreferences("BraGuia Shared Preferences",MODE_PRIVATE);
         return sp.getBoolean("user_type", false);
     }

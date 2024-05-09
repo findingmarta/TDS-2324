@@ -1,10 +1,11 @@
-package com.ruirua.sampleguideapp;
+package com.ruirua.sampleguideapp.ui;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.adapters.ContactsRecyclerViewAdapter;
 import com.ruirua.sampleguideapp.model.AppWith;
 import com.ruirua.sampleguideapp.model.Contact;

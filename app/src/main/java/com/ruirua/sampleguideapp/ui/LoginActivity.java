@@ -1,4 +1,4 @@
-package com.ruirua.sampleguideapp;
+package com.ruirua.sampleguideapp.ui;
 
 
 import android.annotation.SuppressLint;
@@ -15,6 +15,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.viewModel.UserViewModel;
 
 public class LoginActivity extends AppCompatActivity {

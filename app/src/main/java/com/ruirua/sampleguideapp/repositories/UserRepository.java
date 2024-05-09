@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -28,7 +29,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserRepository {
-    public UserDAO userDAO;
+    private final UserDAO userDAO;
     public MediatorLiveData<List<User>> allUsers;
 
     MutableLiveData<Boolean> isLoggedIn;
@@ -51,7 +52,6 @@ public class UserRepository {
 
         allUsers.addSource(
                 userDAO.getUsers(), localUsers -> {
-                    // TODO: ADD cache validation logic
                     if (localUsers != null && !localUsers.isEmpty()) {
                         allUsers.setValue(localUsers);
                     } else {
@@ -70,12 +70,12 @@ public class UserRepository {
         String cookies = sp.getString("cookies",null);
 
         if (cookies != null){
-            String cookies_formated = formatCookies(cookies);
-            Call<User> call = api.getUser(cookies_formated);
+            String cookies_formatted = formatCookies(cookies);
+            Call<User> call = api.getUser(cookies_formatted);
 
             call.enqueue(new retrofit2.Callback<User>() {
                 @Override
-                public void onResponse(Call<User> call, Response<User> response) {
+                public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                     if(response.isSuccessful()) {
                         insert(response.body());
                     }
@@ -90,7 +90,7 @@ public class UserRepository {
                 }
 
                 @Override
-                public void onFailure(Call<User> call, Throwable t) {
+                public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                     Log.e("main", "onFailure: " + t.getMessage());
                     Log.e("main", "message login: "+ t.getCause());
                 }
@@ -99,7 +99,7 @@ public class UserRepository {
     }
 
     private static class InsertAsyncTask extends AsyncTask<User,Void,Void> {
-        private UserDAO userDAO;
+        private final UserDAO userDAO;
 
         public InsertAsyncTask(UserDAO userDao) {
             this.userDAO = userDao;
@@ -119,7 +119,7 @@ public class UserRepository {
 
         call.enqueue(new retrofit2.Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
                     List<String> raw_cookies = parseResponse(response);
 
@@ -143,7 +143,7 @@ public class UserRepository {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 isLoggedIn.postValue(false);
                 Log.e("main", "onFailure: " + t.getMessage());
                 Log.e("main", "message login: "+ t.getCause());

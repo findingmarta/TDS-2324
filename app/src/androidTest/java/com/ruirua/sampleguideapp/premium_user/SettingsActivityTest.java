@@ -28,7 +28,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
-import com.ruirua.sampleguideapp.MainActivity;
+import com.ruirua.sampleguideapp.ui.MainActivity;
 import com.ruirua.sampleguideapp.R;
 
 import org.hamcrest.Description;

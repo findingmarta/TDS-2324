@@ -1,4 +1,4 @@
-package com.ruirua.sampleguideapp;
+package com.ruirua.sampleguideapp.ui;
 
 
 import android.content.Intent;
@@ -19,6 +19,7 @@ import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.model.History_Point;
 import com.ruirua.sampleguideapp.model.Media;
 import com.ruirua.sampleguideapp.model.Point;
@@ -90,7 +91,7 @@ public class PointActivity extends AppCompatActivity {
         });
 
         HistoryViewModel hvm = new ViewModelProvider(this).get(HistoryViewModel.class);
-        // Check if point is already in the history                                           // TODO tirei o liveData
+        // Check if point is already in the history
         LiveData<History_Point> historyPointData = hvm.checkHistoryPoint(point_id);
         historyPointData.observe(this, new_history_point -> {
             if (new_history_point == null){
@@ -102,15 +103,6 @@ public class PointActivity extends AppCompatActivity {
                 point_visited_button.setClickable(false);
             }
         });
-        /*History_Point historyPoint = hvm.checkHistoryPoint(point_id);
-        if (historyPoint == null){
-            // Set visited if point not in the history
-            setVisited(hvm);
-        } else{
-            // Block the "Mark As Visited" button
-            point_visited_button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_grey)));
-            point_visited_button.setClickable(false);
-        }*/
     }
 
     public void setPointInfo(PointWith pw){

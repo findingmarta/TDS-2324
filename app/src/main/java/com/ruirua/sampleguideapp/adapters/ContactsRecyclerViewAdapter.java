@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +19,6 @@ import java.util.Locale;
 
 public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRecyclerViewAdapter.ViewHolder>{
     private List<Contact> contacts;
-
 
     // Class Constructor
     public ContactsRecyclerViewAdapter(List<Contact> new_contacts) {
@@ -74,7 +72,6 @@ public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRe
         public final TextView contactURL;
 
         public final TextView contactEmail;
-        private final LinearLayout item;
         public final Button call;
 
         public ViewHolder(@NonNull View view) {
@@ -86,23 +83,14 @@ public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRe
             contactURL = view.findViewById(R.id.contact_url);
             contactEmail = view.findViewById(R.id.contac_email);
             contactName = view.findViewById(R.id.contact_name);
-            item = view.findViewById(R.id.pointItem);
 
             call = view.findViewById(R.id.callbutton);
-            call.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String phone = contactNumber.getText().toString();
-                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                    callIntent.setData(Uri.parse("tel:" + phone));
-                    view.getContext().startActivity(callIntent);
-                }
+            call.setOnClickListener(view1 -> {
+                String phone = contactNumber.getText().toString();
+                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                callIntent.setData(Uri.parse("tel:" + phone));
+                view1.getContext().startActivity(callIntent);
             });
         }
     }
-
-    public void setContacts(List<Contact> contacts) {
-        this.contacts = contacts;
-    }
-
 }

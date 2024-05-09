@@ -27,7 +27,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.GrantPermissionRule;
 
-import com.ruirua.sampleguideapp.MainActivity;
+import com.ruirua.sampleguideapp.ui.MainActivity;
 import com.ruirua.sampleguideapp.R;
 
 import org.hamcrest.Description;

@@ -1,4 +1,4 @@
-package com.ruirua.sampleguideapp;
+package com.ruirua.sampleguideapp.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,10 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.viewModel.UserViewModel;
 
 
-public abstract class GeneralActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public abstract class GeneralActivity extends AppCompatActivity implements BottomNavigationView.OnItemSelectedListener {
     protected BottomNavigationView bottomNav;
     protected abstract int getContentViewId();
     protected abstract int getNavBarItemSelected();
@@ -39,7 +40,7 @@ public abstract class GeneralActivity extends AppCompatActivity implements Botto
             setContentView(getContentViewId());
 
             bottomNav = findViewById(R.id.bottom_navigation);
-            bottomNav.setOnNavigationItemSelectedListener(this);
+            bottomNav.setOnItemSelectedListener(this);
             bottomNav.setSelectedItemId(getNavBarItemSelected());
 
             onGeneralActivityCreate();

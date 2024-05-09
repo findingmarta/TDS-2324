@@ -34,9 +34,13 @@ public class UserViewModel extends AndroidViewModel {
         SharedPreferences sp = app.getSharedPreferences("BraGuia Shared Preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
-        //editor.remove("cookies");
-        //editor.remove("user_type");
-        editor.clear();
+        // Delete every preference except the database last update
+        editor.remove("cookies");
+        editor.remove("user_type");
+        editor.remove("notification_state");
+        editor.remove("notification_distance");
+        editor.remove("trail_running");
+        editor.remove("service_running");
         editor.apply();
 
         // Delete user's database

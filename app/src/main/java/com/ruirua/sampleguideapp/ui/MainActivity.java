@@ -1,4 +1,4 @@
-package com.ruirua.sampleguideapp;
+package com.ruirua.sampleguideapp.ui;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.ruirua.sampleguideapp.R;
 import com.ruirua.sampleguideapp.adapters.PartnersRecyclerViewAdapter;
 import com.ruirua.sampleguideapp.model.App;
 import com.ruirua.sampleguideapp.model.AppWith;

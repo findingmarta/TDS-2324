@@ -8,7 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.TypeConverters;
 
-import com.ruirua.sampleguideapp.model.Converters.DateTypeConverter;
+import com.ruirua.sampleguideapp.model.converters.DateTypeConverter;
 import com.ruirua.sampleguideapp.model.History_Trail;
 
 import java.util.Date;
