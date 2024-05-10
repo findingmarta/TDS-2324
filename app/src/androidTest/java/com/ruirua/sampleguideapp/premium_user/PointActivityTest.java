@@ -65,7 +65,7 @@ public class PointActivityTest {
         bottomNavigationItemView.perform(click());
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -78,7 +78,7 @@ public class PointActivityTest {
         recyclerView.perform(actionOnItemAtPosition(0, click()));
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -91,7 +91,7 @@ public class PointActivityTest {
         recyclerView2.perform(ViewActions.scrollTo(),actionOnItemAtPosition(0, click()));
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -106,7 +106,7 @@ public class PointActivityTest {
         pressBack();
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -119,7 +119,7 @@ public class PointActivityTest {
         recyclerView3.perform(actionOnItemAtPosition(2, click()));
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

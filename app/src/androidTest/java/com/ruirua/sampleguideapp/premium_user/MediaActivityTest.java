@@ -63,7 +63,7 @@ public class MediaActivityTest {
         bottomNavigationItemView.perform(click());
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -76,7 +76,7 @@ public class MediaActivityTest {
         recyclerView.perform(actionOnItemAtPosition(0, click()));
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -89,7 +89,7 @@ public class MediaActivityTest {
         recyclerView2.perform(ViewActions.scrollTo(),actionOnItemAtPosition(0, click()));
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -105,7 +105,7 @@ public class MediaActivityTest {
         appCompatImageButton.perform(scrollTo(), click());
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

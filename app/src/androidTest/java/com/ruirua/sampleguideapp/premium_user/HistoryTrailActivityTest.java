@@ -104,7 +104,7 @@ public class HistoryTrailActivityTest {
             e.printStackTrace();
         }
 
-        onView(withId(R.id.start_button)).perform(scrollTo(), click());
+        onView(withId(R.id.start_button)).perform(scrollTo());
 
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.start_button), withText("START"),
@@ -118,7 +118,7 @@ public class HistoryTrailActivityTest {
         materialButton.perform(click());
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
