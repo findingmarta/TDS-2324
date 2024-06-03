@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "889039808462",
+    "project_id": "projetotds-31c8b",
+    "storage_bucket": "projetotds-31c8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889039808462:android:89a1b2f53cab1dd2bd2d9f",
+        "android_client_info": {
+          "package_name": "com.ruirua.sampleguideapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD86SNqPtLVchp-oxV6zxYndTG4nVD3E6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
