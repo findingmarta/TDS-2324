@@ -7,7 +7,7 @@ import Home from '../Screens/Home';
 import Contacts from '../Screens/Contacts';
 //import Trails from '../Screens/Trails';
 import TrailsStack from './homeNavigation';
-import Profile from '../Screens/Profile';
+import ProfileStack from './profileNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -35,7 +35,7 @@ function BottomNavigation() {
     return (
         <Tab.Navigator initialRouteName="Home" screenOptions={screenOptions} backBehavior='initialRoute'>
 
-            <Tab.Screen name="Profile" component={Profile} 
+            <Tab.Screen name="ProfileStack" component={ProfileStack} 
                 options={{
                     tabBarIcon: ({focused})=>{
                     return (
