@@ -1,6 +1,6 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import appSlice from '../features/appSlice';
-//import userSlice from '../features/userSlice';
+import userSlice from '../features/userSlice';
 import trailsSlice from '../features/trailsSlice';
 //import historySlice from '../features/historySlice';
 
@@ -11,7 +11,8 @@ import trailsSlice from '../features/trailsSlice';
 // The name comes from splitting up the root Redux state object into multiple "slices" of state.
 const rootReducer = combineReducers({
   app: appSlice,
-  trails:trailsSlice
+  trails:trailsSlice,
+  user: userSlice,
 })
 
 // Here we define the store, which is the global state of the Redux application.

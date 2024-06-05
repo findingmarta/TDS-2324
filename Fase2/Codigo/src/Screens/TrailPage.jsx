@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import MapView, {Marker, Polyline} from 'react-native-maps';
 
 import PointsItem from '../Components/PointsItem';
 import { COLORS } from '../style/colors';
-import ButtonYellow from '../style/buttons';
 
 function getPoints (edges) {
     const points = [];
@@ -84,8 +83,13 @@ function TrailPage ({route}) {
                 </MapView>
 
                 <View style={styles.buttons_container}>
-                    <ButtonYellow onPress={() => {}} title="START"/>
-                    <ButtonYellow onPress={() => {}} title="STOP"/>
+                    <TouchableOpacity style={styles.button} onPress={() => {}}>
+                        <Text style={styles.text_button}>START</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.button} onPress={() => {}}>
+                        <Text style={styles.text_button}>STOP</Text>
+                    </TouchableOpacity>
                 </View>
 
                 {points.map((point) => (
@@ -159,10 +163,24 @@ const styles = StyleSheet.create({
 
     buttons_container: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         marginTop: 20,
         marginBottom: 10,
-    }
+    },
+
+    button: {
+        backgroundColor: COLORS.logo_yellow,
+        padding: 7,
+        borderRadius: 10,
+        alignItems: 'center',
+        width:"45%",
+    },
+
+    text_button: {
+        fontSize: 24,
+        color: COLORS.white,
+        fontWeight: 'bold',
+    },
 });
 
 export default TrailPage;
