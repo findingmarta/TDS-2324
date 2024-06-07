@@ -8,8 +8,8 @@ function PointsItem ({point}) {
     const navigation = useNavigation();
 
     const handlePress = (point) => {
-        //navigation.navigate('TrailPage', trail, navigation);
-        navigation.navigate('Home');
+        navigation.navigate('PointPage', point, navigation);
+        //navigation.navigate('Home');
     }
 
     const truncatedDesc = point.pin_desc.length > 250 ? point.pin_desc.substring(0, 250) + '...' : point.pin_desc;
