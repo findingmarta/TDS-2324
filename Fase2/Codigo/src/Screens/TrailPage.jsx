@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from "react-redux"
 import {Image, StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import MapView, {Marker, Polyline} from 'react-native-maps';
@@ -6,42 +7,33 @@ import MapView, {Marker, Polyline} from 'react-native-maps';
 import PointsItem from '../Components/PointsItem';
 import { COLORS } from '../style/colors';
 
-function getPoints (edges) {
-    const points = [];
-    const ids = [];
-
-    edges.map((edge) => {
-        const start = edge.edge_start;
-        const end = edge.edge_end; 
-
-        if (!ids.includes(start.id)){
-            points.push(start);
-            ids.push(start.id);
+function getTrailPoints (trail_id, points) {
+    const trail_points = [];
+    
+    points.map((point) => {
+        if (point.trail_id === trail_id){
+            trail_points.push(point);
         }
-
-
-        if (!ids.includes(end.id)){
-            points.push(end);
-            ids.push(end.id);
-        }
-     })
-
-    return points;
+    })
+    return trail_points;
 }
 
-function TrailPage ({route}) {
-    const trail = route.params.trail;
 
-    const points = getPoints(trail.edges);
+
+function TrailPage ({route}) {
+    const points = useSelector((state) => state.trails.points);   
+
+    const trail = route.params.trail;
+    const trail_points = getTrailPoints(trail.id, points);
 
     const initialRegion = {
-        latitude: points[0].pin_lat,
-        longitude: points[0].pin_lng,
+        latitude: trail_points[0].pin_lat,
+        longitude: trail_points[0].pin_lng,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     };
 
-    const polyCoords = points.map((point) => {
+    const polyCoords = trail_points.map((point) => {
         return {
             latitude: point.pin_lat,
             longitude: point.pin_lng,
@@ -73,7 +65,7 @@ function TrailPage ({route}) {
                 
                 <MapView style={styles.map_container} initialRegion={initialRegion}>
                     <Polyline coordinates={polyCoords} strokeColor={COLORS.logo_blue} strokeWidth={5} />
-                    {points.map((marker) => (
+                    {trail_points.map((marker) => (
                         <Marker
                             key={marker.id}
                             coordinate={{latitude: marker.pin_lat, longitude: marker.pin_lng}}
@@ -92,7 +84,7 @@ function TrailPage ({route}) {
                     </TouchableOpacity>
                 </View>
 
-                {points.map((point) => (
+                {trail_points.map((point) => (
                     <PointsItem key={point.id} point={point}/>
                 ))}
 

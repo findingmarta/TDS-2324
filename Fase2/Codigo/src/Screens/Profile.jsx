@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {Image, Linking, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import { Divider, FAB } from '@rneui/themed';
 import { useDispatch, useSelector } from "react-redux"
+import { useNavigation } from '@react-navigation/native';
 
 import { fetchUserData } from '../features/userSlice';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -9,13 +9,24 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { COLORS } from '../style/colors';
 
 function Profile () {
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.user.user);
+    // const dispatch = useDispatch();
+    // const user = useSelector((state) => state.user.user);
+    const navigation = useNavigation();
 
-    useEffect(() => {
-        if (user.username === '')
-            dispatch(fetchUserData());
-    }, []);
+    // useEffect(() => {
+    //     if (user.username === '')
+    //         dispatch(fetchUserData());
+    // }, []);
+
+
+    function handleHistoryPress() {
+        navigation.navigate('HistoryTrail');    
+    }
+
+    function handleSettingsPress() {
+        navigation.navigate('Settings');    
+    }
+
     return (
         <View>
             
@@ -28,10 +39,10 @@ function Profile () {
                 {/* {user.firstname} */}
                 firestname lastname
             </Text>        
-            <TouchableOpacity style={styles.button} onPress={()=>handlePhonePress(Contact.contact_phone)}>
+            <TouchableOpacity style={styles.button} onPress={handleHistoryPress}>
                     <Text style={styles.textButton}> HISTORY </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={()=>handlePhonePress(Contact.contact_phone)}>
+            <TouchableOpacity style={styles.button} onPress={handleSettingsPress}>
                     <Text style={styles.textButton}> SETTINGS </Text>
             </TouchableOpacity>
         </View>

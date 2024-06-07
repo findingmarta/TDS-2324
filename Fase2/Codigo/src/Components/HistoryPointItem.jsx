@@ -1,31 +1,33 @@
 import React from 'react';
 import {StyleSheet, Text, View,TouchableHighlight} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector} from 'react-redux';
 
 import { COLORS } from '../style/colors';
 
-function HistoryPointItem () {
+function HistoryPointItem ({history_point}) {
     const navigation = useNavigation();
 
+    const points = useSelector((state) => state.trails.points)
+    const point = points.find(point => point.id === history_point.id);
+
+    console.log('history_point', history_point);
+    console.log('point', point);
     const handlePress = () => {
-        //navigation.navigate('TrailPage', trail, navigation);
+        //navigation.navigate('PointPage', point, navigation);
         navigation.navigate('Home');
     }
 
     return (
-        //<TouchableHighlight key={history.id} 
         <TouchableHighlight 
             underlayColor="#00FFF"
         //    onPress={() => handlePress({history: history})}>
             onPress={()=>handlePress}>
 
             <View style={styles.historyPoint_container}>
-                <Text style={styles.historyPoint_name}>AAAAAAAAAAAAAAAAAAAAA</Text>
-                <Text style={styles.historyPoint_details}>Duration: </Text>
-                <Text style={styles.historyPoint_details}>Difficulty: </Text>
-                <Text style={styles.historyPoint_details}>Date: </Text>
-                <Text style={styles.historyPoint_details}>Travelled Distance: </Text>
-                <Text style={styles.historyPoint_details}>Travelled Time: </Text>
+                <Text style={styles.historyPoint_name}>{history_point.name}</Text>
+                {/* <Text style={styles.historyPoint_details}>point.pin_desc</Text> */}
+                <Text style={styles.historyPoint_details}>DESC</Text>
             </View>
         </TouchableHighlight>
     )

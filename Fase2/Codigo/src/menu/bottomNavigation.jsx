@@ -4,8 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS } from '../style/colors';
 
 import Home from '../Screens/Home';
-import Contacts from '../Screens/Contacts';
-//import Trails from '../Screens/Trails';
+import Contacts from '../Screens/Contacts'
 import TrailsStack from './homeNavigation';
 import ProfileStack from './profileNavigation';
 
