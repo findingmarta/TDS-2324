@@ -3,28 +3,31 @@ import {Image, Linking, StyleSheet, Text, View, TouchableOpacity} from 'react-na
 import { Divider, FAB } from '@rneui/themed';
 import { useDispatch, useSelector } from "react-redux"
 
-import { fetchUserData } from '../features/userSlice';
+//import { fetchUserData } from '../features/userSlice';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { COLORS } from '../style/colors';
+import { useNavigation } from '@react-navigation/native';
 
 function Profile () {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
-
+    const navigation = useNavigation();
+    function handlePointPress(){ navigation.navigate('PointPage')}
+/*
     useEffect(() => {
         if (user.username === '')
             dispatch(fetchUserData());
-    }, []);
+    }, []);*/
     return (
         <View>
             
             <Image source={require('../images/profile_logo_circle.png')} style={styles.logo} />
-            <Text>
+            <Text style={styles.text1}>
                 {/* {user.username} */}
                 username
             </Text>
-            <Text>
+            <Text style={styles.text2}>
                 {/* {user.firstname} */}
                 firestname lastname
             </Text>        
@@ -33,6 +36,9 @@ function Profile () {
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={()=>handlePhonePress(Contact.contact_phone)}>
                     <Text style={styles.textButton}> SETTINGS </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={handlePointPress}>
+                    <Text style={styles.textButton}> ponto </Text>
             </TouchableOpacity>
         </View>
     );
@@ -45,7 +51,7 @@ const styles = StyleSheet.create({
         height: 200,
         alignSelf: 'center',
         marginTop: 150,
-        marginBottom: 50,
+        marginBottom: 20,
     },
     button: {
         backgroundColor: COLORS.logo_blue,
@@ -60,6 +66,17 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 16
+    },
+    text1: {
+        fontSize:22,
+        alignSelf: 'center',
+        marginBottom: 2,
+    },
+
+    text2: {
+        fontSize:22,
+        alignSelf: 'center',
+        marginBottom: 30,
     },
 });
 
