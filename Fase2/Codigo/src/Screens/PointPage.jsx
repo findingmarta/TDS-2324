@@ -11,7 +11,7 @@ import { COLORS } from '../style/colors';
 
 function PointPage ({route}) {
     const point = route.params.point;
-        
+
     const [mediaUrl, setMediaUrl] = useState('');
 
     useEffect(() => {
@@ -78,12 +78,14 @@ function PointPage ({route}) {
                 
                 
                 <View style={styles.buttons_container}>
-                    <TouchableOpacity 
-                        disabled={visited} 
-                        style={[styles.button, {backgroundColor: visited ? COLORS.light_gray : COLORS.logo_yellow}]}
-                        onPress={() => markVisited(point)}>
-                        <Text style={styles.text_button}>MARK AS VISITED</Text>
-                    </TouchableOpacity>
+                    {isPremium && (
+                        <TouchableOpacity 
+                            disabled={visited} 
+                            style={[styles.button, {backgroundColor: visited ? COLORS.light_gray : COLORS.logo_yellow}]}
+                            onPress={() => markVisited(point)}>
+                            <Text style={styles.text_button}>MARK AS VISITED</Text>
+                        </TouchableOpacity>
+                    )}
                 </View>
 
             </ScrollView>
