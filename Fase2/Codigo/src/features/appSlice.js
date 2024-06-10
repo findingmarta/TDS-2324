@@ -3,6 +3,7 @@ import { createSlice,createAsyncThunk } from '@reduxjs/toolkit';
 // Here we use a Thunk to fetch data from an API. Thunks are used to handle async operations in Redux.
 export const fetchAppData = createAsyncThunk('app/fetchAppData', async () => {
   try{
+    console.log('Fetching App\'s data...');
     const response = await fetch('https://39b6-193-137-92-72.ngrok-free.app/app');
     return response.json();
   } catch (error) {
@@ -42,8 +43,6 @@ const appSlice = createSlice({
       })
       .addCase(fetchAppData.fulfilled, (state, action) => {
         data = action.payload[0];
-
-        console.log(data);
 
         state.status = 'succeeded';
         state.app.appName = data.app_name;

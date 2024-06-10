@@ -9,7 +9,6 @@ function TrailsItem ({trail}) {
 
     const handlePress = (trail) => {
         navigation.navigate('TrailPage', trail, navigation);
-        //navigation.navigate('Home');
     }
 
     return (

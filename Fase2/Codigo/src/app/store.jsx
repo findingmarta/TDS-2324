@@ -2,7 +2,7 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import appSlice from '../features/appSlice';
 import userSlice from '../features/userSlice';
 import trailsSlice from '../features/trailsSlice';
-//import historySlice from '../features/historySlice';
+import historySlice from '../features/historySlice';
 
 
 
@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
   app: appSlice,
   trails:trailsSlice,
   user: userSlice,
+  history: historySlice,
 })
 
 // Here we define the store, which is the global state of the Redux application.

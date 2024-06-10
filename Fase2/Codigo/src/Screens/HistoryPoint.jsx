@@ -4,34 +4,28 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from "react-redux"
 
-import HistoryTrailItem from '../Components/HistoryTrailItem';
-import { addTrail, updateTrail } from '../features/historySlice';
+import HistoryPointItem from '../Components/HistoryPointItem';
+import { addPoint } from '../features/historySlice';
 
 import { COLORS } from '../style/colors';
 
-function HistoryTrail() {
+function HistoryPoint() {
     const navigation = useNavigation();
 
-    // GET HISTORY TRAIL DATA
-    const history = useSelector((state) => state.history.historyTrail);
+    // GET HISTORY
+    const history = useSelector((state) => state.history.historyPoint);
     const dispatch = useDispatch();
 
-    const trails = history.trails;
+    const points = history.points;
 
-    // ADD TRAIL TO HISTORY
-    console.log('TEAILS', trails);
-    if (trails.length == 0){
-        dispatch(addTrail({
+    // ADD POINT TO HISTORY
+    console.log('POINTS', points);
+    if (points.length == 0){
+        dispatch(addPoint({
             id: 2,
-            name: 'Trail 2',
-            duration: '130',
-            difficulty: 'E',
-            date: '2021-06-01',
-            travelled_distance: '5000',
-            travelled_time: '120',
+            name: 'Point 2',
         }));
     }
-
 
 
     // DEFINE BUTTON'S STATE
@@ -65,8 +59,8 @@ function HistoryTrail() {
                 </View>
 
                 <View>
-                    {trails.map((trail) => (
-                        <HistoryTrailItem key={trail.id} history_trail={trail}/>
+                    {points.map((point) => (
+                        <HistoryPointItem key={point.id} history_point={point} />
                     ))}
                 </View>
             </ScrollView>
@@ -108,4 +102,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default HistoryTrail;
+export default HistoryPoint;

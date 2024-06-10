@@ -4,6 +4,7 @@ import { Divider, FAB } from '@rneui/themed';
 import { useDispatch, useSelector } from "react-redux"
 
 import { fetchAppData } from '../features/appSlice';
+import { fetchTrailsData } from '../features/trailsSlice';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { COLORS } from '../style/colors';
@@ -25,12 +26,21 @@ function handleMailPress(mail) {
 
 function Home() {
     const dispatch = useDispatch();
-    const app = useSelector((state) => state.app.app);
 
+    // GET APP DATA
+    const app = useSelector((state) => state.app.app);
     useEffect(() => {
         if (app.appName === '')
             dispatch(fetchAppData());
     }, []);
+
+    // GET TRAILS DATA
+    const trails = useSelector((state) => state.trails.trails);
+    useEffect(() => {
+        if (trails.length == 0)
+            dispatch(fetchTrailsData());
+    }, []);
+
 
     return (
         <View style={styles.wrapper}>

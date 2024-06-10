@@ -1,31 +1,36 @@
 import React from 'react';
 import {StyleSheet, Text, View,TouchableHighlight} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector} from 'react-redux';
 
 import { COLORS } from '../style/colors';
 
-function HistoryTrailItem () {
+function HistoryTrailItem ({history_trail}) {
     const navigation = useNavigation();
 
-    const handlePress = () => {
-        //navigation.navigate('TrailPage', trail, navigation);
-        navigation.navigate('Home');
+    const trails = useSelector((state) => state.trails.trails)
+    const trail = trails.find(trail => trail.id === history_trail.id);
+
+    console.log('history_trail', history_trail);
+    console.log('traaaaaaaail', trail);
+
+    const handlePress = (trail) => {
+        navigation.navigate('TrailPage', trail, navigation);
     }
 
     return (
         //<TouchableHighlight key={history.id} 
         <TouchableHighlight 
             underlayColor="#00FFF"
-        //    onPress={() => handlePress({history: history})}>
-            onPress={()=>handlePress}>
+            onPress={() => handlePress({trail: trail})}>
 
             <View style={styles.historyTrail_container}>
-                <Text style={styles.historyTrail_name}>AAAAAAAAAAAAAAAAAAAAA</Text>
-                <Text style={styles.historyTrail_details}>Duration: </Text>
-                <Text style={styles.historyTrail_details}>Difficulty: </Text>
-                <Text style={styles.historyTrail_details}>Date: </Text>
-                <Text style={styles.historyTrail_details}>Travelled Distance: </Text>
-                <Text style={styles.historyTrail_details}>Travelled Time: </Text>
+                <Text style={styles.historyTrail_name}>{history_trail.name}</Text>
+                <Text style={styles.historyTrail_details}>Duration: {history_trail.duration} minutes</Text>
+                <Text style={styles.historyTrail_details}>Difficulty: {history_trail.difficulty}</Text>
+                <Text style={styles.historyTrail_details}>Date: {history_trail.date}</Text>
+                <Text style={styles.historyTrail_details}>Travelled Distance: {history_trail.travelled_distance} meter(s)</Text>
+                <Text style={styles.historyTrail_details}>Travelled Time: {history_trail.travelled_time} minutes</Text>
             </View>
         </TouchableHighlight>
     )
