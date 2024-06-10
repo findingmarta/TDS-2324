@@ -7,20 +7,24 @@ import { COLORS } from '../style/colors';
 
 
 function PointPage ({route}) {
-    // const point = route.params.point;
+    //console.log(route.params)
+    const point = route.params.point;
     
-    // function media(){
-    //     const url = ''
-    //     for(let i = 0; i < point.media.length;i++){
-    //         if(point.media[i].media_type == 'I'){
-    //             url = point.media[i].media_file
-    //         }
-    //     }
-    //     return url;
-    // }
+    const [mediaUrl, setMediaUrl] = useState('');
+
+    useEffect(() => {
+        let url = '';
+        for (let i = 0; i < point.media.length; i++) {
+            if (point.media[i].media_type === 'I') {
+                url = point.media[i].media_file;
+                break;  // Assuming you want the first image only
+            }
+        }
+        setMediaUrl(url);
+    }, [point.media]);
 
     const navigation = useNavigation();
-    function handleMediaPress(){ navigation.navigate('MediaPage')}
+    function handleMediaPress(){ navigation.navigate('MediaPage',point)}
 
     return (
         <View style={styles.container}>
@@ -28,23 +32,29 @@ function PointPage ({route}) {
 
                 <View style={styles.point_container}>
                     <View style={styles.title_container}>
-                        <Text style={styles.pin_name}>Titulo</Text>
+                        <Text style={styles.pin_name}>{point.pin_name}</Text>
                     </View>
                 </View>
-                <Image style={styles.point_image} source={require('../images/Sé-de-Braga.jpg')} />
                 
-                {/* {media() !== '' && (
-                    <Image style={styles.point_image} source={{ uri: media() }} />
-                )} */}
+
+                {mediaUrl !== '' && (
+                    <Image style={styles.point_image} source={{ uri: mediaUrl }} />
+                )}
+                
+
                 <View style={styles.container_desc}>
                     <Text style={styles.title}>DESCRIPTION</Text>
-                    <TouchableOpacity style={styles.button_media} onPress={handleMediaPress}>
+                    <TouchableOpacity style={[styles.button_media, { opacity: point.media.length===0 ? 0.5 : 1 }]} onPress={handleMediaPress} disabled={point.media.length===0}>
                         <Image source={require('../images/media_logo.png')} style={styles.image_media}/>
                     </TouchableOpacity>
                 </View>
-                <Text style={styles.text}>wefjlrfwrglgçgnlgjnlnrlnwrlnjwenglkejnlgnwrlblwnwekgjwlgbçgbwleoihwçgwknmehjnnthjoçijhçoestmjeoihjçsknhwçohnçsoignhwponskoighwçnbsçrouhwpçgnbeçsgiçbeçhbuprhbnºgbjeçyj4çohjnb ohjpw460yujpw4jywç</Text>
-                <Text style={styles.title}>Propreties</Text>
-                <Text style={styles.text}>wefjlrfwrglgçgnlgjnlnrlnwrlnjwenglkejnlgnwrlblwnwekgjwlgbçgbwleoihwçgwknmehjnnthjoçijhçoestmjeoihjçsknhwçohnçsoignhwponskoighwçnbsçrouhwpçgnbeçsgiçbeçhbuprhbnºgbjeçyj4çohjnb ohjpw460yujpw4jywç</Text>
+                <Text style={styles.text}>{point.pin_desc}</Text>
+                <Text style={styles.title}>PROPERTIES</Text>
+
+                {point.rel_pin.map((real) => (
+                    <Text key={real.id} style={styles.text}>{"- " + real.attrib + ": " + real.value}</Text>
+                ))}
+                
                 
                 <View style={styles.buttons_container}>
                     <TouchableOpacity style={styles.button} onPress={() => {}}>
@@ -64,6 +74,11 @@ const styles = StyleSheet.create({
         padding: 20,
     },
 
+    point_image:{
+        width: 240,
+        height:300,
+        alignSelf: 'center'
+    },
     
     point_container: {
         flexDirection: 'row',
@@ -95,7 +110,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: COLORS.white,
         marginTop: 10,
-        marginBottom: 15,
     },
 
     

@@ -14,7 +14,7 @@ export default function TrailsStack() {
             <profileStack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
             <profileStack.Screen name="HistoryTrail" component={HistoryTrail} options={{ headerShown: false }} />
             <profileStack.Screen name="PointPage" component={PointPage} options={{ headerShown: false }} />
-            <profileStack.Screen name="MediaPage" component={MediaPage} options={{ headerShown: false }} />
+            
             {/*<profileStack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />*/}
         </profileStack.Navigator>
     );
