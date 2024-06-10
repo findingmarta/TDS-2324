@@ -191,6 +191,7 @@ function TrailPage ({route}) {
             dispatch(updateTrail(newTrail));
             Alert.alert('Trail updated in history!');
         }
+        setTravelledDistance(null)
     }
 
 
