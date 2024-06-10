@@ -4,31 +4,28 @@ import { useDispatch, useSelector } from "react-redux"
 import { Divider } from '@rneui/themed';
 import SelectDropdown from 'react-native-select-dropdown'
 
+import { updatePreferences } from '../features/userSlice';
 import { COLORS } from '../style/colors';
 
 function Settings () {
     const dispatch = useDispatch();
-    //const preferences = useSelector((state) => state.user.preferences);
 
-
-    const [isEnabled, setIsEnabled] = useState(false);
+    // Get user's preferences
+    const preferences = useSelector((state) => state.user.preferences);
+    const [isEnabled, setIsEnabled] = useState(preferences.notifications);
+    const [selectedDistance, setSelectedDistance] = useState(preferences.notify_distance);
 
     const distances = [250,500,750,1000,2000]
 
-    // ir buscar o valor à store
-    const [selectedDistance, setSelectedDistance] = useState(distances[0]);
-
     function handleSendNotifications() {
-        setIsEnabled(previousState => !previousState);
+        dispatch(updatePreferences({notifications: !isEnabled, distance: selectedDistance}));
+        setIsEnabled(!isEnabled);
     }
 
     function handleDistance(distance) {
-        //dispatch(updatePreferences(distance: distance));
-        console.log(distance);
+        dispatch(updatePreferences({notifications: isEnabled, distance: distance}));
+        setSelectedDistance(distance);
     }
-
-
-
 
     return (
         <View style={styles.container}>
@@ -54,7 +51,7 @@ function Settings () {
                         return (
                             <View style={styles.dropdownButtonStyle}>
                                 <Text style={styles.dropdownButtonTxtStyle}>
-                                    {selectedDistance || distances[0]}
+                                    {selectedDistance}
                                 </Text>
                             </View>
                         )

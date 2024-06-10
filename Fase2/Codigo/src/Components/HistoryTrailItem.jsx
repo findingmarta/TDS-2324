@@ -11,15 +11,11 @@ function HistoryTrailItem ({history_trail}) {
     const trails = useSelector((state) => state.trails.trails)
     const trail = trails.find(trail => trail.id === history_trail.id);
 
-    console.log('history_trail', history_trail);
-    console.log('traaaaaaaail', trail);
-
     const handlePress = (trail) => {
         navigation.navigate('TrailPage', trail, navigation);
     }
 
     return (
-        //<TouchableHighlight key={history.id} 
         <TouchableHighlight 
             underlayColor="#00FFF"
             onPress={() => handlePress({trail: trail})}>

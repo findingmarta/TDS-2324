@@ -1,43 +1,82 @@
-import React, { useState } from 'react'
-import { Alert, Button, Image, Pressable, SafeAreaView, StyleSheet, Switch, Text, TextInput, View } from 'react-native'
+import React, { useEffect,useState } from 'react'
+import { Alert, Image, StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native'
 import { COLORS } from '../style/colors';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
-const logo = require("../images/logo.png")
 import {login} from '../features/userSlice'
-
+import { useNavigation } from '@react-navigation/native';
 
 export default function LoginForm() {
-    const [click,setClick] = useState(false);
-    const [username,setUsername]=  useState("");
-    const [password,setPassword]=  useState("");
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
+  const [username,setUsername]=  useState("");
+  const [password,setPassword]=  useState("");
+  const [errors, setErrors] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
 
-    const handleLogin = () => {
-        dispatch(login({ user: username, pass: password }))
-    };
+  useEffect(() => { 
+  
+    // Trigger form validation when name,  
+    // email, or password changes 
+    validateForm(); 
+  }, [username, password]);
+
+  const handleLogin = () => {
+    if (isFormValid) {
+      dispatch(login({ user: username, pass: password }))
+        .then((action) => {
+          if (login.fulfilled.match(action)) {
+            // Handle success
+            navigation.navigate('home');
+          } else {
+            // Handle failure
+            Alert.alert('Login failed', 'Invalid username or password', [{ text: 'OK' }]);
+          }
+        })
+        .catch((error) => {
+          // Handle unexpected errors
+          console.error('Unexpected error:', error);
+        });
+    }
+  };
+
+  const validateForm = () => { 
+    let errors = {}; 
+
+    // Validate usernamename field 
+    if (!username) { 
+        errors.username = 'Username is required.'; 
+    } 
+
+    // Validate password field 
+    if (!password) { 
+        errors.password = 'Password is required.'; 
+    }
+
+    // Set the errors and update form validity 
+    setErrors(errors); 
+    setIsFormValid(Object.keys(errors).length === 0); 
+  };
+
   return (
     <ScrollView> 
-         <View style={styles.container}> 
-         
-                <Image source={logo} style={styles.image} resizeMode='contain' />
+      <View style={styles.container}> 
+      
+            <Image source={require("../images/logo.png")} style={styles.image} resizeMode='contain' />
 
-                <View style={styles.inputView}>
-                    <TextInput style={styles.input} placeholder='USERNAME' value={username} onChangeText={setUsername} autoCorrect={false}
-                autoCapitalize='none' />
-                    <TextInput style={styles.input} placeholder='PASSWORD' secureTextEntry value={password} onChangeText={setPassword} autoCorrect={false}
-                autoCapitalize='none'/>
-                </View>
-                
-                <View style={styles.buttonView}>
-                    <Pressable style={styles.button} onPress={handleLogin}>
-                        <Text style={styles.buttonText}>LOGIN</Text>
-                    </Pressable>
-                </View>
+            <View style={styles.inputView}>
+                <TextInput style={styles.input} placeholder='USERNAME' value={username} onChangeText={setUsername} autoCorrect={false} autoCapitalize='none' />
+                <TextInput style={styles.input} placeholder='PASSWORD' value={password} onChangeText={setPassword} autoCorrect={false} autoCapitalize='none' secureTextEntry/>
+            </View>
             
-        </View>
-        </ScrollView>
+            <View style={styles.buttonView}>
+                <TouchableOpacity style={[styles.button, { opacity: isFormValid ? 1 : 0.5 }]} disabled={!isFormValid} onPress={handleLogin}>
+                  <Text style={styles.buttonText}>LOGIN</Text>
+                </TouchableOpacity>
+            </View>
+      </View>
+    </ScrollView>
   )
 }
 
@@ -74,7 +113,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     borderColor : "gray",
     borderWidth  : 1,
-    borderRadius : 5,
+    borderRadius : 10,
     alignItems : "center",
     justifyContent : "center"
   },

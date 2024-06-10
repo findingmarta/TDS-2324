@@ -1,13 +1,16 @@
 import React from 'react';
 import {  Text,  View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+
 import { COLORS } from '../style/colors';
 
 import Home from '../Screens/Home';
-import Login from '../Screens/Login';
 import Contacts from '../Screens/Contacts'
 import TrailsStack from './homeNavigation';
 import ProfileStack from './profileNavigation';
+
+import LogoutButton from '../Components/LogoutButton';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,9 +28,8 @@ const screenOptions = {
 };
 
 function Logout () {
-    return (
-        console.log("Logout")
-    );
+    const navigation = useNavigation();
+    navigation.navigate('Login');
 }
 
 function BottomNavigation() {
@@ -39,7 +41,7 @@ function BottomNavigation() {
                 options={{
                     tabBarIcon: ({focused})=>{
                     return (
-                        <View style={{alignItems: "center", justifyContent: "center"}}> 
+                        <View style={styles.container}> 
                             <Image style={{width: 30, height:30, tintColor: focused ? COLORS.white : COLORS.black}} source={require('../images/profile_logo.png')}/>
                             <Text style={{fontSize: 12, color: focused ? COLORS.white : COLORS.black}}>PROFILE</Text>
                         </View>
@@ -49,14 +51,13 @@ function BottomNavigation() {
                 options={{
                     tabBarIcon: ({focused})=>{
                     return (
-                        <View style={{alignItems: "center", justifyContent: "center"}}> 
+                        <View style={styles.container}> 
                             <Image style={{width: 30, height:30, tintColor: focused ? COLORS.white : COLORS.black}} source={require('../images/trail_logo.png')}/>
                             <Text style={{fontSize: 12, color: focused ? COLORS.white : COLORS.black}}>TRAILS</Text>
                         </View>
             )}}}/>
 
-
-            <Tab.Screen name="Home" component={Login} 
+            <Tab.Screen name="Home" component={Home} 
                 options={{
                     tabBarIcon: ({focused})=>{
                         return (
@@ -70,25 +71,26 @@ function BottomNavigation() {
                 options={{
                     tabBarIcon: ({focused})=>{
                     return (
-                        <View style={{alignItems: "center", justifyContent: "center"}}> 
+                        <View style={styles.container}> 
                             <Image style={{width: 30, height:30, tintColor: focused ? COLORS.white : COLORS.black}} source={require('../images/sos_logo.png')}/>
                             <Text style={{fontSize: 12, color: focused ? COLORS.white : COLORS.black}}>SOS</Text>
                         </View>
             )}}}/>
 
-            <Tab.Screen name="Logout" component={Contacts} 
+            <Tab.Screen name="Logout"
                 options={{
-                    tabBarButton: (props)=>(
-                        <TouchableOpacity {...props}
-                            onPress={() => { Logout(); }}
-                            style={styles.container}>
-                            
-                            <Image style={{ width: 30, height: 30, tintColor: props.accessibilityState.selected ? COLORS.white : COLORS.black }} source={require('../images/logout_icon.png')}/>
-                            <Text style={{ fontSize: 12, color: props.accessibilityState.selected ? COLORS.white : COLORS.black }}>LOGOUT</Text>
-                        </TouchableOpacity>
+                    tabBarIcon: ({ focused }) => (
+                        <View style={styles.container}>
+                        <Image
+                            style={{ width: 30, height: 30, tintColor: focused ? COLORS.white : COLORS.black }}
+                            source={require('../images/logout_icon.png')}/>
+                        <Text style={{ fontSize: 12, color: focused ? COLORS.white : COLORS.black }}>LOGOUT</Text>
+                        </View>
                     ),
                 }}
-            />
+            >
+                    {() => <LogoutButton />}
+            </Tab.Screen>
         </Tab.Navigator>
     );
 }

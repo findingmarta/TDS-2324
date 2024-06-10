@@ -11,23 +11,20 @@ function HistoryPointItem ({history_point}) {
     const points = useSelector((state) => state.trails.points)
     const point = points.find(point => point.id === history_point.id);
 
-    console.log('history_point', history_point);
-    console.log('point', point);
-    const handlePress = () => {
-        //navigation.navigate('PointPage', point, navigation);
-        navigation.navigate('Home');
+    const handlePress = (point) => {
+        navigation.navigate('PointPage', point, navigation);
     }
+
+    const truncatedDesc = history_point.desc.length > 250 ? history_point.desc.substring(0, 250) + '...' : history_point.desc;
 
     return (
         <TouchableHighlight 
             underlayColor="#00FFF"
-        //    onPress={() => handlePress({history: history})}>
-            onPress={()=>handlePress}>
+            onPress={() => handlePress({point: point})}>
 
             <View style={styles.historyPoint_container}>
                 <Text style={styles.historyPoint_name}>{history_point.name}</Text>
-                {/* <Text style={styles.historyPoint_details}>point.pin_desc</Text> */}
-                <Text style={styles.historyPoint_details}>DESC</Text>
+                <Text style={styles.historyPoint_details}>{truncatedDesc}</Text>
             </View>
         </TouchableHighlight>
     )
@@ -40,8 +37,6 @@ const styles = StyleSheet.create({
         margin: 7,
         padding: 20,
         backgroundColor: COLORS.lighter_blue,
-
-        // Android shadow property
         elevation: 10,
     },
 

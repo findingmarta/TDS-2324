@@ -1,11 +1,10 @@
-import {Image, Linking, StyleSheet, Text, View,TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, View,TouchableOpacity} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 
 import HistoryPointItem from '../Components/HistoryPointItem';
-import { addPoint } from '../features/historySlice';
 
 import { COLORS } from '../style/colors';
 
@@ -13,20 +12,7 @@ function HistoryPoint() {
     const navigation = useNavigation();
 
     // GET HISTORY
-    const history = useSelector((state) => state.history.historyPoint);
-    const dispatch = useDispatch();
-
-    const points = history.points;
-
-    // ADD POINT TO HISTORY
-    console.log('POINTS', points);
-    if (points.length == 0){
-        dispatch(addPoint({
-            id: 2,
-            name: 'Point 2',
-        }));
-    }
-
+    const history_points = useSelector((state) => state.history.points);
 
     // DEFINE BUTTON'S STATE
     const [buttonTrail, setButtonTrail] = useState(true);
@@ -59,8 +45,8 @@ function HistoryPoint() {
                 </View>
 
                 <View>
-                    {points.map((point) => (
-                        <HistoryPointItem key={point.id} history_point={point} />
+                    {history_points.length !== 0 && history_points.map((point) => (      
+                        <HistoryPointItem key={point.id} history_point={point} />    
                     ))}
                 </View>
             </ScrollView>

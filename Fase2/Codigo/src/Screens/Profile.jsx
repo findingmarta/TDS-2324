@@ -1,24 +1,16 @@
 import React, { useEffect } from 'react';
-import {Image, Linking, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigation } from '@react-navigation/native';
-
-//import { fetchUserData } from '../features/userSlice';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { COLORS } from '../style/colors';
-import { useNavigation } from '@react-navigation/native';
 
 function Profile () {
-    // const dispatch = useDispatch();
-    // const user = useSelector((state) => state.user.user);
     const navigation = useNavigation();
 
-    // useEffect(() => {
-    //     if (user.username === '')
-    //         dispatch(fetchUserData());
-    // }, []);
-
+    const user = useSelector((state) => state.user.user);
+    const isPremium = useSelector((state) => state.user.isPremium);
 
     function handleHistoryPress() {
         navigation.navigate('HistoryTrail');    
@@ -30,31 +22,40 @@ function Profile () {
 
     return (
         <View>
-            
-            <Image source={require('../images/profile_logo_circle.png')} style={styles.logo} />
-            <Text style={styles.text1}>
-                {/* {user.username} */}
-                username
-            </Text>
-            <Text style={styles.text2}>
-                {/* {user.firstname} */}
-                firestname lastname
-            </Text>        
-            <TouchableOpacity style={styles.button} onPress={handleHistoryPress}>
-                    <Text style={styles.textButton}> HISTORY </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={handleSettingsPress}>
-                    <Text style={styles.textButton}> SETTINGS </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={handlePointPress}>
-                    <Text style={styles.textButton}> ponto </Text>
-            </TouchableOpacity>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={styles.container}>
+                    <Image source={require('../images/profile_logo_circle.png')} style={styles.logo} />
+
+                    {isPremium && (
+                        <Image source={require('../images/verified_logo.png')} style={styles.verifiedlogo} />
+                    )}
+                </View>
+                <Text style={styles.text1}>@{user.username}</Text>
+                <Text style={styles.text2}> {user.first_name} {user.last_name}</Text>
+
+                {isPremium && (
+                    <View>
+                        <TouchableOpacity style={styles.button} onPress={handleHistoryPress}>
+                            <Text style={styles.textButton}> HISTORY </Text>
+                        </TouchableOpacity>
+                
+                        <TouchableOpacity style={styles.button} onPress={handleSettingsPress}>
+                            <Text style={styles.textButton}> SETTINGS </Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+
+            </ScrollView>
         </View>
     );
 
 }
 const styles = StyleSheet.create({
     
+    container: {
+        height: 370,
+    },
+
     logo: {
         width: 200,
         height: 200,
@@ -62,6 +63,15 @@ const styles = StyleSheet.create({
         marginTop: 150,
         marginBottom: 20,
     },
+
+    verifiedlogo: {
+        width: 70,
+        height: 70,
+        alignSelf: 'center',
+        marginTop: -220,
+        marginLeft: 150,
+    },
+
     button: {
         backgroundColor: COLORS.logo_blue,
         padding: 10,

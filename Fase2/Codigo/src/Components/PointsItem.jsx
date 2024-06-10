@@ -9,7 +9,6 @@ function PointsItem ({point}) {
 
     const handlePress = (point) => {
         navigation.navigate('PointPage', point, navigation);
-        //navigation.navigate('Home');
     }
 
     const truncatedDesc = point.pin_desc.length > 250 ? point.pin_desc.substring(0, 250) + '...' : point.pin_desc;
@@ -33,8 +32,6 @@ const styles = StyleSheet.create({
         margin: 7,
         padding: 20,
         backgroundColor: COLORS.lighter_blue,
-
-        // Android shadow property
         elevation: 10,
     },
 

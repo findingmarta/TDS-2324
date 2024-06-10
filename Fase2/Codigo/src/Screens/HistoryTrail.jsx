@@ -1,11 +1,10 @@
-import {Image, Linking, StyleSheet, Text, View,TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, View,TouchableOpacity} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 
 import HistoryTrailItem from '../Components/HistoryTrailItem';
-import { addTrail, updateTrail } from '../features/historySlice';
 
 import { COLORS } from '../style/colors';
 
@@ -13,26 +12,7 @@ function HistoryTrail() {
     const navigation = useNavigation();
 
     // GET HISTORY TRAIL DATA
-    const history = useSelector((state) => state.history.historyTrail);
-    const dispatch = useDispatch();
-
-    const trails = history.trails;
-
-    // ADD TRAIL TO HISTORY
-    console.log('TEAILS', trails);
-    if (trails.length == 0){
-        dispatch(addTrail({
-            id: 2,
-            name: 'Trail 2',
-            duration: '130',
-            difficulty: 'E',
-            date: '2021-06-01',
-            travelled_distance: '5000',
-            travelled_time: '120',
-        }));
-    }
-
-
+    const history_trails = useSelector((state) => state.history.trails);  
 
     // DEFINE BUTTON'S STATE
     const [buttonTrail, setButtonTrail] = useState(true);
@@ -65,7 +45,7 @@ function HistoryTrail() {
                 </View>
 
                 <View>
-                    {trails.map((trail) => (
+                    {history_trails.map((trail) => (
                         <HistoryTrailItem key={trail.id} history_trail={trail}/>
                     ))}
                 </View>

@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import {Image, Linking, StyleSheet, Text, View} from 'react-native';
 import { Divider, FAB } from '@rneui/themed';
 import { useDispatch, useSelector } from "react-redux"
+import { ScrollView } from 'react-native-gesture-handler';
 
 import { fetchAppData } from '../features/appSlice';
 import { fetchTrailsData } from '../features/trailsSlice';
-import { ScrollView } from 'react-native-gesture-handler';
+import { putUser } from '../features/userSlice';
 
 import { COLORS } from '../style/colors';
 
@@ -24,8 +25,40 @@ function handleMailPress(mail) {
         Linking.openURL(`mailto:${mail}`);
 }
 
+function getUser (session, token, dispatch) {
+    console.log("Fetching User's data...")
+    fetch('https://39b6-193-137-92-72.ngrok-free.app/user', {
+        method: 'GET',
+        headers : {
+            'Content-Type': 'application/json',
+            'Cookie' : `csrftoken=${  token  };sessionid=${  session}`,
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            console.log("Failed to fetch User's data")
+            throw new Error('Failed to fetch User\'s data');
+        }
+        return response.json();
+    })
+    .then(user => {  
+        dispatch(putUser(user));
+    })
+    .catch(error => {
+        console.error('Error fetching User\'s data: ', error);
+        throw new Error('Error fetching User\'s data: ', error);
+    });
+}
+
 function Home() {
     const dispatch = useDispatch();
+
+    // GET USER DATA
+    const cookies = useSelector((state) => state.user.cookies);
+    useEffect(() => {
+        if (cookies.sessionid !== '' && cookies.csrftoken !== '')
+            getUser(cookies.sessionid, cookies.csrftoken, dispatch);
+    }, []);
 
     // GET APP DATA
     const app = useSelector((state) => state.app.app);
@@ -40,7 +73,6 @@ function Home() {
         if (trails.length == 0)
             dispatch(fetchTrailsData());
     }, []);
-
 
     return (
         <View style={styles.wrapper}>
