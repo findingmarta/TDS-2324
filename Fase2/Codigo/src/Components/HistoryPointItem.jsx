@@ -8,22 +8,19 @@ import { COLORS } from '../style/colors';
 function HistoryPointItem ({history_point}) {
     const navigation = useNavigation();
 
-    const points = useSelector((state) => state.trails.points)
-    const point = points.find(point => point.id === history_point.id);
-
     const handlePress = (point) => {
         navigation.navigate('PointPage', point, navigation);
     }
 
-    const truncatedDesc = history_point.desc.length > 250 ? history_point.desc.substring(0, 250) + '...' : history_point.desc;
+    const truncatedDesc = history_point.pin_desc.length > 250 ? history_point.pin_desc.substring(0, 250) + '...' : history_point.pin_desc;
 
     return (
         <TouchableHighlight 
             underlayColor="#00FFF"
-            onPress={() => handlePress({point: point})}>
+            onPress={() => handlePress({point: history_point})}>
 
             <View style={styles.historyPoint_container}>
-                <Text style={styles.historyPoint_name}>{history_point.name}</Text>
+                <Text style={styles.historyPoint_name}>{history_point.pin_name}</Text>
                 <Text style={styles.historyPoint_details}>{truncatedDesc}</Text>
             </View>
         </TouchableHighlight>

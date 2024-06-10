@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Image, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Sound from 'react-native-sound';
-import Slider from 'react-native-slider';
+import Slider from '@react-native-community/slider';
 import { COLORS } from '../style/colors';
 
 const AudioPlayer = ({ audioUrl }) => {
@@ -9,7 +9,7 @@ const AudioPlayer = ({ audioUrl }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  console.log(audioUrl)
+  //console.log(audioUrl)
 
   useEffect(() => {
     const newSound = new Sound(audioUrl, null, (error) => {

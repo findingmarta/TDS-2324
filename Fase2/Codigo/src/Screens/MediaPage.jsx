@@ -85,6 +85,7 @@ function MediaPage({ route }) {
             //     media_type: "R"
             // };
 
+            // const updatedMedia = [...media, new_item, new_item2, new_item3];
             const updatedMedia = [...media];
             const images = await getImages(updatedMedia);
             const audios = await getAudio(updatedMedia);
@@ -104,7 +105,7 @@ function MediaPage({ route }) {
                 <Text style={styles.title}> {point_name} </Text>
                 <Carousel data={data}/>
                 {audios.length>0 && audios.map((audio) => (
-                    <AudioPlayer audioUrl={audio.uri} />
+                    <AudioPlayer key={audio.id} audioUrl={audio.uri} />
                 ))}
                 <Download fileUrls={uris}></Download> 
             </ScrollView>    

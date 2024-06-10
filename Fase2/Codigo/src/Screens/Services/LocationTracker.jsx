@@ -73,7 +73,7 @@ class LocationTracker extends Component {
     subscribeForegroundButtonPressedEvent() {
         this.foregroundService.on('VIForegroundServiceButtonPressed', async () => {
             const { navigation } = this.props;
-            navigation.navigate('PointPage',{point: this.point});
+            navigation.navigate('PointPage',{point: this.point},navigation);
         });
     }
 
@@ -89,11 +89,12 @@ class LocationTracker extends Component {
             (position) => {
 
                 // Compute the distance travelled      
-                console.info(`Travelled distance: ${this.travelledDistance}`);
                 if (this.lastLocation !== null) {
                     const distance = this.computeDistance(this.lastLocation, position);
                     this.travelledDistance += distance;
                 }
+                console.info("\n")
+                console.info(`Travelled distance: ${this.travelledDistance}`);
 
                 // Check proximity to points of interest
                 this.checkProximity(position);
@@ -140,8 +141,9 @@ class LocationTracker extends Component {
         const points_history = this.props.points_history;
         
         // Debugging
-        console.info("Notifications: ", notifications)
-        console.info( `Preference: ${notify_distance} meters.`)
+        console.info("Notifications On: ", notifications)
+        console.info( `Preferences: ${notify_distance} meters.`)
+        console.info("\n")
 
         if (notifications){
             points.forEach(point => {
@@ -150,9 +152,9 @@ class LocationTracker extends Component {
                 });
                 
                 // check if the point was already visited
-                const visited = points_history.includes(point.id);
+                const visited = points_history.some(p => p.id === point.id);
                 if (!visited){
-                    console.warn(`Distance to ${point.pin_name}: ${Math.trunc(distance)} meters.`);
+                    console.info(`Distance to ${point.pin_name}: ${Math.trunc(distance)} meters`);
                     
                     if (distance <= notify_distance) {
                         this.point = point;

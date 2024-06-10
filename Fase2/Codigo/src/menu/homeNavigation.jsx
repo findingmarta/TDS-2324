@@ -15,8 +15,6 @@ export default function TrailsStack() {
             <trailStack.Screen name="TrailPage" component={TrailPage} options={{ headerShown: false }} />        
             <trailStack.Screen name="PointPage" component={PointPage} options={{ headerShown: false }} />
             <trailStack.Screen name="MediaPage" component={MediaPage} options={{ headerShown: false }} />
-            {/* <trailStack.Screen name="Points" component={PinListSection} options={{ headerShown: false }} />
-            <trailStack.Screen name="Media" component={PinMedia} options={{ headerShown: false }} /> */}
         </trailStack.Navigator>
     );
 }

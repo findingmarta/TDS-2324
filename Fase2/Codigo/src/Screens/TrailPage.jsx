@@ -158,7 +158,7 @@ function TrailPage ({route}) {
     // Function to update travelledDistance state
     const updateTravelledDistance = (distance) => {
         if (distance !== travelled_distance) {
-            setTravelledDistance(distance);
+            setTravelledDistance(Math.trunc(distance));
         }
     }
 

@@ -10,9 +10,8 @@ import { COLORS } from '../style/colors';
 
 
 function PointPage ({route}) {
-    //console.log(route.params)
     const point = route.params.point;
-    
+        
     const [mediaUrl, setMediaUrl] = useState('');
 
     useEffect(() => {

@@ -51,8 +51,13 @@ const historyTrailSlice = createSlice({
     addPoint: (state, action) => {
       const new_point = {
           id: action.payload.id,
-          name: action.payload.pin_name,
-          desc: action.payload.pin_desc,
+          pin_name: action.payload.pin_name,
+          pin_desc: action.payload.pin_desc,
+          media: action.payload.media,
+          pin_alt: action.payload.pin_alt,
+          pin_lat: action.payload.pin_lat,
+          pin_lng: action.payload.pin_lng,
+          rel_pin: action.payload.rel_pin
       };
       state.points.push(new_point);
     }
