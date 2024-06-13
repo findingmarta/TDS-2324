@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, PermissionsAndroid, Alert } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import RNFS from 'react-native-fs';
 import { COLORS } from '../style/colors';
 

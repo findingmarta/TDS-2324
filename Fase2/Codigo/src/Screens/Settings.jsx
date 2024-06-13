@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {StyleSheet, Text, Switch, View} from 'react-native';
 import { useDispatch, useSelector } from "react-redux"
 import { Divider } from '@rneui/themed';

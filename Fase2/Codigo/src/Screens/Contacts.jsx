@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import {View} from 'react-native';
 import { useDispatch, useSelector } from "react-redux"
-
-import { fetchAppData } from '../features/appSlice';
 import { ScrollView } from 'react-native-gesture-handler';
 
+import { fetchAppData } from '../features/appSlice';
 import ContactsItem from '../Components/ContactsItem';
 
 function Contacts () {

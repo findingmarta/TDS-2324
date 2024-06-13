@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Image, StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from "react-redux"
@@ -35,6 +35,12 @@ function PointPage ({route}) {
     // Check if point was visited
     const visited = points_history.some(p => p.id === point.id);
 
+    function handleLocationPress(point){
+        const { pin_lat, pin_lng, pin_name } = point;
+        const link = `https://www.google.com/maps/search/?api=1&query=${pin_lat},${pin_lng}(${encodeURIComponent(pin_name)})`;
+        Linking.openURL(link);
+    }
+
     function handleMediaPress(){ 
         navigation.navigate('MediaPage',point)
     }
@@ -51,13 +57,18 @@ function PointPage ({route}) {
                     <View style={styles.title_container}>
                         <Text style={styles.pin_name}>{point.pin_name}</Text>
                     </View>
-                </View>
-                
+                </View>        
+
 
                 {mediaUrl !== '' && (
                     <Image style={styles.point_image} source={{ uri: mediaUrl }} />
                 )}
                 
+                <View style={styles.buttons_container}>
+                    <TouchableOpacity style={[styles.button,{backgroundColor: COLORS.logo_yellow}]} onPress={() => handleLocationPress(point)}>
+                        <Text style={styles.text_button}>LOCATION</Text>
+                    </TouchableOpacity>    
+                </View>  
 
                 <View style={styles.container_desc}>
                     <Text style={styles.title}>DESCRIPTION</Text>
