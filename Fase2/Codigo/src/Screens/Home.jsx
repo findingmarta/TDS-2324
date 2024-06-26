@@ -27,7 +27,7 @@ function handleMailPress(mail) {
 
 function getUser (session, token, dispatch) {
     console.log("Fetching User's data...")
-    fetch('https://39b6-193-137-92-72.ngrok-free.app/user', {
+    fetch('https://76b5ec3c956b5af1d8dba594d64948e6.serveo.net/user', {
         method: 'GET',
         headers : {
             'Content-Type': 'application/json',

@@ -7,3 +7,6 @@ Trabalho prático realizado no âmbito da cadeira Tópicos e Desenvolvimento de 
 | -------- | -------------------------------------------------- |
 | PG53879  | [Inês Ferreira](https://github.com/inesferreira18) |
 | PG54084  | [Marta Sá](https://github.com/findingmarta)        |
+
+Nota Fase 1: 18.33
+Nota Fase 2: 16.75

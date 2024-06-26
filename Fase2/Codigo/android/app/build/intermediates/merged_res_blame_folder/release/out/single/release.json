@@ -1,0 +1,182 @@
+[
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_node_modules_reactnativeratings_dist_images_bell.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/node_modules_reactnativeratings_dist_images_bell.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_profile_logo_circle.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_profile_logo_circle.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_node_modules_reactnavigation_elements_src_assets_backiconmask.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/node_modules_reactnavigation_elements_src_assets_backiconmask.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_logo.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_logo.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_node_modules_reactnativeratings_dist_images_heart.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/node_modules_reactnativeratings_dist_images_heart.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_sos_logo.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_sos_logo.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_pause_button.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_pause_button.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_play_button.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_play_button.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_node_modules_reactnativeratings_dist_images_airbnbstar.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/node_modules_reactnativeratings_dist_images_airbnbstar.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_node_modules_reactnavigation_elements_src_assets_backicon.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/node_modules_reactnavigation_elements_src_assets_backicon.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_profile_logo.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_profile_logo.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_maps_logo.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_maps_logo.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-xxxhdpi_node_modules_reactnavigation_elements_src_assets_backicon.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-xxxhdpi/node_modules_reactnavigation_elements_src_assets_backicon.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-xhdpi_node_modules_reactnavigation_elements_src_assets_backicon.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-xhdpi/node_modules_reactnavigation_elements_src_assets_backicon.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_media_logo.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_media_logo.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_trail_logo.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_trail_logo.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-hdpi_node_modules_reactnavigation_elements_src_assets_backicon.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-hdpi/node_modules_reactnavigation_elements_src_assets_backicon.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-hdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_logout_icon.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_logout_icon.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-mdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-xxhdpi_node_modules_reactnavigation_elements_src_assets_backicon.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-xxhdpi/node_modules_reactnavigation_elements_src_assets_backicon.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_node_modules_reactnativeratings_dist_images_rocket.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/node_modules_reactnativeratings_dist_images_rocket.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_stop_button.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_stop_button.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable_rn_edit_text_material.xml.flat",
+        "source": "com.fase2.app-main-36:/drawable/rn_edit_text_material.xml"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_facebook_logo.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_facebook_logo.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_point_logo.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_point_logo.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_node_modules_reactnativeratings_dist_images_airbnbstarselected.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/node_modules_reactnativeratings_dist_images_airbnbstarselected.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_node_modules_reactnativeratings_dist_images_star.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/node_modules_reactnativeratings_dist_images_star.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-xxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_home_logo.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_home_logo.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.fase2.app-main-36:/mipmap-xhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_left_arrow2.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_left_arrow2.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_verified_logo.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_verified_logo.png"
+    },
+    {
+        "merged": "com.fase2.app-merged_res-35:/drawable-mdpi_src_images_right_arrow2.png.flat",
+        "source": "com.fase2.app-react-30:/drawable-mdpi/src_images_right_arrow2.png"
+    }
+]

@@ -66,21 +66,21 @@ function MediaPage({ route }) {
         async function fetchData() {
             // const new_item = {
             //     id: 15,
-            //     media_file: "https://39b6-193-137-92-72.ngrok-free.app/media/guimaraes-castelo.jpg",
+            //     media_file: "https://76b5ec3c956b5af1d8dba594d64948e6.serveo.net/media/guimaraes-castelo.jpg",
             //     media_pin: 2,
             //     media_type: "I"
             // };
 
             // const new_item2 = {
             //     id: 16,
-            //     media_file: "https://39b6-193-137-92-72.ngrok-free.app/media/guimaraes-castelo.jpg",
+            //     media_file: "https://76b5ec3c956b5af1d8dba594d64948e6.serveo.net/media/guimaraes-castelo.jpg",
             //     media_pin: 2,
             //     media_type: "I"
             // };
 
             // const new_item3 = {
             //     id: 17,
-            //     media_file: "http://39b6-193-137-92-72.ngrok-free.app/media/A_Alma_Gente_Se_de_Braga_short.mp3",
+            //     media_file: "https://76b5ec3c956b5af1d8dba594d64948e6.serveo.net/media/A_Alma_Gente_Se_de_Braga_short.mp3",
             //     media_pin: 2,
             //     media_type: "R"
             // };

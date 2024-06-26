@@ -4,7 +4,7 @@ import { createSlice,createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchTrailsData = createAsyncThunk('app/fetchTrailsData', async () => {
   try{
     console.log('Fetching Trails data...');
-    const response = await fetch('https://39b6-193-137-92-72.ngrok-free.app/trails');
+    const response = await fetch('https://76b5ec3c956b5af1d8dba594d64948e6.serveo.net/trails');
     const data = await response.json();
     return data;
   } catch (error) {

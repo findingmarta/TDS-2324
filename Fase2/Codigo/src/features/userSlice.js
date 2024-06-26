@@ -8,7 +8,7 @@ export const login = createAsyncThunk('app/login', async ({ user, pass }) => {
   }
 
   try{
-    const response = await fetch('https://39b6-193-137-92-72.ngrok-free.app/login',{
+    const response = await fetch('https://76b5ec3c956b5af1d8dba594d64948e6.serveo.net/login',{
       credentials: 'omit',
       method: "POST",
       headers:{

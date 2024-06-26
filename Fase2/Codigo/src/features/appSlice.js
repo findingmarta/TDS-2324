@@ -4,7 +4,7 @@ import { createSlice,createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchAppData = createAsyncThunk('app/fetchAppData', async () => {
   try{
     console.log('Fetching App\'s data...');
-    const response = await fetch('https://39b6-193-137-92-72.ngrok-free.app/app');
+    const response = await fetch('https://76b5ec3c956b5af1d8dba594d64948e6.serveo.net/app');
     return response.json();
   } catch (error) {
     console.error('Error fetching App\'s data: ', error);
