@@ -9,4 +9,5 @@ Trabalho prático realizado no âmbito da cadeira Tópicos e Desenvolvimento de 
 | PG54084  | [Marta Sá](https://github.com/findingmarta)        |
 
 Nota Fase 1: 18.33
+
 Nota Fase 2: 16.75
